@@ -187,7 +187,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-12-21 14:32:38 / 修改时间：18:00:30" itemprop="dateCreated datePublished" datetime="2021-12-21T14:32:38+08:00">2021-12-21</time>
+              <time title="创建时间：2021-12-21 14:32:38 / 修改时间：18:03:26" itemprop="dateCreated datePublished" datetime="2021-12-21T14:32:38+08:00">2021-12-21</time>
             </span>
 
           
@@ -203,7 +203,7 @@
       
           <h3 id="自适应图片缩放"><a href="#自适应图片缩放" class="headerlink" title="自适应图片缩放"></a>自适应图片缩放</h3><p>按照以往的经验，目标检测算法在训练和推理阶段都会resize到统一的图像尺寸，YOLOv5在推理阶段采用了自适应的图片缩放trick。</p>
 <p><img src="../images/letterbox/format,png.png" alt="img"></p>
-<p>在YOLOv5 官方github下有这样一段解释，采用32整数倍的矩形框推理要比resize到等长宽的正方形进行推理的时间减少很多（416<em>416 -&gt; 256 </em> 416）。</p>
+<p>在YOLOv5 官方github下有这样一段解释，采用32整数倍的矩形框推理要比resize到等长宽的正方形进行推理的时间减少很多（416 ,416)-&gt;(256 , 416）。</p>
 <h3 id="训练阶段"><a href="#训练阶段" class="headerlink" title="训练阶段"></a>训练阶段</h3><p>假设原图尺寸为（523， 699）</p>
 <p>（1） 计算长边缩放比例 r = 416 / 699 = 0.5951</p>
 <p>（2）将原图等比例缩放 (523，699) —&gt;&gt;  (311, 416)</p>
