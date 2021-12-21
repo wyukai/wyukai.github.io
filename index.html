@@ -162,6 +162,81 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/21/letterbox/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wyukai">
+      <meta itemprop="description" content="do">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yukai">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/21/letterbox/" class="post-title-link" itemprop="url">YOLOv5 自适应图片缩放</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-12-21 14:32:38 / 修改时间：18:00:30" itemprop="dateCreated datePublished" datetime="2021-12-21T14:32:38+08:00">2021-12-21</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="自适应图片缩放"><a href="#自适应图片缩放" class="headerlink" title="自适应图片缩放"></a>自适应图片缩放</h3><p>按照以往的经验，目标检测算法在训练和推理阶段都会resize到统一的图像尺寸，YOLOv5在推理阶段采用了自适应的图片缩放trick。</p>
+<p><img src="../images/letterbox/format,png.png" alt="img"></p>
+<p>在YOLOv5 官方github下有这样一段解释，采用32整数倍的矩形框推理要比resize到等长宽的正方形进行推理的时间减少很多（416<em>416 -&gt; 256 </em> 416）。</p>
+<h3 id="训练阶段"><a href="#训练阶段" class="headerlink" title="训练阶段"></a>训练阶段</h3><p>假设原图尺寸为（523， 699）</p>
+<p>（1） 计算长边缩放比例 r = 416 / 699 = 0.5951</p>
+<p>（2）将原图等比例缩放 (523，699) —&gt;&gt;  (311, 416)</p>
+<p><img src="../images/letterbox/image-20211221174250645.png" alt="image-20211221174250645"></p>
+<p>（3） 填充为（416，416），H侧上下需要填充的大小 pad = (416 - 311) / 2 = 52.5</p>
+<p><img src="../images/letterbox/new-16400798041612.jpg" alt="new"></p>
+<h3 id="推理阶段"><a href="#推理阶段" class="headerlink" title="推理阶段"></a>推理阶段</h3><p>（1） 计算长边缩放比例 r = 416 / 699 = 0.5951</p>
+<p>（2）将原图等比例缩放 (523，699) —&gt;&gt;  (311, 416)</p>
+<p>（3）原始输入图像缩放后的分辨率（设定为32的倍数）： np.ceil(0.5951 <em> 523 / 32) </em> 32,   np.ceil(1 <em> 699 / 32) </em> 32 =  (320,416)</p>
+<p>（4）计算需要的padding,   宽 padding = (416 - 416) / 2 = 0,     高padding  =  (320 -  311) / 2 = 4.5  (top  4 ,   bottom 5) </p>
+<p>（5）填充像素值  （144，144，144）灰色像素</p>
+<p>所以推理阶段的分辨率为（320，416）， 在保证图像不失真的情况下，可以显著减少计算量，加快推理速度。</p>
+<p><img src="../images/letterbox/new-16400808257133.jpg" alt="new"></p>
+<h3 id="code"><a href="#code" class="headerlink" title="code"></a>code</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import cv2 as cv</span><br><span class="line"></span><br><span class="line">def letterbox(im, new_shape, color=(140,140,140), stride=32, auto=True):</span><br><span class="line">    shape = im.shape[:2] # current shape [height, width]</span><br><span class="line"></span><br><span class="line">    # calculate scale ratio r</span><br><span class="line">    r = min(new_shape[0] / shape[0], new_shape[1] / shape[1])</span><br><span class="line"></span><br><span class="line">    # compute padding   new_unpad : [w, h]</span><br><span class="line">    new_unpad = int(round(shape[1] * r)), int(round(shape[0] * r))</span><br><span class="line">    print(&#x27;new_unpad::&#x27;,new_unpad)</span><br><span class="line">    dw = new_shape[1] - new_unpad[0]</span><br><span class="line">    dh = new_shape[0] - new_unpad[1]</span><br><span class="line">   </span><br><span class="line">    # minimum rectangle</span><br><span class="line">    if auto:</span><br><span class="line">        dw = np.mod(dw, stride)</span><br><span class="line">        dh = np.mod(dh, stride)</span><br><span class="line">    </span><br><span class="line">    # dw dh for every side</span><br><span class="line">    dw /= 2</span><br><span class="line">    dh /= 2</span><br><span class="line">    </span><br><span class="line">   </span><br><span class="line">    if shape[::-1] != new_unpad: </span><br><span class="line">        im = cv.resize(im, new_unpad, interpolation=cv.INTER_LINEAR)</span><br><span class="line">    # padding   if dw &lt; 1： dw = 0</span><br><span class="line">    top, bottom = int(round(dh - 0.1)), int(round(dh + 0.1))</span><br><span class="line">    print(&#x27;top&#x27;,top, bottom)</span><br><span class="line">    left, right = int(round(dw - 0.1)), int(round(dw + 0,1))</span><br><span class="line"></span><br><span class="line">    im = cv.copyMakeBorder(im, top,bottom,left,right, cv.BORDER_CONSTANT, value=color)</span><br><span class="line">    </span><br><span class="line">    print(im.shape)</span><br><span class="line">    </span><br><span class="line">    return im, r, (dw, dh)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    img_path = &quot;D:\\person\\py_code\\list\\R-C.png&quot;</span><br><span class="line">    img = cv.imread(img_path)</span><br><span class="line"></span><br><span class="line">    im, r, _ = letterbox(img, (416,416))</span><br><span class="line">    </span><br><span class="line">    print(r)</span><br><span class="line">    cv.imwrite(&#x27;D:\\person\\py_code\\list\\new.jpg&#x27;, im)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/10/C-%E7%BA%BF%E7%A8%8B%E9%94%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1116,7 +1191,7 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
