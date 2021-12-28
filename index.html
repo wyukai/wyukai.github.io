@@ -162,6 +162,152 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/28/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wyukai">
+      <meta itemprop="description" content="do">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yukai">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/28/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/" class="post-title-link" itemprop="url">目标检测中的FPN</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-12-28 17:17:24 / 修改时间：18:07:42" itemprop="dateCreated datePublished" datetime="2021-12-28T17:17:24+08:00">2021-12-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/ssl/" itemprop="url" rel="index"><span itemprop="name">ssl</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/ssl/image-classification/" itemprop="url" rel="index"><span itemprop="name">image classification</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>z 摘录自小纸屑 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/148738276">https://zhuanlan.zhihu.com/p/148738276</a></p>
+<h3 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h3><p>FPN结构，特征金字塔网络，主要用作不同尺度的特征融合，从而提高目标检测算法的精度。</p>
+<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172104469.png" alt="image-20211228172104469"></p>
+<p>常见的物体检测算法，其实可以分解为三个递进的阶段：</p>
+<ol>
+<li><p>Backbone特征提取阶段</p>
+<p>Backbone生成的特征，一般按stage划分，分别记作C1、C2、C3、C4、C5、C6、C7等，其中的数字与stage的编号相同，代表的是分辨率减半的次数，如C2代表stage2输出的特征图，分辨率为输入图片的1/4，C5代表，stage5输出的特征图，分辨率为输入图片的1/32。</p>
+</li>
+<li><p>Neck特征融合阶段</p>
+<p>FPN一般将上一步生成的不同分辨率特征作为输入，输出经过融合后的特征。输出的特征一般以P作为编号标记。如FPN的输入是，C2、C3、C4、C5、C6，经过融合后，输出为P2、P3、P4、P5、P6。这个过程可以用数学公式表达：</p>
+<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172506926.png" alt="image-20211228172506926"></p>
+</li>
+<li><p>Head检测阶段</p>
+<p>FPN输出融合后的特征后，就可以输入到检测头做具体的物体检测。</p>
+</li>
+</ol>
+<h3 id="2-FPN及其变种结构"><a href="#2-FPN及其变种结构" class="headerlink" title="2. FPN及其变种结构"></a>2. FPN及其变种结构</h3><p>物体检测性能提升，一般主要通过数据增强、改进Backbone、改进FPN、改进检测头、改进loss、改进后处理等6个常用手段。其中FPN自从被提出来，先后迭代了不少版本。大致迭代路径如下图：</p>
+<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172706353.png" alt="image-20211228172706353"></p>
+<ol>
+<li>无融合  </li>
+</ol>
+<p>无融合，又利用多尺度特征的典型代表SSD，它直接利用不同stage的特征图分别负责不同scale大小物体的检测。</p>
+<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172812278.png" alt="image-20211228172812278"></p>
+<ol>
+<li><p>自上而下单向融合</p>
+<p>自上而下单向融合的FPN，事实上仍然是当前物体检测模型的主流融合模式。如我们常见的<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1506.01497">Faster RCNN</a>、<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1703.06870">Mask RCNN</a>、<a href="https://link.zhihu.com/?target=https%3A//pjreddie.com/media/files/papers/YOLOv3.pdf">Yolov3</a>、<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1708.02002">RetinaNet</a>、<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1712.00726">Cascade RCNN</a>等，具体各个FPN的内部细节如下图。</p>
+<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172915560.png" alt="image-20211228172915560"></p>
+</li>
+</ol>
+<p><strong>a）Faster/Master/Cascade RCNN中的FPN</strong></p>
+<p>Faster/Master/Cascade RCNN中的FPN，利用了C2-C6五个stage的特征，其中C6是从C5直接施加1x1/2的MaxPooling操作得到。FPN融合后得到P2-P6，其中P6直接等于C6，P5是先经过1x1Conv，再经过3x3Conv得到，P2-P4均是先经过1x1Conv，再融合上一层2xUpsample的特征，再经过3x3Conv得到。具体过程可以看上图。</p>
+<p><strong>b）RetinaNet中的FPN</strong></p>
+<p>RetinaNet中的FPN，利用了C3-C7五个stage的特征，其中C6是从C5直接施加3x3/2的Conv操作得到，C7是从C6直接施加3x3/2的Conv操作得到。FPN融合后得到P3-P7，其中P6、P7直接等于C6、C7，P5是先经过1x1Conv，再经过3x3Conv得到，P3-P4均是先经过1x1Conv，再融合上一层2xUpsample的特征，再经过3x3Conv得到。具体过程可以看上图。</p>
+<p>可以看出，RetinaNet基本与Faster/Master/Cascade RCNN中的FPN一脉相承。只是利用的stage的特征略有差别，Faster/Master/Cascade RCNN利用了高分辨率低语义的C2，RetinaNet利用了更低分辨率更高语义的C7。其他都是细微的差别。</p>
+<p><strong>c）Yolov3中的FPN</strong></p>
+<p>Yolov3中的FPN与上述两个有比较大的区别。首先，Yolov3中的FPN只利用到了C3-C5三个stage的特征；其次，从C5征到P5特征，会先经过5层Conv，然后再经过一层3x3Conv；最后，C3-C4到P3-P4特征，上一层特征会先经过1x1Conv+2xUpsample，然后先与本层特征concatenate，再经过5层Conv，之后经过一层3x3Conv。</p>
+<ol>
+<li>简单双向融合</li>
+</ol>
+<p>FPN自从提出来以后，均是只有从上向下的融合，<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1803.01534">PANet</a>是第一个提出从下向上二次融合的模型，并且PANet就是在Faster/Master/Cascade RCNN中的FPN的基础上，简单增了从下而上的融合路径。看下图。</p>
+<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173101063.png" alt="image-20211228173101063"></p>
+<ol>
+<li>复杂的双向融合</li>
+</ol>
+<p>PANet的提出证明了双向融合的有效性，而PANet的双向融合较为简单，因此不少文章在FPN的方向上更进一步，尝试了更复杂的双向融合，如<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1911.09516">ASFF</a>、<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1904.07392">NAS-FPN</a>和<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1911.09070">BiFPN</a>。</p>
+<p><strong>ASFF</strong><br>ASFF（论文：Learning Spatial Fusion for Single-Shot Object Detection）作者在YOLOV3的FPN的基础上，研究了每一个stage再次融合三个stage特征的效果。如下图。其中不同stage特征的融合，采用了注意力机制，这样就可以控制其他stage对本stage特征的贡献度。</p>
+<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173150634.png" alt="image-20211228173150634"></p>
+<p><strong>NAS-FPN和BiFPN</strong><br>NAS-FPN和BiFPN，都是google出品，思路也一脉相承，都是在FPN中寻找一个有效的block，然后重复叠加，这样就可以弹性的控制FPN的大小。</p>
+<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173207992.png" alt="image-20211228173207992"></p>
+<p>其中BiFPN的具体细节如下图。</p>
+<p>改进点1，删除入度为1的节点，如果一个节点只有一个输入边且没有特征融合，那么它将对旨在融合不同特征的特征网络贡献较小。</p>
+<p>改进点2，添加跳跃连接。如果原始输入和输出节点处于同一level，则在原始输入和输出节点之间添加一条额外的边，以便在不增加成本的情况下融合更多特征。</p>
+<p>改进点3，将BiFPN视作一个基本单元，重复堆叠。不像PANet那样只有一个top-down和bottom-up路径，BiFPN将一对路径视为一个特征层，然后重复多次以得到更多高层特征融合。</p>
+<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173236688.png" alt="image-20211228173236688"></p>
+<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173943134.png" alt="image-20211228173943134"></p>
+<ol>
+<li><p><strong>Recursive-FPN</strong></p>
+<p>Paper: <a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2006.02334">DetectoRS: Detecting Objects with Recursive Feature Pyramid and Switchable Atrous Convolution</a></p>
+<p>递归FPN理解起来很容易，就是将传统FPN的融合后的输出，再输入给Backbone，进行二次循环，如下图。</p>
+</li>
+</ol>
+<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173603992.png" alt="image-20211228173603992"></p>
+<p>下图给出了FPN与Recursive-FPN的区别，并且把一个2层的递归FPN展开了，非常简单明了，不做过多介绍。</p>
+<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173616868.png" alt="image-20211228173616868"></p>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/148738276">https://zhuanlan.zhihu.com/p/148738276</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/28/ASFF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -187,7 +333,28 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-12-28 10:36:52 / 修改时间：16:05:53" itemprop="dateCreated datePublished" datetime="2021-12-28T10:36:52+08:00">2021-12-28</time>
+              <time title="创建时间：2021-12-28 10:36:52 / 修改时间：17:18:37" itemprop="dateCreated datePublished" datetime="2021-12-28T10:36:52+08:00">2021-12-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/ssl/" itemprop="url" rel="index"><span itemprop="name">ssl</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/ssl/image-classification/" itemprop="url" rel="index"><span itemprop="name">image classification</span></a>
+                </span>
             </span>
 
           
@@ -1024,138 +1191,6 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/20/FlexMatch/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="wyukai">
-      <meta itemprop="description" content="do">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="yukai">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/10/20/FlexMatch/" class="post-title-link" itemprop="url">FlexMatch算法记录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-10-20 18:00:00" itemprop="dateCreated datePublished" datetime="2021-10-20T18:00:00+08:00">2021-10-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-22 18:04:03" itemprop="dateModified" datetime="2021-10-22T18:04:03+08:00">2021-10-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection.</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>转载自 知乎 NeurIPS 2021 | 助力半监督学习：课程伪标签方法FlexMatch和统一开源库TorchSSL 作者 王晋东不在家     </p>
-<h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>FlexMatch为FixMatch的改进版， 第一作者为日本东京工业大学的张博闻和王一栋，其他作者来自东京工业大学和微软亚洲研究院。文章针对半监督提出了 <strong>课程伪标签(Curriculum Pseudo Labeling, CPL)</strong> 的方法，其能被简单地应用到多个半监督方法上，且<strong>不会</strong>引入新的超参数和额外的计算开销。多项实验证明，CPL不仅能提升已有方法的精度，也能大幅提升收敛速度（例如，在一些数据集上比Google的FixMatch快5倍）。特别地，文章中将CPL应用在FixMatch后的新算法命名为<strong>FlexMatch</strong>， 并在多个图像分类数据集上取得了state-of-the-art的效果。除此之外，本文还开源了一个统一的基于Pytorch的<strong>半监督方法库TorchSSL</strong>，公平地实现了诸多流行的半监督方法，方便相关领域进行进一步研究。</p>
-<ul>
-<li><p>论文标题：FlexMatch: Boosting Semi-Supervised Learning with Curriculum Pseudo Labeling</p>
-</li>
-<li><p>论文地址：<a href="https://link.zhihu.com/?target=http://arxiv.org/abs/2110.08263">http://arxiv.org/abs/2110.0826</a></p>
-</li>
-<li><p>代码地址：<a href="https://link.zhihu.com/?target=https://github.com/TorchSSL/TorchSSL">https://github.com/TorchSSL/TorchSSL</a></p>
-<p><img src="/images/FlexMatch/image-20211022163508349.png" alt="image-20211022163508349"></p>
-</li>
-</ul>
-<hr>
-<h2 id="2-核心思想"><a href="#2-核心思想" class="headerlink" title="2. 核心思想"></a>2. 核心思想</h2><p>SSL学习方法常使用伪标签作为未标注数据的标签，随着模型训练而产生的伪标签往往伴随着大量错误标注，很多算法因此设定了一个高而固定的阈值$\tau$，来选取那些置信度高的伪标签去计算无监督损失。高阈值可以有效地降低确认偏差(confirmation bias)，过滤有噪数据。但这种固定高阈值存在一定的问题。</p>
-<ul>
-<li><p>对于分类任务而言，<strong>不同的类别的学习难度是不同的，模型在某一时刻对各类的学习情况也是不同的。</strong>学的比较好的类，或是简单的类，置信度自然会比较高，就更容易被固定阈值选取。而那些困难的类别，或是当下学的不是很好的类，由于置信度会偏低，就不容易被选到。这样就会导致模型有点“偏科”。表现到模型上就是：<strong>对困难类别的拟合不会很好，导致困难类别的最终精度不会很高</strong>， 如图是FixMatch和FlexMatch的各类学习效果对比</p>
-<p><img src="/images/FlexMatch/image-20211022164122042.png" alt="image-20211022164122042"></p>
-<ul>
-<li><p>在训练的起步阶段，受随机初始化影响，模型很可能把数据都<strong>盲目地预测到一个类</strong>里面去并且信心很高。如果一个batch中，只选出了这样错误的高信心伪标签，就会把模型往一个错误的方向优化。同时，即便一些样本的预测是正确的，由于开始阶段普遍置信度偏低，导致每个batch的<strong>数据利用率不高</strong>（大部分被过滤掉了），也会导致收敛很慢。如图是FixMatch和FlexMatch的收敛速度对比。</p>
-<p><img src="/images/FlexMatch/image-20211022164131971.png" alt="image-20211022164131971"></p>
-</li>
-</ul>
-</li>
-</ul>
-<p>​        为了解决第一个问题，作者引入了课程学习的思想，把单独的固定阈值转化成了<strong>逐类的动态阈值，根据类别难度给每个类不同的阈值，且这些阈值可以随着模型的学习情况进行实时调整。</strong>****</p>
-<p>​       针对第二个问题，作者引入了阈值的warm-up。其思想是，前期由于置信度不是很可靠，我们并不完全根据置信度来选样本，而是让<strong>所有类的阈值逐渐从0开始上升</strong>，给所有样本一个被学习的机会，等模型逐渐稳定获得辨识能力后再恢复到设计的动态阈值，其思想类似学习率的warm-up，因此叫threshold warm-up。</p>
-<h2 id="3-细节"><a href="#3-细节" class="headerlink" title="3. 细节"></a>3. 细节</h2><p>各类的动态阈值是如何设计的呢？一个最简单的想法是通过类别准确率(class-wise accuracy)来确定。即：降低准确率更低的类的阈值，给这些类的数据更多被学习的机会，以让模型更好地拟合这些类。而对于准确率已经很高的类，就保持高阈值，以确保最终的精度。</p>
-<p><img src="/images/FlexMatch/image-20211022172533688.png" alt="image-20211022172533688"></p>
-<p>这是一个很理想的方法，但是却存在一些问题。这种方式需要一个<strong>额外的有标签的验证集</strong>来评价各类的准确率，这在半监督学习下是一笔昂贵的开销，因为我们的标记数据已经很少了。其次， 这种方式需要<strong>引入大量的额外计算</strong>，因为要想实时调整动态阈值，需要在每一步迭代后都做一个额外的前向传播来计算类别准确率。这会大幅降低算法速度。而CPL用了一种巧妙且简单的方法，使得既不需要额外验证集，也不引入额外计算，还不增加额外的超参数。</p>
-<p>​      从Figure 1中中左侧可以看到CPL考虑了所有的类的所有历史时刻的样本的置信度，对每个类会统计所有超过$\tau$的样本数量，其中 $\tau$ 就是前文提到的FixMatch中使用的固定高阈值，将统计出的数量作为学习效果预估(estimated learning effect)，并最终用其来调整动态阈值。这其中的关键假设是：<strong>当阈值足够高的时候，高于该阈值且落入类别c的样本个数可以大致反映类别c的学习效果</strong>。换句话说就是如果按FixMatch的算法来走，被选中样本越多的类学习效果就越好，反之亦然。这种设计的巧妙之处在于，FixMatch（UDA等算法同理)在训练的过程中就在选样本了，如果用他已经选出来的样本来调整动态阈值，那不就不需要额外的验证集，也不需要额外前向传播了吗。</p>
-<p><strong>具体步骤：</strong></p>
-<p><strong>Step1：学习效果预估</strong>， 如前文所述，这里$\sigma_t(c)$ 表示第<em>c</em>类在时刻$\tau$的预估学习效果，他其实就是在所有样本中对’高于固定阈值 $\tau$ ‘且’属于类别<em>c</em>的样本的一个计数*。</p>
-<p><img src="/images/FlexMatch/image-20211022173349048.png" alt="image-20211022173349048"></p>
-<p><strong>Step2：归一化。</strong> 由于预估学习效果是对样本的一个计数，他的大小会随数据集包含样本数而变，因此需要对其进行归一化使其范围在0到1之间。注意这里归一化分母不是所有类的统计的求和，而是取所有类预估学习效果中的最大值。这样做的特点是，学的最好的类的学习效果为1，进而在应用公式(7)后，其阈值变为 $\tau$ ，也是动态阈值的上限。</p>
-<p><img src="/images/FlexMatch/image-20211022173432576.png" alt="image-20211022173432576"></p>
-<p><strong>Step3：确定阈值？</strong> 这里的公式(7)其实已经可以作为最终的动态阈值了，然而作者又提出了两个tricks。</p>
-<p><strong>Step2+：阈值预热。</strong> 如前文所述，文中引入了阈值预热来解决前期高确认偏差的问题。</p>
-<p><img src="/images/FlexMatch/image-20211022173554481.png" alt="image-20211022173554481"></p>
-<p>公式(11)改写了归一化公式(6)的分母部分，“学习效果最大值”改为“学习效果最大值 和 尚未被选择过的样本数 二者的最大值”，其中 $N - \sum_{c} \sigma_t $</p>
-<p> 即表示目前尚未被高阈值选择过的样本数。前期，尚未被选择的样本数量占优，因此后项在起作用，随着大部分样本被选择过至少一次，前项起作用，公式(11)变得等价公式(7)。</p>
-<p><strong>Step3+：非线性映射。</strong> 相比于公式(7)那样的直接scale固定阈值，非线性映射使得阈值的调整可以更加自由，你可以设计任意形状的函数来实现从“归一化预估学习效果$\beta_t(c)$”到“最终动态阈值$M(\beta_t(c))$”的映射。其中，本文提到，凸函数可能更加有效，因为凸函数在自变量较小时因变量的变化不是很大，而在自变量大时比较敏感。这比较符合预估学习效果的变化特性，即：前期当其值较小时可能存在较大波动而后期其值变大后波动较小，且中后期多处于较高的范围内变化，因此需要对这部分更敏感。</p>
-<p><img src="/images/FlexMatch/image-20211022173825377.png" alt="image-20211022173825377"></p>
-<h2 id="4-实验结果"><a href="#4-实验结果" class="headerlink" title="4. 实验结果"></a>4. 实验结果</h2><p>FlexMatch 在CIFAR10/100、SVHN、STL-10和ImageNet等常用数据集上进行了实验，对比了包括FixMatch、UDA、ReMixmatch等最新最强的SSL算法。实验结果如下表所示。</p>
-<p><img src="/images/FlexMatch/image-20211022174103642.png" alt="image-20211022174103642"></p>
-<p>可以看到CPL在多数数据集上取得了很大的提升，除了SVHN上效果不如原版FixMatch，文中的解释是说，CPL不适合<strong>数据分布不平衡且又很简单的任务</strong>，对于简单的任务而言，一个固定的高阈值似乎已经足够了。在其他数据集上，可以发现，<strong>标记数据越少，CPL带来的提升越大。任务越难，CPL的提升越大</strong>。文章同样在ImageNet数据集上测试了算法的有效性，在$2^{20}$ 次迭代后，应用了CPL的FlexMatch的top-1准确率已经比FixMatch高出将近8%了。证明在困难任务上的提升还是比较可观的，ImageNet的数据不平衡度应该和SVHN差不多，但是效果却差了很多。</p>
-<h2 id="开源代码库TorchSSL"><a href="#开源代码库TorchSSL" class="headerlink" title="开源代码库TorchSSL"></a>开源代码库TorchSSL</h2><p>除此之外，本文开源了TorchSSL代码库，是第一个基于PyTorch的SSL算法库，目前已支持算法有：Pi-Model，MeanTeacher，Pseudo-Label，VAT，MixMatch，UDA，ReMixMatch，FixMatch，和我们的FlexMatch。</p>
-<h2 id="5-References"><a href="#5-References" class="headerlink" title="5. References"></a>5. References</h2><ul>
-<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/130244395">https://zhuanlan.zhihu.com/p/130244395</a></p>
-</li>
-<li><p>Dong-Hyun Lee et al. Pseudo-label: The simple and efficient semi-supervised learning methodfor deep neural networks. InWorkshop on challenges in representation learning, ICML,volume 3, 2013.</p>
-</li>
-<li><p> Qizhe Xie, Zihang Dai, Eduard Hovy, Thang Luong, and Quoc Le. Unsupervised data augmen-tation for consistency training.NeurIPS, 33, 2020.</p>
-</li>
-<li><p>Kihyuk Sohn, David Berthelot, Nicholas Carlini, Zizhao Zhang, Han Zhang, Colin A Raf-fel, Ekin Dogus Cubuk, Alexey Kurakin, and Chun-Liang Li. Fixmatch: Simplifying semi-supervised learning with consistency and confidence.NeurIPS, 33, 2020.</p>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1225,14 +1260,14 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
