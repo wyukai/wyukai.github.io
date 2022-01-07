@@ -22,7 +22,7 @@
 
   <meta name="description" content="1. RoIRoI(Region of Interest), 从原图中通过某些区域选择方法得到的候选区域。 量化（quantization）是指将输入连续值（或者大量可能的离散值）采样为有限多个离散值的过程。或者理解为，将输入数据集（如实数）约束到离散集（如整数）的过程。 RoI Pooling 和 RoI Align 均是将任意大小的特征图（输入），映射为固定尺寸的特征（输出）。 2. RoI">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RoI Pooling 与 RoI Align">
+<meta property="og:title" content="RoI Pooling, RoI Align, PS-RoI Pooling">
 <meta property="og:url" content="http://example.com/2022/01/06/RoI-Pooling-%E4%B8%8E-RoI-Align/index.html">
 <meta property="og:site_name" content="yukai">
 <meta property="og:description" content="1. RoIRoI(Region of Interest), 从原图中通过某些区域选择方法得到的候选区域。 量化（quantization）是指将输入连续值（或者大量可能的离散值）采样为有限多个离散值的过程。或者理解为，将输入数据集（如实数）约束到离散集（如整数）的过程。 RoI Pooling 和 RoI Align 均是将任意大小的特征图（输入），映射为固定尺寸的特征（输出）。 2. RoI">
@@ -35,8 +35,11 @@
 <meta property="og:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106111115211.png">
 <meta property="og:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106111143717.png">
 <meta property="og:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106111213485.png">
+<meta property="og:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106112934397.png">
+<meta property="og:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106135532044.png">
+<meta property="og:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106142854108.png">
 <meta property="article:published_time" content="2022-01-06T02:21:38.000Z">
-<meta property="article:modified_time" content="2022-01-06T03:15:45.722Z">
+<meta property="article:modified_time" content="2022-01-06T06:31:20.778Z">
 <meta property="article:author" content="wyukai">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106102835274.png">
@@ -54,7 +57,7 @@
   };
 </script>
 
-  <title>RoI Pooling 与 RoI Align | yukai</title>
+  <title>RoI Pooling, RoI Align, PS-RoI Pooling | yukai</title>
   
 
 
@@ -187,7 +190,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          RoI Pooling 与 RoI Align
+          RoI Pooling, RoI Align, PS-RoI Pooling
         </h1>
 
         <div class="post-meta">
@@ -198,7 +201,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-01-06 10:21:38 / 修改时间：11:15:45" itemprop="dateCreated datePublished" datetime="2022-01-06T10:21:38+08:00">2022-01-06</time>
+              <time title="创建时间：2022-01-06 10:21:38 / 修改时间：14:31:20" itemprop="dateCreated datePublished" datetime="2022-01-06T10:21:38+08:00">2022-01-06</time>
             </span>
 
           
@@ -253,7 +256,23 @@
 <li>4 利用最大池化（max pooling）或平均池化(average pooling)分别对每个子区域执行聚合操作，得到最终的特征图。</li>
 </ul>
 <p><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106111213485.png" alt="image-20220106111213485" style="zoom:67%;" /></p>
-<h3 id="4-Reference"><a href="#4-Reference" class="headerlink" title="4 . Reference"></a>4 . Reference</h3><ol>
+<p>下图 绿色表示ROI区域额外信息， 蓝色(第一次量化)和天蓝色(第二次量化)表示丢失信息</p>
+<p><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106112934397.png" alt="image-20220106112934397" style="zoom:80%;" /></p>
+<h3 id="4-PS-RoI-Pooling"><a href="#4-PS-RoI-Pooling" class="headerlink" title="4. PS-RoI Pooling"></a>4. PS-RoI Pooling</h3><p>位置敏感池化，RFCN引入位置敏感池化，主要基于以下两方面原因</p>
+<ol>
+<li>引入位置敏感，卷积可以保持位置信息，但是经过全连接后，位置信息不在保留。</li>
+<li>对于region-based方法，通常会分为几个sub-network, 一是提取图像特征的主干网络，与region无关，各region共享，计算量大。二是生成候选区域的RPN网络，三是用来分类和回归的prediction网络， 每个region会单独执行这部分sub-network。而RFCN将计算量大卷积尽可能地移到共享的主干网络中，最后仅使用一层卷积做prediction，减少了计算量。</li>
+</ol>
+<p>为了实现位置敏感就提出PS-ROI Pooling，核心思想是position sensitive score map。<br>把位置信息以层的形式就组成position sensitive score maps，进行一次卷积就计算了多个ROI的最终输出(固定长度)。</p>
+<p><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106135532044.png" alt="image-20220106135532044" style="zoom:80%;" /></p>
+<ul>
+<li>首先，在共享特征图之后添加1 <em> 1 </em> k^2(c+1)维的卷积形成位置敏感特征图，然后在位置敏感特征图上进行PS-RoI Pooling。 k^2代表的是RoI中划分的位置区域数目。比如k=3, 即代表上左（左上角），上中，上右，中左，中中，中右，下左，下中，下右（右下角）共9个子区域。 c+1 代表所有类别加上背景。 k^2(c+1)张特征图每c+1张分成一组，共包含k^2组，每一组负责其对应区域的响应，如上图所示。</li>
+<li>然后进行PS-RoI Pooling，对位置敏感特征图上的RoI区域划分子区域（k^2）, 每个对应位置（c+1）内进行全局平均池化， 最后获得一组（c+1）* k^2的投票矩阵。</li>
+<li>最后，每个类对应有9个位置的投票值，这9个值求和，就是这个类的概率。</li>
+</ul>
+<h3 id="5-RoI-Align的反向传播"><a href="#5-RoI-Align的反向传播" class="headerlink" title="5. RoI Align的反向传播"></a>5. RoI Align的反向传播</h3><p>和ROI Pooling核心思想是一样的，但是在ROI Align中，i ∗ ( r , j )是一个浮点数的坐标位置(前向传播时计算出来的采样点)，在池化前的特征图中，每一个与 i ∗ ( r , j ) 横纵坐标均小于1的点都应该接受与此对应的点y(r，j)回传的梯度，故ROI Align 的反向传播公式如下:<br><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106142854108.png" alt="image-20220106142854108"></p>
+<p>上式中，d(.)表示两点之间的距离，Δ h 和Δ w 表示 i 与 i ∗ ( r , j )横纵坐标的差值，这里作为双线性内插的系数乘在原始的梯度上。</p>
+<h3 id="6-Reference"><a href="#6-Reference" class="headerlink" title="6 . Reference"></a>6 . Reference</h3><ol>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/161540817">https://zhuanlan.zhihu.com/p/161540817</a></li>
 <li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1689064">https://cloud.tencent.com/developer/article/1689064</a></li>
 </ol>
@@ -275,7 +294,10 @@
     <a href="/2022/01/04/%E5%9B%BE%E5%83%8F%E7%9B%B8%E4%BC%BC%E5%BA%A6%E8%AE%A1%E7%AE%97%E6%96%B9%E5%BC%8F/" rel="prev" title="图像相似度计算方式">
       <i class="fa fa-chevron-left"></i> 图像相似度计算方式
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/07/Bounding-Box-Regression-Loss/" rel="next" title="Bounding Box Regression Loss">
+      Bounding Box Regression Loss <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -334,7 +356,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RoI"><span class="nav-number">1.</span> <span class="nav-text">1. RoI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-RoI-Pooling"><span class="nav-number">2.</span> <span class="nav-text">2. RoI Pooling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-RoI-Align"><span class="nav-number">3.</span> <span class="nav-text">3. RoI Align</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Reference"><span class="nav-number">4.</span> <span class="nav-text">4 . Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RoI"><span class="nav-number">1.</span> <span class="nav-text">1. RoI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-RoI-Pooling"><span class="nav-number">2.</span> <span class="nav-text">2. RoI Pooling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-RoI-Align"><span class="nav-number">3.</span> <span class="nav-text">3. RoI Align</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-PS-RoI-Pooling"><span class="nav-number">4.</span> <span class="nav-text">4. PS-RoI Pooling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-RoI-Align%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD"><span class="nav-number">5.</span> <span class="nav-text">5. RoI Align的反向传播</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Reference"><span class="nav-number">6.</span> <span class="nav-text">6 . Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -348,7 +370,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

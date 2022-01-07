@@ -162,6 +162,78 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/07/Bounding-Box-Regression-Loss/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wyukai">
+      <meta itemprop="description" content="do">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yukai">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/07/Bounding-Box-Regression-Loss/" class="post-title-link" itemprop="url">Bounding Box Regression Loss</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-01-07 14:36:31 / 修改时间：14:49:12" itemprop="dateCreated datePublished" datetime="2022-01-07T14:36:31+08:00">2022-01-07</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1"><a href="#1" class="headerlink" title="### 1."></a>### 1.</h3><p>边界框回归的三大几何因素：重叠面积、中心点距离、纵横比</p>
+<ul>
+<li>IOU Loss：考虑了重叠面积，归一化坐标尺度</li>
+<li>GIOU Loss：考虑了重叠面积，基于IOU解决边界框不相交时loss等于0的问题</li>
+<li>DIOU Loss：考虑了重叠面积和中心点距离，基于IOU解决GIOU收敛慢的问题</li>
+<li>CIOU Loss：考虑了重叠面积、中心点距离、纵横比，基于DIOU提升回归精确度</li>
+<li>EIOU Loss：考虑了重叠面积，中心点距离、长宽边长真实差，基于CIOU解决了纵横比的模糊定义，并添加Focal Loss解决BBox回归中的样本不平衡问题</li>
+</ul>
+<p><img src="../images/Bounding-Box-Regression-Loss/image-20220107144907598.png" alt="image-20220107144907598" style="zoom:80%;" /></p>
+<h3 id="5-Reference"><a href="#5-Reference" class="headerlink" title="5. Reference"></a>5. Reference</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/270663039">https://zhuanlan.zhihu.com/p/270663039</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/amusi1994/article/details/112966895">https://blog.csdn.net/amusi1994/article/details/112966895</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/375745293">https://zhuanlan.zhihu.com/p/375745293</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/06/RoI-Pooling-%E4%B8%8E-RoI-Align/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -176,7 +248,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/01/06/RoI-Pooling-%E4%B8%8E-RoI-Align/" class="post-title-link" itemprop="url">RoI Pooling 与 RoI Align</a>
+            <a href="/2022/01/06/RoI-Pooling-%E4%B8%8E-RoI-Align/" class="post-title-link" itemprop="url">RoI Pooling, RoI Align, PS-RoI Pooling</a>
         </h2>
 
         <div class="post-meta">
@@ -187,7 +259,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-01-06 10:21:38 / 修改时间：11:15:45" itemprop="dateCreated datePublished" datetime="2022-01-06T10:21:38+08:00">2022-01-06</time>
+              <time title="创建时间：2022-01-06 10:21:38 / 修改时间：14:31:20" itemprop="dateCreated datePublished" datetime="2022-01-06T10:21:38+08:00">2022-01-06</time>
             </span>
 
           
@@ -242,7 +314,23 @@
 <li>4 利用最大池化（max pooling）或平均池化(average pooling)分别对每个子区域执行聚合操作，得到最终的特征图。</li>
 </ul>
 <p><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106111213485.png" alt="image-20220106111213485" style="zoom:67%;" /></p>
-<h3 id="4-Reference"><a href="#4-Reference" class="headerlink" title="4 . Reference"></a>4 . Reference</h3><ol>
+<p>下图 绿色表示ROI区域额外信息， 蓝色(第一次量化)和天蓝色(第二次量化)表示丢失信息</p>
+<p><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106112934397.png" alt="image-20220106112934397" style="zoom:80%;" /></p>
+<h3 id="4-PS-RoI-Pooling"><a href="#4-PS-RoI-Pooling" class="headerlink" title="4. PS-RoI Pooling"></a>4. PS-RoI Pooling</h3><p>位置敏感池化，RFCN引入位置敏感池化，主要基于以下两方面原因</p>
+<ol>
+<li>引入位置敏感，卷积可以保持位置信息，但是经过全连接后，位置信息不在保留。</li>
+<li>对于region-based方法，通常会分为几个sub-network, 一是提取图像特征的主干网络，与region无关，各region共享，计算量大。二是生成候选区域的RPN网络，三是用来分类和回归的prediction网络， 每个region会单独执行这部分sub-network。而RFCN将计算量大卷积尽可能地移到共享的主干网络中，最后仅使用一层卷积做prediction，减少了计算量。</li>
+</ol>
+<p>为了实现位置敏感就提出PS-ROI Pooling，核心思想是position sensitive score map。<br>把位置信息以层的形式就组成position sensitive score maps，进行一次卷积就计算了多个ROI的最终输出(固定长度)。</p>
+<p><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106135532044.png" alt="image-20220106135532044" style="zoom:80%;" /></p>
+<ul>
+<li>首先，在共享特征图之后添加1 <em> 1 </em> k^2(c+1)维的卷积形成位置敏感特征图，然后在位置敏感特征图上进行PS-RoI Pooling。 k^2代表的是RoI中划分的位置区域数目。比如k=3, 即代表上左（左上角），上中，上右，中左，中中，中右，下左，下中，下右（右下角）共9个子区域。 c+1 代表所有类别加上背景。 k^2(c+1)张特征图每c+1张分成一组，共包含k^2组，每一组负责其对应区域的响应，如上图所示。</li>
+<li>然后进行PS-RoI Pooling，对位置敏感特征图上的RoI区域划分子区域（k^2）, 每个对应位置（c+1）内进行全局平均池化， 最后获得一组（c+1）* k^2的投票矩阵。</li>
+<li>最后，每个类对应有9个位置的投票值，这9个值求和，就是这个类的概率。</li>
+</ul>
+<h3 id="5-RoI-Align的反向传播"><a href="#5-RoI-Align的反向传播" class="headerlink" title="5. RoI Align的反向传播"></a>5. RoI Align的反向传播</h3><p>和ROI Pooling核心思想是一样的，但是在ROI Align中，i ∗ ( r , j )是一个浮点数的坐标位置(前向传播时计算出来的采样点)，在池化前的特征图中，每一个与 i ∗ ( r , j ) 横纵坐标均小于1的点都应该接受与此对应的点y(r，j)回传的梯度，故ROI Align 的反向传播公式如下:<br><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106142854108.png" alt="image-20220106142854108"></p>
+<p>上式中，d(.)表示两点之间的距离，Δ h 和Δ w 表示 i 与 i ∗ ( r , j )横纵坐标的差值，这里作为双线性内插的系数乘在原始的梯度上。</p>
+<h3 id="6-Reference"><a href="#6-Reference" class="headerlink" title="6 . Reference"></a>6 . Reference</h3><ol>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/161540817">https://zhuanlan.zhihu.com/p/161540817</a></li>
 <li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1689064">https://cloud.tencent.com/developer/article/1689064</a></li>
 </ol>
@@ -1025,116 +1113,6 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/25/AdaFocus/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="wyukai">
-      <meta itemprop="description" content="do">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="yukai">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/10/25/AdaFocus/" class="post-title-link" itemprop="url">AdaFocus算法记录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-10-25 14:13:33 / 修改时间：15:46:27" itemprop="dateCreated datePublished" datetime="2021-10-25T14:13:33+08:00">2021-10-25</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection.</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>转载自：计算机视觉Daily，个人学习记录</p>
-<h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>AdaFocus为被ICCV-2021会议录用为Oral Presentation的一篇文章：Adaptive Focus for Efficient Video Recognition。 其从空间特征角度出发，从降低空间冗余性来实现高效视频识别。</p>
-<p>现有高效视频识别算法往往关注于降低视频的时间冗余性（即将计算集中于视频的部分关键帧），如图1 (b)。本文则发现，降低视频的空间冗余性（即寻找和重点处理视频帧中最关键的图像区域），如图1 (c)，同样是一种效果显著、值得探索的方法；且后者与前者有效互补（即完全可以同时建模时空冗余性，例如关注于关键帧中的关键区域），如图1 (d)。在方法上，本文提出了一个通用于大多数网络的AdaFocus框架，在同等精度的条件下，相较AR-Net (ECCV-2020)将计算开销降低了2.1-3.2倍，将TSM的GPU实测推理速度加快了1.4倍。</p>
-<p><img src="../images/AdaFocus/image-20211025143754892.png" alt="image-20211025143754892"></p>
-<ul>
-<li>论文：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2105.03245.pdf">https://arxiv.org/pdf/2105.03245.pdf</a></li>
-<li>Code：<a target="_blank" rel="noopener" href="https://github.com/blackfeather-wang/AdaFocus">https://github.com/blackfeather-wang/AdaFocus</a></li>
-<li>B站介绍：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1vb4y1a7sD/">https://www.bilibili.com/video/BV1vb4y1a7sD/</a></li>
-<li>作者个人网站：<a target="_blank" rel="noopener" href="https://www.rainforest-wang.cool/">https://www.rainforest-wang.cool/</a></li>
-</ul>
-<h2 id="2-研究动机"><a href="#2-研究动机" class="headerlink" title="2. 研究动机"></a>2. 研究动机</h2><p>相较于图像，视频识别是一个分布范围更广、应用场景更多的任务。如下图所示，每分钟，即有超过300小时的视频上传至YouTube；至2022年，超过82%的消费互联网流量将由在线视频组成。自动识别这些海量视频中的人类行为、事件、紧急情况等内容，对于视频推荐、监控等受众广泛的实际应用具有重要意义。</p>
-<p><img src="../images/AdaFocus/image-20211025143955391.png" alt="image-20211025143955391"></p>
-<p>近年来，已有很多基于深度学习的视频识别算法取得了较佳的性能，如TSM、SlowFast、I3D等。然而，一个严重的问题是，相较于图像，使用深度神经网络处理视频通常会引入很大的计算开销。如下图所示，将ResNet-50应用于视频识别将使运算量（FLOPs）扩大8-75倍。</p>
-<p><img src="../images/AdaFocus/image-20211025144020950.png" alt="image-20211025144020950"></p>
-<p>因此，一个关键问题在于，如何降低视频识别模型的计算开销。一个非常自然的想法是从视频的时间维度入手：一方面，相邻的视频帧之间往往具有较大的相似性，逐帧处理将引入冗余计算；另一方面，并非全部视频帧的内容都与识别任务相关。现有工作大多从这一时间冗余性出发，动态寻找视频中的若干关键帧进行重点处理，以降低计算成本，如下图所示。</p>
-<p><img src="../images/AdaFocus/image-20211025144125135.png" alt="image-20211025144125135"></p>
-<p>但是，值得注意的一点是，我们发现，目前尚未有工作关注于视频中的空间冗余性。具体而言，在每一帧视频中，事实上只有一部分空间区域与识别任务相关，例如下图中的运动员、起跳动作、水花等。</p>
-<p><img src="../images/AdaFocus/image-20211025144147038.png" alt="image-20211025144147038"></p>
-<p>出于这一点，本文以回答图6中的两个问题作为主线：</p>
-<ul>
-<li><ol>
-<li><strong>空间冗余性是否可以用于实现高效视频识别？</strong>假如我们能找到每一视频帧中的关键区域，并将主要的计算集中于这些更有价值的部分，而尽可能略过其他任务相关信息较少的区域，理论上，我们就可以显著降低网络的计算开销（事实上，我们之前基于单张图像验证过类似做法的效果：NeurIPS 2020 | Glance and Focus: 通用、高效的神经网络自适应推理框架：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/266306870）。">https://zhuanlan.zhihu.com/p/266306870）。</a></li>
-<li><strong>空间、时间冗余性是否互补？</strong>若上述假设成立的话，它应当可与现存的、基于时间冗余性的工作相结合，因为我们完全可以先找到少数关键帧，再仅在这些帧中寻找关键的图像区域进行重点处理。</li>
-</ol>
-</li>
-</ul>
-<p><img src="../images/AdaFocus/image-20211025144336382.png" alt="image-20211025144336382"></p>
-<h2 id="3-核心思想"><a href="#3-核心思想" class="headerlink" title="3. 核心思想"></a>3. 核心思想</h2><p>首先为了回答问题1，作者设计了一个AdaFocus框架，其结构如下图所示。</p>
-<p><img src="../images/AdaFocus/image-20211025144442968.png" alt="image-20211025144442968"></p>
-<p>此处我们假设视频帧按时间次序逐个输入网络，AdaFocus使用四个组件对其进行处理。</p>
-<ol>
-<li>全局CNN   <script type="math/tex">f(G)</script>  （Global CNN）是一个轻量化的卷积网络（例如MobileNet-V2)，用于以低成本对每一帧视频进行粗略处理，获取其空间分布信息。</li>
-<li>策略网络 <script type="math/tex">\pi</script>（Policy Network）是一个循环神经网络（RNN），以<script type="math/tex">f(g)</script>的提取出的特征图作为输入，用于整合到目前为止所有视频帧的信息，进而决定当前帧中包含最重要信息的一个图像小块（patch）的位置。值得注意的是由于取得patch的crop操作不可求导，<script type="math/tex">\pi</script>是使用强化学习中的策略梯度方法（policy gradient)训练的。</li>
-<li>局部CNN<script type="math/tex">f(L)</script>（Local CNN）是一个容量大、准确率高但参数量和计算开销较大的卷积网络（例如ResNet），仅处理策略网络<script type="math/tex">\pi</script> 选择出的局部patch，由于patch的空间尺寸小于原图，处理其的计算开销显著低于处理整个视频帧。</li>
-<li>分类器<script type="math/tex">f(c)</script>（Classifier）为另一个循环神经网络（RNN），输入为<script type="math/tex">f(G)</script>和 <script type="math/tex">f(L)</script>输出特征的并联，用于整合过去所有视频帧的信息，以得到目前最优的识别结果<script type="math/tex">p_t</script>（t表示帧序号)。</li>
-</ol>
-<h2 id="4-主要贡献点"><a href="#4-主要贡献点" class="headerlink" title="4. 主要贡献点"></a>4. 主要贡献点</h2><p>（1）在现有的基于时间冗余性的方法之外，思考利用空间冗余性实现高效视频识别；</p>
-<p>（2）基于强化学习，提出了一种在理论上和实测速度上效果都比较明显的通用框架，AdaFocus；</p>
-<p>（3）在五个数据集上进行了实验，包括与其他通用框架的比较和部署于现有高效识别网络（例如TSM）上的效果等。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1204,7 +1182,7 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
