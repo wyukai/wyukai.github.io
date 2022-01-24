@@ -162,6 +162,104 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/24/OD-DenseBox%E9%9A%8F%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wyukai">
+      <meta itemprop="description" content="do">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yukai">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/24/OD-DenseBox%E9%9A%8F%E8%AE%B0/" class="post-title-link" itemprop="url">OD-DenseBox随记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-01-24 17:56:57 / 修改时间：20:05:22" itemprop="dateCreated datePublished" datetime="2022-01-24T17:56:57+08:00">2022-01-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1-DenseBox"><a href="#1-DenseBox" class="headerlink" title="1. DenseBox"></a>1. DenseBox</h3><p>最近在看文本检测算法EAST，其核心思想与DenseBox很是相似，结合了Unet结构。DenseBox是比较早期的Anchor-Free目标检测算法，方法本身有很多值得借鉴的地方，很多思想也比较超前， 比端到端的训练和识别，多尺度特征融合，结合关键点增强检测效果等。</p>
+<p><img src="../images/OD-DenseBox%E9%9A%8F%E8%AE%B0/image-20220124190818693.png" alt="image-20220124190818693"></p>
+<p><img src="../images/OD-DenseBox%E9%9A%8F%E8%AE%B0/image-20220124191404862.png" alt="image-20220124191404862" style="zoom:80%;" /></p>
+<p>整体架构如Figure1所示，测试时，输入图片大小为(mxnx3)，输出为（m/4 x n/4 *5），第一维s为分类置信度，后四维为像素位置至目标边界的距离。</p>
+<h3 id="2-网络结构"><a href="#2-网络结构" class="headerlink" title="2. 网络结构"></a>2. 网络结构</h3><p><img src="../images/OD-DenseBox%E9%9A%8F%E8%AE%B0/image-20220124191824821.png" alt="image-20220124191824821" style="zoom:80%;" /></p>
+<p>主干网络以VGG-19为基础，只采用前12层，后边层重新设计，con3_4上采样之后与con4_4进行多尺度特征融合，然后Head部分分为两个分支，其中一个为score_map（1-channel map for class score），第二个分支为boundingbox参数的回归分支（the relative position of bounding box by 4-channel map）。</p>
+<h3 id="3-Loss设计"><a href="#3-Loss设计" class="headerlink" title="3. Loss设计"></a>3. Loss设计</h3><p>分类置信度和边界框回归均采用了L2损失，特别地，增加了平衡采样策略Balance Sampling。</p>
+<ol>
+<li><p>或略灰色（模糊）区域</p>
+<p>所谓灰色区域，是指正负样本边界部分的像素点，因为在这些区域由于标注的样本是很难区分的，让其参与训练反而会降低模型的精度，因此这一部分不会参与训练，计算loss，在输出坐标空间中，对于每一个非正标记的像素，只要其半径范围2内存在任意一个带正标记的像素，则<script type="math/tex">{f_{ign}}</script>设置为1。</p>
+</li>
+<li><p>Hard Negative Mining</p>
+<ul>
+<li>计算整个patch的3600个所有样本点，并根据loss进行排序；</li>
+<li>取其中的1%，也就是36个作为hard-negative样本；</li>
+<li>随机采样36个负样本和hard-negative构成72个负样本；</li>
+<li>随机采样72个正样本。</li>
+</ul>
+<p>使用上面策略得到的144个样本参与训练，将其掩码参数<script type="math/tex">{f_{sel}}</script>置为1，其余样本的置为0。</p>
+</li>
+</ol>
+<p>最终，每个像素点位置的掩码设计为如下公式：</p>
+<p><img src="../images/OD-DenseBox%E9%9A%8F%E8%AE%B0/image-20220124194415082.png" alt="image-20220124194415082"></p>
+<p>总的Loss设计为：</p>
+<p><img src="../images/OD-DenseBox%E9%9A%8F%E8%AE%B0/image-20220124194520881.png" alt="image-20220124194520881"></p>
+<p>其中<script type="math/tex">\theta</script>为卷积网络的参数， <script type="math/tex">[y_i^* > 0]</script> 表示只有正样本参与bounding box的训练。</p>
+<h3 id="4-结合关键点检测增强检测效果"><a href="#4-结合关键点检测增强检测效果" class="headerlink" title="4. 结合关键点检测增强检测效果"></a>4. 结合关键点检测增强检测效果</h3><p><img src="../images/OD-DenseBox%E9%9A%8F%E8%AE%B0/image-20220124195107507.png" alt="image-20220124195107507" style="zoom: 80%;" /></p>
+<ul>
+<li>DenseBox加入关键点检测的任务分支时模型的精度会进一步提升，这时只需要在图3的conv3_4和conv4_4融合之后的结果上添加一个用于关键点检测的分支即可，分支的详细结构如Figure4所示。假设样本有<script type="math/tex">N</script>个关键点（在MALF中 72 ），DenseBox的关键点检测的输出是 <script type="math/tex">N</script>个热图，热图中的每个像素点表示该点对应位置关键点的置信度。</li>
+<li>加入关键点检测分支之后，DenseBox根据关键点的置信度图和boudning box的置信度图构成了新的检测损失，并将其命名为Refine Network，通过拼接的方式融合了关键点检测的Conv5_2_landmark层和图2中bounding box的Conv5_2_det层，之后接了Max Pooling层，卷积层，上采样层最后生成新的预测值，这里也可以理解为新的score_map预测。</li>
+</ul>
+<p>加入关键点定位即Refine Network结构后，最终损失设计为：</p>
+<p><img src="../images/OD-DenseBox%E9%9A%8F%E8%AE%B0/image-20220124195757989.png" alt="image-20220124195757989"></p>
+<p>Paper中关于加入关键点定位的消融实验：</p>
+<p><img src="../images/OD-DenseBox%E9%9A%8F%E8%AE%B0/image-20220124200516603.png" alt="image-20220124200516603" style="zoom:80%;" /></p>
+<h3 id="5-Reference"><a href="#5-Reference" class="headerlink" title="5. Reference"></a>5. Reference</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40221183">https://zhuanlan.zhihu.com/p/40221183</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/44021975">https://zhuanlan.zhihu.com/p/44021975</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/244d7f1dcdab">https://www.jianshu.com/p/244d7f1dcdab</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/20/OCR-EAST%E9%9A%8F%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1084,87 +1182,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/21/letterbox/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="wyukai">
-      <meta itemprop="description" content="do">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="yukai">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/21/letterbox/" class="post-title-link" itemprop="url">YOLOv5 自适应图片缩放</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-21 14:32:38" itemprop="dateCreated datePublished" datetime="2021-12-21T14:32:38+08:00">2021-12-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-28 16:06:14" itemprop="dateModified" datetime="2021-12-28T16:06:14+08:00">2021-12-28</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="自适应图片缩放"><a href="#自适应图片缩放" class="headerlink" title="自适应图片缩放"></a>自适应图片缩放</h3><p>按照以往的经验，目标检测算法在训练和推理阶段都会resize到统一的图像尺寸，YOLOv5在推理阶段采用了自适应的图片缩放trick。</p>
-<p><img src="../images/letterbox/format,png.png" alt="img"></p>
-<p>在YOLOv5 官方github下有这样一段解释，采用32整数倍的矩形框推理要比resize到等长宽的正方形进行推理的时间减少很多（416 ,416)-&gt;(256 , 416）。</p>
-<h3 id="训练阶段"><a href="#训练阶段" class="headerlink" title="训练阶段"></a>训练阶段</h3><p>假设原图尺寸为（523， 699）</p>
-<p>（1） 计算长边缩放比例 r = 416 / 699 = 0.5951</p>
-<p>（2）将原图等比例缩放 (523，699) —&gt;&gt;  (311, 416)</p>
-<p><img src="../images/letterbox/image-20211221174250645.png" alt="image-20211221174250645"></p>
-<p>（3） 填充为（416，416），H侧上下需要填充的大小 pad = (416 - 311) / 2 = 52.5</p>
-<p><img src="../images/letterbox/new-16400798041612.jpg" alt="new"></p>
-<h3 id="推理阶段"><a href="#推理阶段" class="headerlink" title="推理阶段"></a>推理阶段</h3><p>（1） 计算长边缩放比例 r = 416 / 699 = 0.5951</p>
-<p>（2）将原图等比例缩放 (523，699) —&gt;&gt;  (311, 416)</p>
-<p>（3）原始输入图像缩放后的分辨率（设定为32的倍数）： np.ceil(0.5951 x 523 / 32) x 32,   np.ceil(1 x 699 / 32) x 32 =  (320,416)</p>
-<p>（4）计算需要的padding,   宽 padding = (416 - 416) / 2 = 0,     高padding  =  (320 -  311) / 2 = 4.5  (top  4 ,   bottom 5) </p>
-<p>（5）填充像素值  （144，144，144）灰色像素</p>
-<p>所以推理阶段的分辨率为（320，416）， 在保证图像不失真的情况下，可以显著减少计算量，加快推理速度。</p>
-<p><img src="../images/letterbox/new-16400808257133.jpg" alt="new"></p>
-<h3 id="code"><a href="#code" class="headerlink" title="code"></a>code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2 <span class="keyword">as</span> cv</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">letterbox</span>(<span class="params">im, new_shape, color=(<span class="params"><span class="number">140</span>,<span class="number">140</span>,<span class="number">140</span></span>), stride=<span class="number">32</span>, auto=<span class="literal">True</span></span>):</span></span><br><span class="line">    shape = im.shape[:<span class="number">2</span>] <span class="comment"># current shape [height, width]</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># calculate scale ratio r</span></span><br><span class="line">    r = <span class="built_in">min</span>(new_shape[<span class="number">0</span>] / shape[<span class="number">0</span>], new_shape[<span class="number">1</span>] / shape[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># compute padding   new_unpad : [w, h]</span></span><br><span class="line">    new_unpad = <span class="built_in">int</span>(<span class="built_in">round</span>(shape[<span class="number">1</span>] * r)), <span class="built_in">int</span>(<span class="built_in">round</span>(shape[<span class="number">0</span>] * r))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;new_unpad::&#x27;</span>,new_unpad)</span><br><span class="line">    dw = new_shape[<span class="number">1</span>] - new_unpad[<span class="number">0</span>]</span><br><span class="line">    dh = new_shape[<span class="number">0</span>] - new_unpad[<span class="number">1</span>]</span><br><span class="line">   </span><br><span class="line">    <span class="comment"># minimum rectangle</span></span><br><span class="line">    <span class="keyword">if</span> auto:</span><br><span class="line">        dw = np.mod(dw, stride)</span><br><span class="line">        dh = np.mod(dh, stride)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># dw dh for every side</span></span><br><span class="line">    dw /= <span class="number">2</span></span><br><span class="line">    dh /= <span class="number">2</span></span><br><span class="line">    </span><br><span class="line">   </span><br><span class="line">    <span class="keyword">if</span> shape[::-<span class="number">1</span>] != new_unpad: </span><br><span class="line">        im = cv.resize(im, new_unpad, interpolation=cv.INTER_LINEAR)</span><br><span class="line">    <span class="comment"># padding   if dw &lt; 1： dw = 0</span></span><br><span class="line">    top, bottom = <span class="built_in">int</span>(<span class="built_in">round</span>(dh - <span class="number">0.1</span>)), <span class="built_in">int</span>(<span class="built_in">round</span>(dh + <span class="number">0.1</span>))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;top&#x27;</span>,top, bottom)</span><br><span class="line">    left, right = <span class="built_in">int</span>(<span class="built_in">round</span>(dw - <span class="number">0.1</span>)), <span class="built_in">int</span>(<span class="built_in">round</span>(dw + <span class="number">0</span>,<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    im = cv.copyMakeBorder(im, top,bottom,left,right, cv.BORDER_CONSTANT, value=color)</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(im.shape)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> im, r, (dw, dh)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    img_path = <span class="string">&quot;D:\\person\\py_code\\list\\R-C.png&quot;</span></span><br><span class="line">    img = cv.imread(img_path)</span><br><span class="line"></span><br><span class="line">    im, r, _ = letterbox(img, (<span class="number">416</span>,<span class="number">416</span>))</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(r)</span><br><span class="line">    cv.imwrite(<span class="string">&#x27;D:\\person\\py_code\\list\\new.jpg&#x27;</span>, im)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1234,7 +1251,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
