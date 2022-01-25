@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yukai.tech","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"yukai.tech","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="yukai的Bolg">
@@ -149,6 +149,8 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 
     <main class="main">
@@ -193,7 +195,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 15:16:08" itemprop="dateModified" datetime="2022-01-25T15:16:08+08:00">2022-01-25</time>
+                <time title="修改时间：2022-01-25 17:12:10" itemprop="dateModified" datetime="2022-01-25T17:12:10+08:00">2022-01-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -233,15 +235,14 @@
 <p><img src="/images/letterbox/image-20211221174250645.png" alt="image-20211221174250645"></p>
 <p>（3） 填充为（416，416），H侧上下需要填充的大小 pad = (416 - 311) / 2 = 52.5</p>
 <p><img src="/images/letterbox/new-16400798041612.jpg" alt="new"></p>
-<h3 id="推理阶段"><a href="#推理阶段" class="headerlink" title="推理阶段"></a>推理阶段</h3><p>（1） 计算长边缩放比例 r = 416 / 699 = 0.5951</p>
-<p>（2）将原图等比例缩放 (523，699) —&gt;&gt;  (311, 416)</p>
-<p>（3）原始输入图像缩放后的分辨率（设定为32的倍数）： np.ceil(0.5951 x 523 / 32) x 32,   np.ceil(1 x 699 / 32) x 32 =  (320,416)</p>
-<p>（4）计算需要的padding,   宽 padding = (416 - 416) / 2 = 0,     高padding  =  (320 -  311) / 2 = 4.5  (top  4 ,   bottom 5) </p>
-<p>（5）填充像素值  （144，144，144）灰色像素</p>
-<p>所以推理阶段的分辨率为（320，416）， 在保证图像不失真的情况下，可以显著减少计算量，加快推理速度。</p>
-<p><img src="/images/letterbox/new-16400808257133.jpg" alt="new"></p>
-<h3 id="code"><a href="#code" class="headerlink" title="code"></a>code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2 <span class="keyword">as</span> cv</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">letterbox</span>(<span class="params">im, new_shape, color=(<span class="params"><span class="number">140</span>,<span class="number">140</span>,<span class="number">140</span></span>), stride=<span class="number">32</span>, auto=<span class="literal">True</span></span>):</span></span><br><span class="line">    shape = im.shape[:<span class="number">2</span>] <span class="comment"># current shape [height, width]</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># calculate scale ratio r</span></span><br><span class="line">    r = <span class="built_in">min</span>(new_shape[<span class="number">0</span>] / shape[<span class="number">0</span>], new_shape[<span class="number">1</span>] / shape[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># compute padding   new_unpad : [w, h]</span></span><br><span class="line">    new_unpad = <span class="built_in">int</span>(<span class="built_in">round</span>(shape[<span class="number">1</span>] * r)), <span class="built_in">int</span>(<span class="built_in">round</span>(shape[<span class="number">0</span>] * r))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;new_unpad::&#x27;</span>,new_unpad)</span><br><span class="line">    dw = new_shape[<span class="number">1</span>] - new_unpad[<span class="number">0</span>]</span><br><span class="line">    dh = new_shape[<span class="number">0</span>] - new_unpad[<span class="number">1</span>]</span><br><span class="line">   </span><br><span class="line">    <span class="comment"># minimum rectangle</span></span><br><span class="line">    <span class="keyword">if</span> auto:</span><br><span class="line">        dw = np.mod(dw, stride)</span><br><span class="line">        dh = np.mod(dh, stride)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># dw dh for every side</span></span><br><span class="line">    dw /= <span class="number">2</span></span><br><span class="line">    dh /= <span class="number">2</span></span><br><span class="line">    </span><br><span class="line">   </span><br><span class="line">    <span class="keyword">if</span> shape[::-<span class="number">1</span>] != new_unpad: </span><br><span class="line">        im = cv.resize(im, new_unpad, interpolation=cv.INTER_LINEAR)</span><br><span class="line">    <span class="comment"># padding   if dw &lt; 1： dw = 0</span></span><br><span class="line">    top, bottom = <span class="built_in">int</span>(<span class="built_in">round</span>(dh - <span class="number">0.1</span>)), <span class="built_in">int</span>(<span class="built_in">round</span>(dh + <span class="number">0.1</span>))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;top&#x27;</span>,top, bottom)</span><br><span class="line">    left, right = <span class="built_in">int</span>(<span class="built_in">round</span>(dw - <span class="number">0.1</span>)), <span class="built_in">int</span>(<span class="built_in">round</span>(dw + <span class="number">0</span>,<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    im = cv.copyMakeBorder(im, top,bottom,left,right, cv.BORDER_CONSTANT, value=color)</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(im.shape)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> im, r, (dw, dh)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    img_path = <span class="string">&quot;D:\\person\\py_code\\list\\R-C.png&quot;</span></span><br><span class="line">    img = cv.imread(img_path)</span><br><span class="line"></span><br><span class="line">    im, r, _ = letterbox(img, (<span class="number">416</span>,<span class="number">416</span>))</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(r)</span><br><span class="line">    cv.imwrite(<span class="string">&#x27;D:\\person\\py_code\\list\\new.jpg&#x27;</span>, im)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/21/letterbox/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -291,7 +292,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 15:21:45" itemprop="dateModified" datetime="2022-01-25T15:21:45+08:00">2022-01-25</time>
+                <time title="修改时间：2022-01-25 17:11:39" itemprop="dateModified" datetime="2022-01-25T17:11:39+08:00">2022-01-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -330,25 +331,15 @@
 <ol>
 <li><p>互斥锁（Mutex）</p>
 <p>互斥锁用于控制多个线程对他们之间共享资源互斥访问的一个信号量，为了避免多个线程在某一时刻同时操作一个共享资源。例如线程池中的有多个空闲线程和一个任务队列。任何是一个线程都要使用互斥锁互斥访问任务队列，以避免多个线程同时访问任务队列以发生错乱。在某一时刻，只有一个线程可以获取互斥锁，在释放互斥锁之前其他线程都不能获取该互斥锁。如果其他线程想要获取这个互斥锁，那么这个线程只能以阻塞方式进行等待。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;mutex&gt;</span></span></span><br><span class="line"></span><br><span class="line">std::list&lt;<span class="keyword">int</span>&gt; some_list;</span><br><span class="line">std::mutex some_mutex;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add_to_list</span><span class="params">(<span class="keyword">int</span> new_value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">guard</span><span class="params">(some_mutex)</span></span>;</span><br><span class="line">    some_list.<span class="built_in">push_back</span>(new_value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ol>
-<li><p>条件锁</p>
-<p>条件锁就是所谓的条件变量，某一个线程因为某个条件为满足时可以使用条件变量使改程序处于阻塞状态。一旦条件满足以“信号量”的方式唤醒一个因为该条件而被阻塞的线程。最为常见就是在线程池中，起初没有任务时任务队列为空，此时线程池中的线程因为“任务队列为空”这个条件处于阻塞状态。一旦有任务进来，就会以信号量的方式唤醒一个线程来处理这个任务。</p>
-</li>
-<li><p>自旋锁</p>
-<p>假设我们有一个两个处理器core1和core2计算机，现在在这台计算机上运行的程序中有两个线程：T1和T2分别在处理器core1和core2上运行，两个线程之间共享着一个资源。</p>
-<p>互斥锁是是一种sleep-waiting的锁。假设线程T1获取互斥锁并且正在core1上运行时，此时线程T2也想要获取互斥锁（pthread_mutex_lock），但是由于T1正在使用互斥锁使得T2被阻塞。当T2处于阻塞状态时，T2被放入到等待队列中去，处理器core2会去处理其他任务而不必一直等待（忙等）。也就是说处理器不会因为线程阻塞而空闲着，它去处理其他事务去了。</p>
-<p>而自旋锁就不同了，自旋锁是一种busy-waiting的锁。也就是说，如果T1正在使用自旋锁，而T2也去申请这个自旋锁，此时T2肯定得不到这个自旋锁。与互斥锁相反的是，此时运行T2的处理器core2会一直不断地循环检查锁是否可用（自旋锁请求），直到获取到这个自旋锁为止。</p>
-<p>从“自旋锁”的名字也可以看出来，如果一个线程想要获取一个被使用的自旋锁，那么它会一致占用CPU请求这个自旋锁使得CPU不能去做其他的事情，直到获取这个锁为止，这就是“自旋”的含义。</p>
-<p>当发生阻塞时，互斥锁可以让CPU去处理其他的任务；而自旋锁让CPU一直不断循环请求获取这个锁。通过两个含义的对比可以我们知道“自旋锁”是比较耗费CPU的。</p>
-</li>
-<li><p>读写锁 </p>
-<p>借助于“读者-写者”问题进行理解， 计算机中某些数据被多个进程共享，对数据库的操作有两种：一种是读操作，就是从数据库中读取数据不会修改数据库中内容；另一种就是写操作，写操作会修改数据库中存放的数据。因此可以得到我们允许在数据库上同时执行多个“读”操作，但是某一时刻只能在数据库上有一个“写”操作来更新数据。这就是一个简单的读者-写者模型。</p>
-</li>
-</ol>
-
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;mutex&gt;</span></span></span><br><span class="line"></span><br><span class="line">std::list&lt;<span class="keyword">int</span>&gt; some_list;</span><br><span class="line">std::mutex some_mutex;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add_to_list</span><span class="params">(<span class="keyword">int</span> new_value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">guard</span><span class="params">(some_mutex)</span></span>;</span><br><span class="line">    some_list.<span class="built_in">push_back</span>(new_value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li></ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/10/C-%E7%BA%BF%E7%A8%8B%E9%94%81/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -398,7 +389,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 15:25:28" itemprop="dateModified" datetime="2022-01-25T15:25:28+08:00">2022-01-25</time>
+                <time title="修改时间：2022-01-25 17:10:30" itemprop="dateModified" datetime="2022-01-25T17:10:30+08:00">2022-01-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -442,52 +433,14 @@
 <h2 id="直方图均衡"><a href="#直方图均衡" class="headerlink" title="直方图均衡"></a>直方图均衡</h2><h3 id="1-直方图与对比度"><a href="#1-直方图与对比度" class="headerlink" title="1. 直方图与对比度"></a>1. 直方图与对比度</h3><p>首先，我们看下面的图像：</p>
 <p><img src="/images/直方图均衡化/fa671e7e-51c5-4886-bae4-0f203dc5968c.png" alt></p>
 <p>左列为原图，我们在观看的时候，感受很差。为什么很差呢？因为前景(关键区域)与背景太相似，无法很好的得到前景的信息。这就是表明，<strong>这些图像的对比度小，视觉体验很差</strong>。</p>
-<p>其中，<strong>对比度是由两个相邻区域的亮度差异产生的</strong>。</p>
-<p>对比度是使一个物体与其他物体区别开来的视觉特性上的差异。在视觉感知中，对比度是由物体与其他物体的颜色和亮度差异决定的，而我们的视觉系统对对比度比对绝对亮度更敏感。那么，如何量化一个图像中的对比度呢？我们先了解下直方图。</p>
-<p>通过直方图我们可以看到各个灰度级的像素个数，即像素的分布情况。如果图像的大部分的像素都集中在直方图的某个范围，就表示图像中的大部分像素的灰度值差别很小，无法很好地进行分辨图像中的物体。</p>
-<p>如原图像的像素值介于$5$~$10$之间（对比度是$10/5=2$）现将其映射到整个区域的输出图像到$0$ ~ $255$（对比度是$255/1=255$），由此可见，对比度得到了很大的提升。</p>
-<h3 id="2-直方图的定义"><a href="#2-直方图的定义" class="headerlink" title="2. 直方图的定义"></a>2. 直方图的定义</h3><p>图像的直方图：反应图像强度分布的总体概念。宽泛的来说直方图给出了图像<strong>对比度</strong>、<strong>亮度</strong>和<strong>强度</strong>分布信息。其中，强度就是一幅图像的像素取值，如$[0, 255]$。</p>
-<p>其中，公式表示如下：</p>
-<script type="math/tex; mode=display">
-h\left(r_{k}\right)=n_{k}</script><p>其中，$n_{k}$是图像中灰度级为$r_{k}$的像素个数。 $r_{k}$是第$k$个灰度级，$k=0,1,2…L-1$。由于$r_{k}$的增量是$1$,直方图可以表示为$p(k)=n_{k}$。即，图像中不同灰度级像素出现的次数。</p>
-<p><strong>概括来说，直方图就是横坐标表示成像素值，纵坐标表示各个像素值的个数的图。</strong></p>
-<p><img src="/images/直方图均衡化/d49b14ab-a6c6-4588-a9c5-8fe2d14f7d22.png" alt="直方图举例"></p>
-<h3 id="3-直方图均衡化的引入"><a href="#3-直方图均衡化的引入" class="headerlink" title="3.直方图均衡化的引入"></a>3.直方图均衡化的引入</h3><p>若一幅图像的像素倾向于占据整个可能的灰度级并且分布均匀，则该图像有较高的对比度并且图像展示效果会相对好，于是便引出图像直方图均衡化，对图像会有很强的增强效果。</p>
-<h4 id="3-1-直方图归一化"><a href="#3-1-直方图归一化" class="headerlink" title="3.1 直方图归一化"></a>3.1 直方图归一化</h4><p>先了解<strong>直方图归一化</strong>的概念，公式为：<br>$p(r_{k})=n_{k}/n$</p>
-<ul>
-<li>$n$ 是图像的像素总数（如一幅$32*32$的图像，像素总数就是$1024$）。</li>
-<li>$n_{k}$是图像中灰度级为$r_{k}$的像素个数</li>
-<li>$r_{k}$是第$k$个灰度级，$k = 0,1,2,…,L-1$</li>
-</ul>
-<p>因此，该函数主要有以下几个特性：  </p>
-<ol>
-<li>使函数值压缩到[0,1]区间。</li>
-<li>给出灰度级$r_{k}$在图像中出现的概率密度统计。</li>
-</ol>
-<h4 id="3-2-直方图均衡化"><a href="#3-2-直方图均衡化" class="headerlink" title="3.2 直方图均衡化"></a>3.2 直方图均衡化</h4><p>直方图均衡化是建立在直方图归一化的基础之上。直方图均衡化的公式如下所示：</p>
-<script type="math/tex; mode=display">
-s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</strong></p>
-<ul>
-<li>$n$是图像中像素的总和</li>
-<li>$n_{j}$是当前灰度级的像素个数</li>
-<li>$L$是图像中可能的灰度级总数</li>
-</ul>
-<p>其中，直方图均衡化是采用的灰度级变换：$s = T(r)$，目的是<strong>欲将原始图的直方图变换为均匀分布的形式，这样就增加了像素灰度值的动态范围，从而达到增强图像整体对比度的效果</strong>。</p>
-<p>代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="comment"># 读取图像并转换为灰度图</span></span><br><span class="line">    img = cv2.imread(<span class="string">r&#x27;./imgs/boy.png&#x27;</span>)</span><br><span class="line">    <span class="comment"># 图像的灰度级范围是0~255</span></span><br><span class="line">    <span class="comment"># grayHist = cv2.calcHist([img], [0], None, [256], [0, 256])</span></span><br><span class="line">    (b, g, r) = cv2.split(img)</span><br><span class="line">    bH = cv2.equalizeHist(b)</span><br><span class="line">    gH = cv2.equalizeHist(g)</span><br><span class="line">    rH = cv2.equalizeHist(r)</span><br><span class="line">    <span class="comment"># 合并每一个通道</span></span><br><span class="line">    result = cv2.merge((bH, gH, rH))</span><br><span class="line">    res = np.hstack((img, result))</span><br><span class="line">    cv2.imshow(<span class="string">&quot;dst&quot;</span>, res)</span><br><span class="line">    cv2.waitKey(<span class="number">0</span>)</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
-<p>不能使用库函数，需要写出详细的直方图均衡化的过程：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hist_equalization</span>(<span class="params">intput_signal</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    直方图均衡（适用于灰度图）</span></span><br><span class="line"><span class="string">    :param intput_signal:   输入图像</span></span><br><span class="line"><span class="string">    :return:    直方图均衡化后的输出图像</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">    output_signal = np.copy(intput_signal)   <span class="comment"># 输出图像，初始化为输入</span></span><br><span class="line"></span><br><span class="line">    intput_signal_cp = np.copy(intput_signal) <span class="comment"># 输入图像的副本</span></span><br><span class="line"></span><br><span class="line">    m, n = intput_signal_cp.shape <span class="comment"># 输入图像的尺寸（行、列）</span></span><br><span class="line"></span><br><span class="line">    pixel_total_num = m * n  <span class="comment"># 输入图像的像素点总数</span></span><br><span class="line"></span><br><span class="line">    p_r = []   <span class="comment"># 输入图像的概率密度</span></span><br><span class="line">    p_s = []   <span class="comment"># 输出图像的概率密度</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 求输入图像的概率密度函数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>):</span><br><span class="line">        p_r.append(np.<span class="built_in">sum</span>(intput_signal_cp == i) / pixel_total_num)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 求输出图像的概率密度函数</span></span><br><span class="line">    single_pixel_class_probobility_t = <span class="number">0</span>  <span class="comment"># 临时存储某一灰度级的概率</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>):</span><br><span class="line">        single_pixel_class_probobility_t = single_pixel_class_probobility_t + p_r[i]</span><br><span class="line">        p_s.append(single_pixel_class_probobility_t)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 求解变换后的输出图像</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>):</span><br><span class="line">        output_signal[np.where(intput_signal_cp == i)] = <span class="number">255</span> * p_s[i]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> output_signal</span><br></pre></td></tr></table></figure>
-<p><img src="/images/直方图均衡化/292f5124-29b1-405f-ba06-19b25dbff6d2.jpg" alt="直方图均衡化举例"></p>
-<p>其中关于像素的统计量如下：</p>
-<p><img src="/images/直方图均衡化/f9864061-b117-4891-b67e-aae1eb2bed01.png" alt="直方图统计对比"></p>
-<h3 id="4-小结"><a href="#4-小结" class="headerlink" title="4. 小结"></a>4. 小结</h3><p>目前，基本的图像直方图均衡已经说完了，但是如果我们仔细看上图，会发现均衡化处理后对比度大大增强了，但是这个<strong>boy</strong>好像有点太亮了，这是因为这个直方图均衡化操作是对全局进行均衡化，直方图覆盖的范围太大，反而会丢失<strong>boy</strong>的一些信息。</p>
-<p>因此，明天我们会继续沿着直方图均衡引入<strong>自适应直方图均衡化(AHE)</strong> 以及 <strong>限制对比度自适应直方图均衡化(CLAHE)</strong> 等直方图均衡化算法。</p>
-<h3 id="5-参考"><a href="#5-参考" class="headerlink" title="5. 参考"></a>5. 参考</h3><ol>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/IT_charge/article/details/105560087">https://blog.csdn.net/IT_charge/article/details/105560087</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/98541241">https://zhuanlan.zhihu.com/p/98541241</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/rocling/article/details/104559472">https://blog.csdn.net/rocling/article/details/104559472</a></li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/07/%E7%9B%B4%E6%96%B9%E5%9B%BE%E5%9D%87%E8%A1%A1%E5%8C%96/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -537,7 +490,7 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 15:20:01" itemprop="dateModified" datetime="2022-01-25T15:20:01+08:00">2022-01-25</time>
+                <time title="修改时间：2022-01-25 17:11:57" itemprop="dateModified" datetime="2022-01-25T17:11:57+08:00">2022-01-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -577,24 +530,14 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
 <p><img src="/images/GANomaly/image-20211207165552708.png" alt="image-20211207165552708"></p>
 <p>GANomaly 采用编码器-解码器-编码器的模型结构， 同时对“原图-》重建图” 及“原图的高维特征编码-&gt;重建图的高维特征编码”进行重构误差约束。另外引入生成对抗网络的对抗训练思想， Encoder-Decoder-Encoder结构当作生成网络G-Net， 又定义了一个判别网络D-Net。</p>
 <p>推理接断，用于推断异常的不是原图和重建图的差异，而是第一部分编码器产生的隐空间特征（原图的编码）和第二部分编码器产生的隐空间特征（重建图的编码）的差异。这种方法更关注图片实质内容的差异，对图片中的微小变化不敏感，因而能解决自编码器中易受噪声影响的问题，<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=鲁棒性&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;article&quot;%2C&quot;sourceId&quot;%3A47832951}">鲁棒性</a>更好。</p>
-<h3 id="二，-网络结构"><a href="#二，-网络结构" class="headerlink" title="二， 网络结构"></a>二， 网络结构</h3><p><img src="/images/GANomaly/image-20211207172343665.png" alt="image-20211207172343665"></p>
-<p>（1） G-Net， Encoder 1- Decoder - Encoder 2 ,   自编码器结构参考了DCGAN， Encoder 1E将一张3通道的图片映射为一个n维的向量，Decoder则为Encoder的逆过程。Encoder2将重建出的图像在编码为一个n维的向量。</p>
-<p>（2）D_Net， 判别网络用于区分原图和重建图，即要将原图判别为真，将重建图判别为假。它的结构和第一个子网络的解码网络是一样的。D-Net的引入，是为了引入对抗训练思想，旨在学到更好的G-Net。</p>
-<h3 id="三，损失函数"><a href="#三，损失函数" class="headerlink" title="三，损失函数"></a>三，损失函数</h3><p>本文包含三个子网络，每个子网络对应一个损失函数。</p>
-<p><strong>第一个子网络</strong>的损失是自编码器的重建损失，这里借鉴了<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1611.07004">pix2pix</a>文章中生成网络的损失，采用的是L1损失，而不是L2损失。因为采用L2损失生成的图像通常比采用L1生成的图像要模糊。</p>
-<p><img src="/images/GANomaly/image-20211207173018540.png" alt="image-20211207173018540"></p>
-<p><strong>第二个子网络</strong>的损失是编码网络的损失，这里需要比对的是原图和重建图在高一层抽象空间中的差异，即两个bottleneck(上文中的bottleneck1和bottleneck2)间的差异，采用的是L2损失。</p>
-<p><img src="/images/GANomaly/image-20211207173058603.png" alt="image-20211207173058603"></p>
-<p><strong>第三个子网络</strong>的损失是常规的GAN中判别网络的损失，这里采用的是二分类的交叉熵损失，论文中采用的L2。</p>
-<p><img src="/images/GANomaly/image-20211207173143827.png" alt="image-20211207173143827"></p>
-<h3 id="四，-训练及推理"><a href="#四，-训练及推理" class="headerlink" title="四， 训练及推理"></a>四， 训练及推理</h3><p>本文采用的训练策略和常规的GAN一样的，即交替地优化D-Net和G-Net。</p>
-<p>（1） <strong>优化D-Net</strong>时，采用的损失为上述第三个子网络的损失， 输入为 concat(input_real, input_fake)。input_fake由G-Net生成，在训练D-Net时，G-Net参数固定。</p>
-<p><img src="/images/GANomaly/image-20211207173603644.png" alt="image-20211207173603644"></p>
-<p>（2） <strong>优化G-Net</strong>时，采用的损失比较复杂：</p>
-<p><img src="/images/GANomaly/image-20211207173744620.png" alt="image-20211207173744620"></p>
-<p>主体为重建损失Lrec，编码损失Lenc为重建损失的一个约束，对抗损失Ladv则用来和D-Net博弈。需要注意的一点是，这里的对抗损失的输入对象和优化D-Net时的输入对象是不一样的，这里的 input_d为input_fake，这和常规GAN的训练是一致的。</p>
-<h3 id="五，推理"><a href="#五，推理" class="headerlink" title="五，推理"></a>五，推理</h3><p>前面提到，本文采用的推断方式和一般的基于自编码器的异常检测方法是不一样的。这里推断以来的不是重建损失Lrec，而是编码损失Lenc。具体而言，网络训练收敛以后，我们可以计算得到所有OK样本中的Lenc值，选取其中最大的作为判别阈值。推断时，给定一张图片，我们可以利用学好的网络，计算其 Lenc值，如果它小于判别阈值则判断为OK样本(正常样本)，大于则判断为NG样本(异常样本)。 </p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/07/GANomaly/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -733,7 +676,7 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 15:29:07" itemprop="dateModified" datetime="2022-01-25T15:29:07+08:00">2022-01-25</time>
+                <time title="修改时间：2022-01-25 17:10:21" itemprop="dateModified" datetime="2022-01-25T17:10:21+08:00">2022-01-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -778,36 +721,14 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
 <li>B站介绍：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1vb4y1a7sD/">https://www.bilibili.com/video/BV1vb4y1a7sD/</a></li>
 <li>作者个人网站：<a target="_blank" rel="noopener" href="https://www.rainforest-wang.cool/">https://www.rainforest-wang.cool/</a></li>
 </ul>
-<h2 id="2-研究动机"><a href="#2-研究动机" class="headerlink" title="2. 研究动机"></a>2. 研究动机</h2><p>相较于图像，视频识别是一个分布范围更广、应用场景更多的任务。如下图所示，每分钟，即有超过300小时的视频上传至YouTube；至2022年，超过82%的消费互联网流量将由在线视频组成。自动识别这些海量视频中的人类行为、事件、紧急情况等内容，对于视频推荐、监控等受众广泛的实际应用具有重要意义。</p>
-<p><img src="/images/AdaFocus/image-20211025143955391.png" alt="image-20211025143955391"></p>
-<p>近年来，已有很多基于深度学习的视频识别算法取得了较佳的性能，如TSM、SlowFast、I3D等。然而，一个严重的问题是，相较于图像，使用深度神经网络处理视频通常会引入很大的计算开销。如下图所示，将ResNet-50应用于视频识别将使运算量（FLOPs）扩大8-75倍。</p>
-<p><img src="/images/AdaFocus/image-20211025144020950.png" alt="image-20211025144020950"></p>
-<p>因此，一个关键问题在于，如何降低视频识别模型的计算开销。一个非常自然的想法是从视频的时间维度入手：一方面，相邻的视频帧之间往往具有较大的相似性，逐帧处理将引入冗余计算；另一方面，并非全部视频帧的内容都与识别任务相关。现有工作大多从这一时间冗余性出发，动态寻找视频中的若干关键帧进行重点处理，以降低计算成本，如下图所示。</p>
-<p><img src="/images/AdaFocus/image-20211025144125135.png" alt="image-20211025144125135"></p>
-<p>但是，值得注意的一点是，我们发现，目前尚未有工作关注于视频中的空间冗余性。具体而言，在每一帧视频中，事实上只有一部分空间区域与识别任务相关，例如下图中的运动员、起跳动作、水花等。</p>
-<p><img src="/images/AdaFocus/image-20211025144147038.png" alt="image-20211025144147038"></p>
-<p>出于这一点，本文以回答图6中的两个问题作为主线：</p>
-<ul>
-<li><ol>
-<li><strong>空间冗余性是否可以用于实现高效视频识别？</strong>假如我们能找到每一视频帧中的关键区域，并将主要的计算集中于这些更有价值的部分，而尽可能略过其他任务相关信息较少的区域，理论上，我们就可以显著降低网络的计算开销（事实上，我们之前基于单张图像验证过类似做法的效果：NeurIPS 2020 | Glance and Focus: 通用、高效的神经网络自适应推理框架：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/266306870）。">https://zhuanlan.zhihu.com/p/266306870）。</a></li>
-<li><strong>空间、时间冗余性是否互补？</strong>若上述假设成立的话，它应当可与现存的、基于时间冗余性的工作相结合，因为我们完全可以先找到少数关键帧，再仅在这些帧中寻找关键的图像区域进行重点处理。</li>
-</ol>
-</li>
-</ul>
-<p><img src="/images/AdaFocus/image-20211025144336382.png" alt="image-20211025144336382"></p>
-<h2 id="3-核心思想"><a href="#3-核心思想" class="headerlink" title="3. 核心思想"></a>3. 核心思想</h2><p>首先为了回答问题1，作者设计了一个AdaFocus框架，其结构如下图所示。</p>
-<p><img src="/images/AdaFocus/image-20211025144442968.png" alt="image-20211025144442968"></p>
-<p>此处我们假设视频帧按时间次序逐个输入网络，AdaFocus使用四个组件对其进行处理。</p>
-<ol>
-<li>全局CNN   <script type="math/tex">f(G)</script>  （Global CNN）是一个轻量化的卷积网络（例如MobileNet-V2)，用于以低成本对每一帧视频进行粗略处理，获取其空间分布信息。</li>
-<li>策略网络 <script type="math/tex">\pi</script>（Policy Network）是一个循环神经网络（RNN），以<script type="math/tex">f(g)</script>的提取出的特征图作为输入，用于整合到目前为止所有视频帧的信息，进而决定当前帧中包含最重要信息的一个图像小块（patch）的位置。值得注意的是由于取得patch的crop操作不可求导，<script type="math/tex">\pi</script>是使用强化学习中的策略梯度方法（policy gradient)训练的。</li>
-<li>局部CNN<script type="math/tex">f(L)</script>（Local CNN）是一个容量大、准确率高但参数量和计算开销较大的卷积网络（例如ResNet），仅处理策略网络<script type="math/tex">\pi</script> 选择出的局部patch，由于patch的空间尺寸小于原图，处理其的计算开销显著低于处理整个视频帧。</li>
-<li>分类器<script type="math/tex">f(c)</script>（Classifier）为另一个循环神经网络（RNN），输入为<script type="math/tex">f(G)</script>和 <script type="math/tex">f(L)</script>输出特征的并联，用于整合过去所有视频帧的信息，以得到目前最优的识别结果<script type="math/tex">p_t</script>（t表示帧序号)。</li>
-</ol>
-<h2 id="4-主要贡献点"><a href="#4-主要贡献点" class="headerlink" title="4. 主要贡献点"></a>4. 主要贡献点</h2><p>（1）在现有的基于时间冗余性的方法之外，思考利用空间冗余性实现高效视频识别；</p>
-<p>（2）基于强化学习，提出了一种在理论上和实测速度上效果都比较明显的通用框架，AdaFocus；</p>
-<p>（3）在五个数据集上进行了实验，包括与其他通用框架的比较和部署于现有高效识别网络（例如TSM）上的效果等。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/10/25/AdaFocus/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -857,7 +778,7 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 15:27:13" itemprop="dateModified" datetime="2022-01-25T15:27:13+08:00">2022-01-25</time>
+                <time title="修改时间：2022-01-25 17:10:47" itemprop="dateModified" datetime="2022-01-25T17:10:47+08:00">2022-01-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -897,20 +818,20 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
 
       
           <ul>
-<li><p>Papers with Codes 是一个总结了机器学习论文及其代码实现的网站，这个网站最好的地方就是对机器学习做了任务分类，检索对应的模型非常方便。</p>
-<ul>
+<li>Papers with Codes 是一个总结了机器学习论文及其代码实现的网站，这个网站最好的地方就是对机器学习做了任务分类，检索对应的模型非常方便。<ul>
 <li>地址：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https%3A%2F%2Fpaperswithcode.com">https://paperswithcode.com</a></li>
 </ul>
 </li>
-<li><p>ROC/AUC、真正率（TPR）、假正率（FPR）  <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/46714763">https://zhuanlan.zhihu.com/p/46714763</a></p>
-</li>
-<li><p>缺陷检测数据集  <a target="_blank" rel="noopener" href="https://blog.csdn.net/gonggongjie/article/details/112544136">https://blog.csdn.net/gonggongjie/article/details/112544136</a></p>
-</li>
-<li><p>Anomaly Detection on MVTec AD   <a target="_blank" rel="noopener" href="https://paperswithcode.com/sota/anomaly-detection-on-mvtec-ad">https://paperswithcode.com/sota/anomaly-detection-on-mvtec-ad</a></p>
-<p><img src="/images/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/image-20211119151444496.png" alt="image-20211119151444496"></p>
-</li>
+<li>ROC/AUC、真正率（TPR）、假正率（FPR）  <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/46714763">https://zhuanlan.zhihu.com/p/46714763</a></li>
 </ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/10/22/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -960,7 +881,7 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-25 15:47:25" itemprop="dateModified" datetime="2021-10-25T15:47:25+08:00">2021-10-25</time>
+                <time title="修改时间：2022-01-25 17:11:44" itemprop="dateModified" datetime="2022-01-25T17:11:44+08:00">2022-01-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -996,65 +917,14 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
 <li>论文： <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2001.07685">https://arxiv.org/abs/2001.07685</a></li>
 <li>code： <a target="_blank" rel="noopener" href="https://github.com/google-research/fixmatch">https://github.com/google-research/fixmatch</a></li>
 </ul>
-<h2 id="2-半监督学习"><a href="#2-半监督学习" class="headerlink" title="2. 半监督学习"></a>2. 半监督学习</h2><p>​        半监督学习（Semi-supervised learning）是一种学习方法，其使用少量标记的数据和大量未标记的数据进行学习。相对于监督学习（Supervised Learning）而言，最大的优势是无需为所有数据准备标签。</p>
-<p>​        FixMatch使用的数据集也为带所有标注的数据集，如CIFAR-10， 因为算法训练的要求，需要姜训练数据中的一部分标签删掉， 换句话说，其训练数据为一部分有标签数据 + 一部分无标签数据。</p>
-<h2 id="3-核心思想"><a href="#3-核心思想" class="headerlink" title="3. 核心思想"></a>3. 核心思想</h2><p><img src="/images/FixMatch/v2-21388836987e72bff390f7f4a3ade136_r.jpg" alt="v2-21388836987e72bff390f7f4a3ade136_r"></p>
-<ol>
-<li>整体分为两个部分， 有监督训练部分和无监督训练部分。</li>
-</ol>
-<ul>
-<li>监督训练部分， 利用labeled数据进行监督训练，得到Model A</li>
-<li>无监督训练部分， 首先由原图生成<strong>弱增强</strong>数据，通过Model A获得<strong>伪标签</strong>（pseudo-label）, 然后使用<strong>交叉熵损失</strong>利用该伪标签去监督<strong>强增强</strong>的输出值， 特别地，FixMatch仅使用具有<strong>高置信度</strong>的未标记样本参与无监督训练部分。</li>
-</ul>
-<ol>
-<li>无监督训练部分包含两种策略，<strong>一致性正则化及伪标签训练</strong>。</li>
-</ol>
-<ul>
-<li>一致性正则化是当前半监督SOTA工作中一个重要的组件，其建立在一个基本假设：相同图片经过不同扰动（增强）经过网络会输出相同预测结果，FixMatch是对弱增强图像与强增强图像之间的进行一致性正则化，但是其没有使用两种图像的概率分布一致，而是使用弱增强的数据制作了伪标签，这样就自然需要使用交叉熵进行一致性正则化了。</li>
-<li>伪标签是利用模型本身为未标记数据获取人工标签的思想。通常是使用“hard”标签，也就是argmax获取的onehot标签，仅保留最大类概率超过阈值的标签。</li>
-</ul>
-<p><strong>3. Why Work ?</strong></p>
-<p>​        无监督训练过程实际上是一个孪生网络，可以提取到图片的有用特征。弱增强不至于图像失真，再加上输出伪标签阈值的设置，极大程度上降低了引入错误标签噪声的可能性。而仅仅使用弱增强可能会导致训练过拟合，无法提取到本质的特征，所以使用强增强。强增强带来图片的严重失真，但是依然是保留足够可以辨认类别的特征。有监督和无监督混合训练，逐步提高模型的表达能力。</p>
-<h2 id="4-细节"><a href="#4-细节" class="headerlink" title="4. 细节"></a>4. 细节</h2><ol>
-<li>数据增强方式<ul>
-<li>弱增强：用标准的翻转和平移策略， 50%的概率进行flip和12.5%的概率进行shift，包括水平和竖直方向。</li>
-<li>强增强：输出严重失真的输入图像，先使用RandAugment 或 CTAugment，再使用 CutOut 增强</li>
-</ul>
-</li>
-<li>网络模型<ul>
-<li>FixMatch使用 Wide-Resnet 变体作为基础体系结构，记为 Wide-Resnet-28-2，其深度为 28，扩展因子为 2。因此，此模型的宽度是 ResNet 的两倍。</li>
-</ul>
-</li>
-<li>算法流程</li>
-</ol>
-<p><img src="/images/FixMatch/image-20211022153823958.png" alt="image-20211022153823958"></p>
-<p>（1）Input：准备了batch=B的有标签数据和batch=μB 的无标签数据，其中μ是无标签数据的比例；</p>
-<p>（2）监督训练：对于在标注数据的监督训练，将常规的交叉熵损失 H()用于分类任务。有标签数据的损失记为ls，如伪代码中第2行所示；</p>
-<p>（3）生成伪标签：对无标签数据分别应用弱增强和强增强得到增强后的图形，再送给模型得到预测值，并将弱增强对应的预测值通过 argmax 获得伪标签；</p>
-<p>（4）一致性正则化：将强增强对应的预测值与弱增强对应的伪标签进行交叉熵损失 H()计算，未标注数据的损失由 lu 表示，如伪代码中的第7行所示；式τ表示伪标签的阈值；</p>
-<p>（5）完整损失函数：最后，我们将ls和lu损失相结合，如伪代码第8行所示，对其进行优化以改进模型，其中，λu 是未标记数据对应损失的权重。</p>
-<h2 id="5-实验结果"><a href="#5-实验结果" class="headerlink" title="5. 实验结果"></a>5. 实验结果</h2><p>作者分别在CIFAR和SVHM等数据集上进行了训练测试，模型表现超过之前的网络。具体如下：</p>
-<p><img src="/images/FixMatch/image-20211022154528429.png" alt="image-20211022154528429"></p>
-<ol>
-<li>对于极端缺少标注的场景，仅仅使用每个类别1张共10张标注的图片就可以达到78%的最大accuracy，当然这种做法和挑选的样本质量有关，作者也做了相关实验论证。不过也证明本文的方法的确work。</li>
-</ol>
-<p><img src="/images/FixMatch/image-20211022154712637.png" alt="image-20211022154712637"></p>
-<ol>
-<li><p>另外还有一些具体的调参实验，总的来说，通过FixMatch，我们可以得到以下结论：</p>
-<p>（1）使用具有高置信度的未标记数据参与训练效果比较好(Argmax)；</p>
-<p>（2）适当增加batch中未标记数据的比例有助于提高识别精度；</p>
-<p>（3）T越小（即分布越尖锐），则精度会越高(Sharppen Method)。</p>
-<p>总的来说，半监督学习是一种好方法，因为其是一种可以在开始高成本之前使用的方法。</p>
-</li>
-</ol>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
-<li>FixMAtch是半监督领域的一篇经典论文，其做法简单有效，使用图像增强技术进行伪标签学习和一致性正则化训练，在CIFAR等多个数据集上仅仅利用少量的标注图片就可以达到一个不错的效果，这对于获取标注困难的场景非常有意义。例如在工业应用领域，可能会有海量数据，但是现实限制可能无法都进行人工标注，因此可以尝试利用半监督训练的方法，非常值得借鉴。</li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/165337501">https://zhuanlan.zhihu.com/p/165337501</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/422930830">https://zhuanlan.zhihu.com/p/422930830</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/340474319">https://zhuanlan.zhihu.com/p/340474319</a></li>
-</ul>
-<p>个人记录学习</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/10/20/FixMatch/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1104,7 +974,7 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-22 18:04:03" itemprop="dateModified" datetime="2021-10-22T18:04:03+08:00">2021-10-22</time>
+                <time title="修改时间：2022-01-25 17:11:50" itemprop="dateModified" datetime="2022-01-25T17:11:50+08:00">2022-01-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1143,48 +1013,14 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
 </li>
 </ul>
 <hr>
-<h2 id="2-核心思想"><a href="#2-核心思想" class="headerlink" title="2. 核心思想"></a>2. 核心思想</h2><p>SSL学习方法常使用伪标签作为未标注数据的标签，随着模型训练而产生的伪标签往往伴随着大量错误标注，很多算法因此设定了一个高而固定的阈值$\tau$，来选取那些置信度高的伪标签去计算无监督损失。高阈值可以有效地降低确认偏差(confirmation bias)，过滤有噪数据。但这种固定高阈值存在一定的问题。</p>
-<ul>
-<li><p>对于分类任务而言，<strong>不同的类别的学习难度是不同的，模型在某一时刻对各类的学习情况也是不同的。</strong>学的比较好的类，或是简单的类，置信度自然会比较高，就更容易被固定阈值选取。而那些困难的类别，或是当下学的不是很好的类，由于置信度会偏低，就不容易被选到。这样就会导致模型有点“偏科”。表现到模型上就是：<strong>对困难类别的拟合不会很好，导致困难类别的最终精度不会很高</strong>， 如图是FixMatch和FlexMatch的各类学习效果对比</p>
-<p><img src="/images/FlexMatch/image-20211022164122042.png" alt="image-20211022164122042"></p>
-<ul>
-<li><p>在训练的起步阶段，受随机初始化影响，模型很可能把数据都<strong>盲目地预测到一个类</strong>里面去并且信心很高。如果一个batch中，只选出了这样错误的高信心伪标签，就会把模型往一个错误的方向优化。同时，即便一些样本的预测是正确的，由于开始阶段普遍置信度偏低，导致每个batch的<strong>数据利用率不高</strong>（大部分被过滤掉了），也会导致收敛很慢。如图是FixMatch和FlexMatch的收敛速度对比。</p>
-<p><img src="/images/FlexMatch/image-20211022164131971.png" alt="image-20211022164131971"></p>
-</li>
-</ul>
-</li>
-</ul>
-<p>​        为了解决第一个问题，作者引入了课程学习的思想，把单独的固定阈值转化成了<strong>逐类的动态阈值，根据类别难度给每个类不同的阈值，且这些阈值可以随着模型的学习情况进行实时调整。<em>**</em></strong></p>
-<p>​       针对第二个问题，作者引入了阈值的warm-up。其思想是，前期由于置信度不是很可靠，我们并不完全根据置信度来选样本，而是让<strong>所有类的阈值逐渐从0开始上升</strong>，给所有样本一个被学习的机会，等模型逐渐稳定获得辨识能力后再恢复到设计的动态阈值，其思想类似学习率的warm-up，因此叫threshold warm-up。</p>
-<h2 id="3-细节"><a href="#3-细节" class="headerlink" title="3. 细节"></a>3. 细节</h2><p>各类的动态阈值是如何设计的呢？一个最简单的想法是通过类别准确率(class-wise accuracy)来确定。即：降低准确率更低的类的阈值，给这些类的数据更多被学习的机会，以让模型更好地拟合这些类。而对于准确率已经很高的类，就保持高阈值，以确保最终的精度。</p>
-<p><img src="/images/FlexMatch/image-20211022172533688.png" alt="image-20211022172533688"></p>
-<p>这是一个很理想的方法，但是却存在一些问题。这种方式需要一个<strong>额外的有标签的验证集</strong>来评价各类的准确率，这在半监督学习下是一笔昂贵的开销，因为我们的标记数据已经很少了。其次， 这种方式需要<strong>引入大量的额外计算</strong>，因为要想实时调整动态阈值，需要在每一步迭代后都做一个额外的前向传播来计算类别准确率。这会大幅降低算法速度。而CPL用了一种巧妙且简单的方法，使得既不需要额外验证集，也不引入额外计算，还不增加额外的超参数。</p>
-<p>​      从Figure 1中中左侧可以看到CPL考虑了所有的类的所有历史时刻的样本的置信度，对每个类会统计所有超过$\tau$的样本数量，其中 $\tau$ 就是前文提到的FixMatch中使用的固定高阈值，将统计出的数量作为学习效果预估(estimated learning effect)，并最终用其来调整动态阈值。这其中的关键假设是：<strong>当阈值足够高的时候，高于该阈值且落入类别c的样本个数可以大致反映类别c的学习效果</strong>。换句话说就是如果按FixMatch的算法来走，被选中样本越多的类学习效果就越好，反之亦然。这种设计的巧妙之处在于，FixMatch（UDA等算法同理)在训练的过程中就在选样本了，如果用他已经选出来的样本来调整动态阈值，那不就不需要额外的验证集，也不需要额外前向传播了吗。</p>
-<p><strong>具体步骤：</strong></p>
-<p><strong>Step1：学习效果预估</strong>， 如前文所述，这里$\sigma_t(c)$ 表示第<em>c</em>类在时刻$\tau$的预估学习效果，他其实就是在所有样本中对’高于固定阈值 $\tau$ ‘且’属于类别<em>c</em>的样本的一个计数*。</p>
-<p><img src="/images/FlexMatch/image-20211022173349048.png" alt="image-20211022173349048"></p>
-<p><strong>Step2：归一化。</strong> 由于预估学习效果是对样本的一个计数，他的大小会随数据集包含样本数而变，因此需要对其进行归一化使其范围在0到1之间。注意这里归一化分母不是所有类的统计的求和，而是取所有类预估学习效果中的最大值。这样做的特点是，学的最好的类的学习效果为1，进而在应用公式(7)后，其阈值变为 $\tau$ ，也是动态阈值的上限。</p>
-<p><img src="/images/FlexMatch/image-20211022173432576.png" alt="image-20211022173432576"></p>
-<p><strong>Step3：确定阈值？</strong> 这里的公式(7)其实已经可以作为最终的动态阈值了，然而作者又提出了两个tricks。</p>
-<p><strong>Step2+：阈值预热。</strong> 如前文所述，文中引入了阈值预热来解决前期高确认偏差的问题。</p>
-<p><img src="/images/FlexMatch/image-20211022173554481.png" alt="image-20211022173554481"></p>
-<p>公式(11)改写了归一化公式(6)的分母部分，“学习效果最大值”改为“学习效果最大值 和 尚未被选择过的样本数 二者的最大值”，其中 $N - \sum_{c} \sigma_t $</p>
-<p> 即表示目前尚未被高阈值选择过的样本数。前期，尚未被选择的样本数量占优，因此后项在起作用，随着大部分样本被选择过至少一次，前项起作用，公式(11)变得等价公式(7)。</p>
-<p><strong>Step3+：非线性映射。</strong> 相比于公式(7)那样的直接scale固定阈值，非线性映射使得阈值的调整可以更加自由，你可以设计任意形状的函数来实现从“归一化预估学习效果$\beta_t(c)$”到“最终动态阈值$M(\beta_t(c))$”的映射。其中，本文提到，凸函数可能更加有效，因为凸函数在自变量较小时因变量的变化不是很大，而在自变量大时比较敏感。这比较符合预估学习效果的变化特性，即：前期当其值较小时可能存在较大波动而后期其值变大后波动较小，且中后期多处于较高的范围内变化，因此需要对这部分更敏感。</p>
-<p><img src="/images/FlexMatch/image-20211022173825377.png" alt="image-20211022173825377"></p>
-<h2 id="4-实验结果"><a href="#4-实验结果" class="headerlink" title="4. 实验结果"></a>4. 实验结果</h2><p>FlexMatch 在CIFAR10/100、SVHN、STL-10和ImageNet等常用数据集上进行了实验，对比了包括FixMatch、UDA、ReMixmatch等最新最强的SSL算法。实验结果如下表所示。</p>
-<p><img src="/images/FlexMatch/image-20211022174103642.png" alt="image-20211022174103642"></p>
-<p>可以看到CPL在多数数据集上取得了很大的提升，除了SVHN上效果不如原版FixMatch，文中的解释是说，CPL不适合<strong>数据分布不平衡且又很简单的任务</strong>，对于简单的任务而言，一个固定的高阈值似乎已经足够了。在其他数据集上，可以发现，<strong>标记数据越少，CPL带来的提升越大。任务越难，CPL的提升越大</strong>。文章同样在ImageNet数据集上测试了算法的有效性，在$2^{20}$ 次迭代后，应用了CPL的FlexMatch的top-1准确率已经比FixMatch高出将近8%了。证明在困难任务上的提升还是比较可观的，ImageNet的数据不平衡度应该和SVHN差不多，但是效果却差了很多。</p>
-<h2 id="开源代码库TorchSSL"><a href="#开源代码库TorchSSL" class="headerlink" title="开源代码库TorchSSL"></a>开源代码库TorchSSL</h2><p>除此之外，本文开源了TorchSSL代码库，是第一个基于PyTorch的SSL算法库，目前已支持算法有：Pi-Model，MeanTeacher，Pseudo-Label，VAT，MixMatch，UDA，ReMixMatch，FixMatch，和我们的FlexMatch。</p>
-<h2 id="5-References"><a href="#5-References" class="headerlink" title="5. References"></a>5. References</h2><ul>
-<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/130244395">https://zhuanlan.zhihu.com/p/130244395</a></p>
-</li>
-<li><p>Dong-Hyun Lee et al. Pseudo-label: The simple and efficient semi-supervised learning methodfor deep neural networks. InWorkshop on challenges in representation learning, ICML,volume 3, 2013.</p>
-</li>
-<li>Qizhe Xie, Zihang Dai, Eduard Hovy, Thang Luong, and Quoc Le. Unsupervised data augmen-tation for consistency training.NeurIPS, 33, 2020.</li>
-<li>Kihyuk Sohn, David Berthelot, Nicholas Carlini, Zizhao Zhang, Han Zhang, Colin A Raf-fel, Ekin Dogus Cubuk, Alexey Kurakin, and Chun-Liang Li. Fixmatch: Simplifying semi-supervised learning with consistency and confidence.NeurIPS, 33, 2020.</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/10/20/FlexMatch/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1372,6 +1208,11 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wyukai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wyukai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
 
 
 
@@ -1393,15 +1234,13 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
 
 <div class="copyright">
   
-  &copy; 
+  &copy; 2018 – 
   <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">yukai</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div>
 
         
 
@@ -1430,6 +1269,8 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
 
 
 <script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
 
 
 

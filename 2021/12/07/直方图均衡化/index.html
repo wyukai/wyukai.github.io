@@ -17,22 +17,22 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yukai.tech","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"yukai.tech","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="阅读原文 直方图均衡化，可以对在不同的光线条件下拍摄不同的图片进行均衡化处理，使得这些图片具有大致相同的光照条件。因此，我们可以用在训练模型之前，对图像进行对预处理。 直方图均衡1. 直方图与对比度首先，我们看下面的图像：  左列为原图，我们在观看的时候，感受很差。为什么很差呢？因为前景(关键区域)与背景太相似，无法很好的得到前景的信息。这就是表明，这些图像的对比度小，视觉体验很差。 其中，对比度">
+  <meta name="description" content="阅读原文 直方图均衡化，可以对在不同的光线条件下拍摄不同的图片进行均衡化处理，使得这些图片具有大致相同的光照条件。因此，我们可以用在训练模型之前，对图像进行对预处理。 直方图均衡1. 直方图与对比度首先，我们看下面的图像：  左列为原图，我们在观看的时候，感受很差。为什么很差呢？因为前景(关键区域)与背景太相似，无法很好的得到前景的信息。这就是表明，这些图像的对比度小，视觉体验很差。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="直方图均衡化">
 <meta property="og:url" content="http://yukai.tech/2021/12/07/%E7%9B%B4%E6%96%B9%E5%9B%BE%E5%9D%87%E8%A1%A1%E5%8C%96/index.html">
 <meta property="og:site_name" content="Yukai&#39;s Blog">
-<meta property="og:description" content="阅读原文 直方图均衡化，可以对在不同的光线条件下拍摄不同的图片进行均衡化处理，使得这些图片具有大致相同的光照条件。因此，我们可以用在训练模型之前，对图像进行对预处理。 直方图均衡1. 直方图与对比度首先，我们看下面的图像：  左列为原图，我们在观看的时候，感受很差。为什么很差呢？因为前景(关键区域)与背景太相似，无法很好的得到前景的信息。这就是表明，这些图像的对比度小，视觉体验很差。 其中，对比度">
+<meta property="og:description" content="阅读原文 直方图均衡化，可以对在不同的光线条件下拍摄不同的图片进行均衡化处理，使得这些图片具有大致相同的光照条件。因此，我们可以用在训练模型之前，对图像进行对预处理。 直方图均衡1. 直方图与对比度首先，我们看下面的图像：  左列为原图，我们在观看的时候，感受很差。为什么很差呢？因为前景(关键区域)与背景太相似，无法很好的得到前景的信息。这就是表明，这些图像的对比度小，视觉体验很差。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yukai.tech/images/直方图均衡化/fa671e7e-51c5-4886-bae4-0f203dc5968c.png">
 <meta property="og:image" content="http://yukai.tech/images/直方图均衡化/d49b14ab-a6c6-4588-a9c5-8fe2d14f7d22.png">
 <meta property="og:image" content="http://yukai.tech/images/直方图均衡化/292f5124-29b1-405f-ba06-19b25dbff6d2.jpg">
 <meta property="og:image" content="http://yukai.tech/images/直方图均衡化/f9864061-b117-4891-b67e-aae1eb2bed01.png">
 <meta property="article:published_time" content="2021-12-07T10:37:16.000Z">
-<meta property="article:modified_time" content="2022-01-25T07:25:28.891Z">
+<meta property="article:modified_time" content="2022-01-25T09:10:30.541Z">
 <meta property="article:author" content="yukai">
 <meta property="article:tag" content="opencv">
 <meta name="twitter:card" content="summary">
@@ -157,6 +157,8 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 
     <main class="main">
@@ -201,7 +203,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 15:25:28" itemprop="dateModified" datetime="2022-01-25T15:25:28+08:00">2022-01-25</time>
+                <time title="修改时间：2022-01-25 17:10:30" itemprop="dateModified" datetime="2022-01-25T17:10:30+08:00">2022-01-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -245,6 +247,7 @@
 <h2 id="直方图均衡"><a href="#直方图均衡" class="headerlink" title="直方图均衡"></a>直方图均衡</h2><h3 id="1-直方图与对比度"><a href="#1-直方图与对比度" class="headerlink" title="1. 直方图与对比度"></a>1. 直方图与对比度</h3><p>首先，我们看下面的图像：</p>
 <p><img src="/images/直方图均衡化/fa671e7e-51c5-4886-bae4-0f203dc5968c.png" alt></p>
 <p>左列为原图，我们在观看的时候，感受很差。为什么很差呢？因为前景(关键区域)与背景太相似，无法很好的得到前景的信息。这就是表明，<strong>这些图像的对比度小，视觉体验很差</strong>。</p>
+<span id="more"></span>
 <p>其中，<strong>对比度是由两个相邻区域的亮度差异产生的</strong>。</p>
 <p>对比度是使一个物体与其他物体区别开来的视觉特性上的差异。在视觉感知中，对比度是由物体与其他物体的颜色和亮度差异决定的，而我们的视觉系统对对比度比对绝对亮度更敏感。那么，如何量化一个图像中的对比度呢？我们先了解下直方图。</p>
 <p>通过直方图我们可以看到各个灰度级的像素个数，即像素的分布情况。如果图像的大部分的像素都集中在直方图的某个范围，就表示图像中的大部分像素的灰度值差别很小，无法很好地进行分辨图像中的物体。</p>
@@ -407,6 +410,11 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wyukai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wyukai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
 
 
 
@@ -428,15 +436,13 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
 
 <div class="copyright">
   
-  &copy; 
+  &copy; 2018 – 
   <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">yukai</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div>
 
         
 
@@ -465,6 +471,8 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
 
 
 <script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
 
 
 

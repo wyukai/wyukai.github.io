@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yukai.tech","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"yukai.tech","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="CTPN文本检测算法不同于自然界的其他单独物体，例如行人，物品等，文本信息蕴含更多的序列信息，文本可以由”单个字符、字符的一部分、多个字符”组织成一个sequence，文本目标不像行人 或者物体这种普通目标具有独立，封闭的范围。所以在目标检测算法中融入循环神经网络（RNN, LSTM），利用上下文信息进行文本检测是一个不错的方法。 文本检测相较于一般的目标检测，主要有以下几种区别：  文本信息边界">
@@ -41,7 +41,7 @@
 <meta property="og:image" content="http://yukai.tech/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119165416880.png">
 <meta property="og:image" content="http://yukai.tech/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119165742503.png">
 <meta property="article:published_time" content="2022-01-19T06:24:07.000Z">
-<meta property="article:modified_time" content="2022-01-25T07:14:47.740Z">
+<meta property="article:modified_time" content="2022-01-25T09:12:23.709Z">
 <meta property="article:author" content="yukai">
 <meta property="article:tag" content="OCR">
 <meta name="twitter:card" content="summary">
@@ -166,6 +166,8 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 
     <main class="main">
@@ -210,7 +212,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 15:14:47" itemprop="dateModified" datetime="2022-01-25T15:14:47+08:00">2022-01-25</time>
+                <time title="修改时间：2022-01-25 17:12:23" itemprop="dateModified" datetime="2022-01-25T17:12:23+08:00">2022-01-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -250,6 +252,7 @@
 </ul>
 <p><img src="/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119144903230.png" alt="image-20220119144903230"></p>
 <p>上图展示了用Faster-RCNN网络和CTPN的检测效果，可以看到通用的目标检测算法的检测框会偏移较多，且对文本信息的边界定义比较模糊，而CTPN算法要准确的多。</p>
+<span id="more"></span>
 <p>CTPN的整体架构如下图所示：</p>
 <ul>
 <li>采用VGG-16作为检测网络的BackBone，下采样16倍后在Conv5之后提取空间特征信息，输出维度为B × W × H × C；</li>
@@ -453,6 +456,11 @@
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wyukai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wyukai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
 
 
 
@@ -474,15 +482,13 @@
 
 <div class="copyright">
   
-  &copy; 
+  &copy; 2018 – 
   <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">yukai</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div>
 
         
 
@@ -511,6 +517,8 @@
 
 
 <script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
 
 
 
