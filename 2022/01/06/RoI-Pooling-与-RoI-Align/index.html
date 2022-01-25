@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
@@ -17,34 +17,35 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"yukai.tech","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="1. RoIRoI(Region of Interest), 从原图中通过某些区域选择方法得到的候选区域。 量化（quantization）是指将输入连续值（或者大量可能的离散值）采样为有限多个离散值的过程。或者理解为，将输入数据集（如实数）约束到离散集（如整数）的过程。 RoI Pooling 和 RoI Align 均是将任意大小的特征图（输入），映射为固定尺寸的特征（输出）。 2. RoI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RoI Pooling, RoI Align, PS-RoI Pooling">
-<meta property="og:url" content="http://example.com/2022/01/06/RoI-Pooling-%E4%B8%8E-RoI-Align/index.html">
-<meta property="og:site_name" content="yukai">
+<meta property="og:url" content="http://yukai.tech/2022/01/06/RoI-Pooling-%E4%B8%8E-RoI-Align/index.html">
+<meta property="og:site_name" content="Yukai&#39;s Blog">
 <meta property="og:description" content="1. RoIRoI(Region of Interest), 从原图中通过某些区域选择方法得到的候选区域。 量化（quantization）是指将输入连续值（或者大量可能的离散值）采样为有限多个离散值的过程。或者理解为，将输入数据集（如实数）约束到离散集（如整数）的过程。 RoI Pooling 和 RoI Align 均是将任意大小的特征图（输入），映射为固定尺寸的特征（输出）。 2. RoI">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106102835274.png">
-<meta property="og:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106103613312.png">
-<meta property="og:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106105319288.png">
-<meta property="og:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106110344846.png">
-<meta property="og:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106110933568.png">
-<meta property="og:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106111115211.png">
-<meta property="og:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106111143717.png">
-<meta property="og:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106111213485.png">
-<meta property="og:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106112934397.png">
-<meta property="og:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106135532044.png">
-<meta property="og:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106142854108.png">
+<meta property="og:image" content="http://yukai.tech/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106102835274.png">
+<meta property="og:image" content="http://yukai.tech/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106103613312.png">
+<meta property="og:image" content="http://yukai.tech/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106105319288.png">
+<meta property="og:image" content="http://yukai.tech/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106110344846.png">
+<meta property="og:image" content="http://yukai.tech/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106110933568.png">
+<meta property="og:image" content="http://yukai.tech/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106111115211.png">
+<meta property="og:image" content="http://yukai.tech/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106111143717.png">
+<meta property="og:image" content="http://yukai.tech/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106111213485.png">
+<meta property="og:image" content="http://yukai.tech/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106112934397.png">
+<meta property="og:image" content="http://yukai.tech/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106135532044.png">
+<meta property="og:image" content="http://yukai.tech/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106142854108.png">
 <meta property="article:published_time" content="2022-01-06T02:21:38.000Z">
-<meta property="article:modified_time" content="2022-01-06T06:31:20.778Z">
-<meta property="article:author" content="wyukai">
+<meta property="article:modified_time" content="2022-01-25T07:17:25.388Z">
+<meta property="article:author" content="yukai">
+<meta property="article:tag" content="object detection">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/01/06/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106102835274.png">
+<meta name="twitter:image" content="http://yukai.tech/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106102835274.png">
 
-<link rel="canonical" href="http://example.com/2022/01/06/RoI-Pooling-%E4%B8%8E-RoI-Align/">
+<link rel="canonical" href="http://yukai.tech/2022/01/06/RoI-Pooling-%E4%B8%8E-RoI-Align/">
 
 
 <script id="page-configurations">
@@ -57,7 +58,7 @@
   };
 </script>
 
-  <title>RoI Pooling, RoI Align, PS-RoI Pooling | yukai</title>
+  <title>RoI Pooling, RoI Align, PS-RoI Pooling | Yukai's Blog</title>
   
 
 
@@ -108,7 +109,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">yukai</h1>
+      <h1 class="site-title">Yukai's Blog</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -177,16 +178,16 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/06/RoI-Pooling-%E4%B8%8E-RoI-Align/">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/01/06/RoI-Pooling-%E4%B8%8E-RoI-Align/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="wyukai">
-      <meta itemprop="description" content="do">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Bolg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="yukai">
+      <meta itemprop="name" content="Yukai's Blog">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -199,9 +200,32 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-01-06 10:21:38 / 修改时间：14:31:20" itemprop="dateCreated datePublished" datetime="2022-01-06T10:21:38+08:00">2022-01-06</time>
+              <time title="创建时间：2022-01-06 10:21:38" itemprop="dateCreated datePublished" datetime="2022-01-06T10:21:38+08:00">2022-01-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-25 15:17:25" itemprop="dateModified" datetime="2022-01-25T15:17:25+08:00">2022-01-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
+                </span>
             </span>
 
           
@@ -218,21 +242,21 @@
         <h3 id="1-RoI"><a href="#1-RoI" class="headerlink" title="1. RoI"></a>1. RoI</h3><p>RoI(Region of Interest), 从原图中通过某些区域选择方法得到的候选区域。</p>
 <p>量化（quantization）是指将输入连续值（或者大量可能的离散值）采样为有限多个离散值的过程。或者理解为，将输入数据集（如实数）约束到离散集（如整数）的过程。</p>
 <p>RoI Pooling 和 RoI Align 均是将任意大小的特征图（输入），映射为固定尺寸的特征（输出）。</p>
-<h3 id="2-RoI-Pooling"><a href="#2-RoI-Pooling" class="headerlink" title="2. RoI Pooling"></a>2. RoI Pooling</h3><p><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106102835274.png" alt="image-20220106102835274" style="zoom:50%;" /></p>
+<h3 id="2-RoI-Pooling"><a href="#2-RoI-Pooling" class="headerlink" title="2. RoI Pooling"></a>2. RoI Pooling</h3><p><img src="/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106102835274.png" alt="image-20220106102835274" style="zoom:50%;"></p>
 <p>RoI Pooling的作用本质上是为了将不同尺寸的RoI特征转换为相同的特征图输出，保证特征图展开（flatten）后具有相同的大小尺寸，能够与下层的全连接层连接，分别执行线性分类(linear classifier)和边框回归(bounding box regressor)</p>
 <ul>
 <li><p>1 将RoI 对齐到特征图的网格单元（snap to grid cell）</p>
 <p>首先将特征图上的浮点数RoI（举例 ： 665 <em> 665 —&gt; 665/32=20.78 —&gt;  20.78 </em> 20.78 —&gt; 20 <em> 20）进行量化。下图中绿色框为RoI对应的实际区域（<em>*由于经过特征尺度变换，导致RoI的坐标会可能会落到特征图的单元之间</em></em>）， 蓝色框代表量化(网格对齐)后的RoI所对应的特征图。</p>
 </li>
 </ul>
-<p><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106103613312.png" alt="image-20220106103613312" style="zoom:50%;" /></p>
-<p><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106105319288.png" alt="image-20220106105319288" style="zoom:67%;" /></p>
+<p><img src="/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106103613312.png" alt="image-20220106103613312" style="zoom:50%;"></p>
+<p><img src="/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106105319288.png" alt="image-20220106105319288" style="zoom:67%;"></p>
 <ul>
 <li><p>2 划分网格为子区域</p>
 <p>将上一步得到的量化RoI 特征进一步细分为量化的空间单元(bin)。为了得到输出的特征图为 2 <em> 2 </em> 512 ，这里的量化操作就是将上一步的到量化特征图划分为2 <em> 2个特征单元。如果无法通过直接均分得到量化的子区域，通过分别采取向上取整（ceil）和向下取整（floor）的到对应的单元尺寸大小。以当前 4 </em> 5 尺寸的特征图为例，对于宽度方向 4 / 2 = 2， 对于高度方向 5 /  2 = 2.5)， 通过向上和向下取整整，确定高度方向特征子区域的大小分别为2和3。</p>
 </li>
 </ul>
-<p><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106110344846.png" alt="image-20220106110344846" style="zoom: 67%;" /></p>
+<p><img src="/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106110344846.png" alt="image-20220106110344846" style="zoom: 67%;"></p>
 <ul>
 <li>3 子区域最大池化</li>
 </ul>
@@ -243,34 +267,34 @@
 <ul>
 <li>1 遍历候选每个候选区域，保持浮点数边界不做量化（不对齐网格单元）；同时平均分网格分为 2 * 2个子网格区域，每个单元的边界也不做量化。</li>
 </ul>
-<p><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106110933568.png" alt="image-20220106110933568" style="zoom:67%;" /></p>
+<p><img src="/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106110933568.png" alt="image-20220106110933568" style="zoom:67%;"></p>
 <ul>
 <li><p>2 对于每个区域选择4个规则采样点（分别对应将区域进一步平均分为四个区域，取每个子区域的中点)。</p>
-<p><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106111115211.png" alt="image-20220106111115211" style="zoom:67%;" /></p>
+<p><img src="/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106111115211.png" alt="image-20220106111115211" style="zoom:67%;"></p>
 </li>
 <li><p>3 利用双线性插值计算得到四个采用点的像素值大小。下图为一个规则采样点所对应的邻近区域示意图。</p>
 </li>
 </ul>
-<p><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106111143717.png" alt="image-20220106111143717" style="zoom:67%;" /></p>
+<p><img src="/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106111143717.png" alt="image-20220106111143717" style="zoom:67%;"></p>
 <ul>
 <li>4 利用最大池化（max pooling）或平均池化(average pooling)分别对每个子区域执行聚合操作，得到最终的特征图。</li>
 </ul>
-<p><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106111213485.png" alt="image-20220106111213485" style="zoom:67%;" /></p>
+<p><img src="/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106111213485.png" alt="image-20220106111213485" style="zoom:67%;"></p>
 <p>下图 绿色表示ROI区域额外信息， 蓝色(第一次量化)和天蓝色(第二次量化)表示丢失信息</p>
-<p><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106112934397.png" alt="image-20220106112934397" style="zoom:80%;" /></p>
+<p><img src="/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106112934397.png" alt="image-20220106112934397" style="zoom:80%;"></p>
 <h3 id="4-PS-RoI-Pooling"><a href="#4-PS-RoI-Pooling" class="headerlink" title="4. PS-RoI Pooling"></a>4. PS-RoI Pooling</h3><p>位置敏感池化，RFCN引入位置敏感池化，主要基于以下两方面原因</p>
 <ol>
 <li>引入位置敏感，卷积可以保持位置信息，但是经过全连接后，位置信息不在保留。</li>
 <li>对于region-based方法，通常会分为几个sub-network, 一是提取图像特征的主干网络，与region无关，各region共享，计算量大。二是生成候选区域的RPN网络，三是用来分类和回归的prediction网络， 每个region会单独执行这部分sub-network。而RFCN将计算量大卷积尽可能地移到共享的主干网络中，最后仅使用一层卷积做prediction，减少了计算量。</li>
 </ol>
 <p>为了实现位置敏感就提出PS-ROI Pooling，核心思想是position sensitive score map。<br>把位置信息以层的形式就组成position sensitive score maps，进行一次卷积就计算了多个ROI的最终输出(固定长度)。</p>
-<p><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106135532044.png" alt="image-20220106135532044" style="zoom:80%;" /></p>
+<p><img src="/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106135532044.png" alt="image-20220106135532044" style="zoom:80%;"></p>
 <ul>
 <li>首先，在共享特征图之后添加1 <em> 1 </em> k^2(c+1)维的卷积形成位置敏感特征图，然后在位置敏感特征图上进行PS-RoI Pooling。 k^2代表的是RoI中划分的位置区域数目。比如k=3, 即代表上左（左上角），上中，上右，中左，中中，中右，下左，下中，下右（右下角）共9个子区域。 c+1 代表所有类别加上背景。 k^2(c+1)张特征图每c+1张分成一组，共包含k^2组，每一组负责其对应区域的响应，如上图所示。</li>
 <li>然后进行PS-RoI Pooling，对位置敏感特征图上的RoI区域划分子区域（k^2）, 每个对应位置（c+1）内进行全局平均池化， 最后获得一组（c+1）* k^2的投票矩阵。</li>
 <li>最后，每个类对应有9个位置的投票值，这9个值求和，就是这个类的概率。</li>
 </ul>
-<h3 id="5-RoI-Align的反向传播"><a href="#5-RoI-Align的反向传播" class="headerlink" title="5. RoI Align的反向传播"></a>5. RoI Align的反向传播</h3><p>和ROI Pooling核心思想是一样的，但是在ROI Align中，i ∗ ( r , j )是一个浮点数的坐标位置(前向传播时计算出来的采样点)，在池化前的特征图中，每一个与 i ∗ ( r , j ) 横纵坐标均小于1的点都应该接受与此对应的点y(r，j)回传的梯度，故ROI Align 的反向传播公式如下:<br><img src="../images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106142854108.png" alt="image-20220106142854108"></p>
+<h3 id="5-RoI-Align的反向传播"><a href="#5-RoI-Align的反向传播" class="headerlink" title="5. RoI Align的反向传播"></a>5. RoI Align的反向传播</h3><p>和ROI Pooling核心思想是一样的，但是在ROI Align中，i ∗ ( r , j )是一个浮点数的坐标位置(前向传播时计算出来的采样点)，在池化前的特征图中，每一个与 i ∗ ( r , j ) 横纵坐标均小于1的点都应该接受与此对应的点y(r，j)回传的梯度，故ROI Align 的反向传播公式如下:<br><img src="/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106142854108.png" alt="image-20220106142854108"></p>
 <p>上式中，d(.)表示两点之间的距离，Δ h 和Δ w 表示 i 与 i ∗ ( r , j )横纵坐标的差值，这里作为双线性内插的系数乘在原始的梯度上。</p>
 <h3 id="6-Reference"><a href="#6-Reference" class="headerlink" title="6 . Reference"></a>6 . Reference</h3><ol>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/161540817">https://zhuanlan.zhihu.com/p/161540817</a></li>
@@ -284,6 +308,9 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/object-detection/" rel="tag"># object detection</a>
+          </div>
 
         
 
@@ -362,8 +389,10 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">wyukai</p>
-  <div class="site-description" itemprop="description">do</div>
+    <img class="site-author-image" itemprop="image" alt="yukai"
+      src="/images/icon.jpg">
+  <p class="site-author-name" itemprop="name">yukai</p>
+  <div class="site-description" itemprop="description">yukai的Bolg</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -377,13 +406,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -414,7 +443,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">wyukai</span>
+  <span class="author" itemprop="copyrightHolder">yukai</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>

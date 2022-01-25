@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
@@ -17,36 +17,37 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"yukai.tech","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="CTPN文本检测算法不同于自然界的其他单独物体，例如行人，物品等，文本信息蕴含更多的序列信息，文本可以由”单个字符、字符的一部分、多个字符”组织成一个sequence，文本目标不像行人 或者物体这种普通目标具有独立，封闭的范围。所以在目标检测算法中融入循环神经网络（RNN, LSTM），利用上下文信息进行文本检测是一个不错的方法。 文本检测相较于一般的目标检测，主要有以下几种区别：  文本信息边界">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OCR-CTPN算法随记">
-<meta property="og:url" content="http://example.com/2022/01/19/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/index.html">
-<meta property="og:site_name" content="yukai">
+<meta property="og:url" content="http://yukai.tech/2022/01/19/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Yukai&#39;s Blog">
 <meta property="og:description" content="CTPN文本检测算法不同于自然界的其他单独物体，例如行人，物品等，文本信息蕴含更多的序列信息，文本可以由”单个字符、字符的一部分、多个字符”组织成一个sequence，文本目标不像行人 或者物体这种普通目标具有独立，封闭的范围。所以在目标检测算法中融入循环神经网络（RNN, LSTM），利用上下文信息进行文本检测是一个不错的方法。 文本检测相较于一般的目标检测，主要有以下几种区别：  文本信息边界">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/01/19/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119144903230.png">
-<meta property="og:image" content="http://example.com/2022/01/19/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/equation.svg+xml">
-<meta property="og:image" content="http://example.com/2022/01/19/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119144559264.png">
-<meta property="og:image" content="http://example.com/2022/01/19/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119155253540.png">
-<meta property="og:image" content="http://example.com/2022/01/19/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119151722196.png">
-<meta property="og:image" content="http://example.com/2022/01/19/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119163202430.png">
-<meta property="og:image" content="http://example.com/2022/01/19/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119152255022.png">
-<meta property="og:image" content="http://example.com/2022/01/19/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119152533923.png">
-<meta property="og:image" content="http://example.com/2022/01/19/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119155746789.png">
-<meta property="og:image" content="http://example.com/2022/01/19/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119160052651.png">
-<meta property="og:image" content="http://example.com/2022/01/19/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119163644749.png">
-<meta property="og:image" content="http://example.com/2022/01/19/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119165416880.png">
-<meta property="og:image" content="http://example.com/2022/01/19/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119165742503.png">
+<meta property="og:image" content="http://yukai.tech/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119144903230.png">
+<meta property="og:image" content="http://yukai.tech/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/equation.svg+xml">
+<meta property="og:image" content="http://yukai.tech/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119144559264.png">
+<meta property="og:image" content="http://yukai.tech/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119155253540.png">
+<meta property="og:image" content="http://yukai.tech/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119151722196.png">
+<meta property="og:image" content="http://yukai.tech/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119163202430.png">
+<meta property="og:image" content="http://yukai.tech/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119152255022.png">
+<meta property="og:image" content="http://yukai.tech/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119152533923.png">
+<meta property="og:image" content="http://yukai.tech/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119155746789.png">
+<meta property="og:image" content="http://yukai.tech/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119160052651.png">
+<meta property="og:image" content="http://yukai.tech/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119163644749.png">
+<meta property="og:image" content="http://yukai.tech/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119165416880.png">
+<meta property="og:image" content="http://yukai.tech/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119165742503.png">
 <meta property="article:published_time" content="2022-01-19T06:24:07.000Z">
-<meta property="article:modified_time" content="2022-01-20T01:45:39.586Z">
-<meta property="article:author" content="wyukai">
+<meta property="article:modified_time" content="2022-01-25T07:14:47.740Z">
+<meta property="article:author" content="yukai">
+<meta property="article:tag" content="OCR">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/01/19/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119144903230.png">
+<meta name="twitter:image" content="http://yukai.tech/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119144903230.png">
 
-<link rel="canonical" href="http://example.com/2022/01/19/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/">
+<link rel="canonical" href="http://yukai.tech/2022/01/19/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/">
 
 
 <script id="page-configurations">
@@ -59,7 +60,7 @@
   };
 </script>
 
-  <title>OCR-CTPN算法随记 | yukai</title>
+  <title>OCR-CTPN算法随记 | Yukai's Blog</title>
   
 
 
@@ -110,7 +111,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">yukai</h1>
+      <h1 class="site-title">Yukai's Blog</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -179,16 +180,16 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/19/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/01/19/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="wyukai">
-      <meta itemprop="description" content="do">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Bolg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="yukai">
+      <meta itemprop="name" content="Yukai's Blog">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -209,8 +210,25 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-20 09:45:39" itemprop="dateModified" datetime="2022-01-20T09:45:39+08:00">2022-01-20</time>
+                <time title="修改时间：2022-01-25 15:14:47" itemprop="dateModified" datetime="2022-01-25T15:14:47+08:00">2022-01-25</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
+                </span>
+            </span>
 
           
 
@@ -230,7 +248,7 @@
 <li>文本信息蕴含序列特征，上下文的序列信息有助于文本检测。</li>
 <li>文本行的长度变化范围较大，相比如普通物体的尺度信息，普通检测算法难以生成质量好的Region Proposal(或者称为 Text Proposal)。</li>
 </ul>
-<p><img src="../images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119144903230.png" alt="image-20220119144903230"></p>
+<p><img src="/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119144903230.png" alt="image-20220119144903230"></p>
 <p>上图展示了用Faster-RCNN网络和CTPN的检测效果，可以看到通用的目标检测算法的检测框会偏移较多，且对文本信息的边界定义比较模糊，而CTPN算法要准确的多。</p>
 <p>CTPN的整体架构如下图所示：</p>
 <ul>
@@ -238,18 +256,18 @@
 <li>在Conv5的特征图上进行3x3xC的卷积，输出维度仍为B × W × H × C，这一步中的每一个特征点都融合了周围3 × 3的信息。（原始论文中采用的caffe的img2col进行特征的Reshape，这里采用3x3xC卷积代替，pytorch/tensorflow框架下的实现）。</li>
 <li>接着将B × W × H × C维度的特征Reshape为(BH) × W × C的特征，然后作为双向LSTM的输入提取每一行的的序列特征，最后输出特征维度为(BH) × W × 256，然后Reshape至B x 256 x H x W。</li>
 <li>经过FC，输出B x H x W x 512。</li>
-<li>N × H × W × 512 最后会经过一个类似RPN的网络，分成三个预测支路：如上图所示，其中一个分支输出N × H × W × 2k，这里的k指的是每个像素对应k个anchor，这里的2K指的是对某一个anchor的预测<script type="math/tex">v = [{v_c},{v_h}]</script>；第二个分支输出N × H × W × 2k，这里的2K指的是2K个前景背景得分，记做。最后一个分支输出N × H × W × k，这里是K个side-refinement，预测某个anchor预测<img src="../images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/equation.svg+xml" alt="[公式]"></li>
+<li>N × H × W × 512 最后会经过一个类似RPN的网络，分成三个预测支路：如上图所示，其中一个分支输出N × H × W × 2k，这里的k指的是每个像素对应k个anchor，这里的2K指的是对某一个anchor的预测<script type="math/tex">v = [{v_c},{v_h}]</script>；第二个分支输出N × H × W × 2k，这里的2K指的是2K个前景背景得分，记做。最后一个分支输出N × H × W × k，这里是K个side-refinement，预测某个anchor预测<img src="/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/equation.svg+xml" alt="[公式]"></li>
 <li>RPN之后会输出类似下图b中的text proposal, 然后适用NMS进行过滤。</li>
 <li>后处理，使用文本线构造方法合成一个完成的文本行，同时矫正倾斜的情况。</li>
 </ul>
-<p><img src="../images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119144559264.png" alt="image-20220119144559264"></p>
+<p><img src="/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119144559264.png" alt="image-20220119144559264"></p>
 <h3 id="双向LSTM"><a href="#双向LSTM" class="headerlink" title="双向LSTM"></a>双向LSTM</h3><p>VGG16提取的是空间特征，而LSTM学习的就是序列特征，而这里使用的是双向LSTM，更好的避免RNN当中的遗忘问题，更完整地提取出序列特征。</p>
-<p><img src="../images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119155253540.png" alt="image-20220119155253540"></p>
+<p><img src="/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119155253540.png" alt="image-20220119155253540"></p>
 <h3 id="Text-Proposal生成"><a href="#Text-Proposal生成" class="headerlink" title="Text Proposal生成"></a>Text Proposal生成</h3><p>文本长度的剧烈变化是文本检测的挑战之一，作者认为文本在长度的变化比高度的变化剧烈得多，文本边界开始与结束的地方难以和Faster-rcnn一样去用anchor匹配回归，所以作者提出一种<strong>vertical anchor</strong>的方法，即<strong>我们只去预测文本的竖直方向上的位置，不去预测水平方向的位置，水平位置的确定只需要我们检测一个一个小的固定宽度的文本段，将他们对应的高度预测准确，最后再将他们连接在一起，就得到了我们的文本行</strong>，如下图所示：</p>
-<p><img src="../images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119151722196.png" alt="image-20220119151722196"></p>
+<p><img src="/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119151722196.png" alt="image-20220119151722196"></p>
 <p>对于每个像素点设置的anchor的宽度都是固定的，为16像素（原图），对应到特征图上就为1个像素（下采用了16倍）。而高度则是从11到273变化，这里我们每个像素点取k=10个anchor。</p>
-<p><img src="../images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119163202430.png" alt="image-20220119163202430"></p>
-<p><img src="../images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119152255022.png" alt="image-20220119152255022" style="zoom:67%;" /></p>
+<p><img src="/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119163202430.png" alt="image-20220119163202430"></p>
+<p><img src="/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119152255022.png" alt="image-20220119152255022" style="zoom:67%;"></p>
 <p>这样设置Anchors是为了：</p>
 <ol>
 <li>保证在 x方向上，Anchor覆盖原图每个点且不相互重叠。</li>
@@ -261,16 +279,16 @@
 <li>Bounding box regression修正包含文本的Anchor的<strong>中心y坐标</strong>与<strong>高度</strong>。</li>
 </ol>
 <p>因为宽度是固定的，所以只需要anchor的中心的y坐标以及anchor的高度就可以确定一个anchor，其中带星号的为ground-truth，没有带星号的则是预测值，带a的则是对应anchor的值。</p>
-<p><img src="../images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119152533923.png" alt="image-20220119152533923"></p>
+<p><img src="/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119152533923.png" alt="image-20220119152533923"></p>
 <h3 id="RPN层"><a href="#RPN层" class="headerlink" title="RPN层"></a>RPN层</h3><p>CTPN的RPN层和Faster R-CNN很像，</p>
 <p>第一个分支输出的是anchor的位置，也就是anchor的两个参数，因为每个特征点配置10个anchor，所以这个分支的输出20个channel。</p>
 <p>第二个分支则是输出前景背景的得分情况(text/non-text scores)，通过softmax计算得分，所以这里也是输出20个channel。</p>
 <p>第三个分支则是输出最后水平精修side-refinement的比例o，这是由于每个anchor的宽是一定的，所以有时候会导致水平方向有一点不准，所以这时候就需要校准一下检测框。</p>
-<p><img src="../images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119155746789.png" alt="image-20220119155746789"></p>
+<p><img src="/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119155746789.png" alt="image-20220119155746789"></p>
 <p>Xside标识检测框的左边界或者右边界，Cx 表示anchor中心的横坐标。Wa是anchor固定的宽度16个像素。可以把这个o理解为一个缩放的比例，来对最后的结果做一个准确的拉伸，下面这张图中红色的就是使用了side-refinement，黄色的则是没有使用的结果。</p>
-<p><img src="../images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119160052651.png" alt="image-20220119160052651" style="zoom:67%;" /></p>
+<p><img src="/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119160052651.png" alt="image-20220119160052651" style="zoom:67%;"></p>
 <h3 id="文本线构造方法"><a href="#文本线构造方法" class="headerlink" title="文本线构造方法"></a>文本线构造方法</h3><p>经过RPN之后生成一串或者多串text proposal , 然后用文本线构造办法，把这些text proposal连接成一个文本检测框。</p>
-<p><img src="../images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119163644749.png" alt="image-20220119163644749" style="zoom: 67%;" /></p>
+<p><img src="/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119163644749.png" alt="image-20220119163644749" style="zoom: 67%;"></p>
 <p>为了说明问题，假设某张图有上图所示的2个text proposal，即蓝色和红色2组Anchor，CTPN采用如下算法构造文本线：</p>
 <ol>
 <li>按照水平 x 坐标排序Anchor</li>
@@ -306,13 +324,13 @@
 </ul>
 </li>
 </ul>
-<p><img src="../images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119165416880.png" alt="image-20220119165416880"></p>
+<p><img src="/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119165416880.png" alt="image-20220119165416880"></p>
 <h3 id="Loss"><a href="#Loss" class="headerlink" title="Loss"></a>Loss</h3><p>CTPN的损失函数如下图，分为三个部分：</p>
 <p>(1) LS：每个anchor是否是正样本的classification loss</p>
 <p>(2) Lv:每个anchor的中心y坐标和高度loss</p>
 <p>(3) L0:文本区域两侧精修的x损失</p>
 <p>和Faster-RCNN一样，以上的loss都采用smooth L1 loss。</p>
-<p><img src="../images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119165742503.png" alt="image-20220119165742503"></p>
+<p><img src="/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119165742503.png" alt="image-20220119165742503"></p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/137540923">https://zhuanlan.zhihu.com/p/137540923</a></li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34757009">https://zhuanlan.zhihu.com/p/34757009</a></li>
@@ -326,6 +344,9 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OCR/" rel="tag"># OCR</a>
+          </div>
 
         
 
@@ -404,8 +425,10 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">wyukai</p>
-  <div class="site-description" itemprop="description">do</div>
+    <img class="site-author-image" itemprop="image" alt="yukai"
+      src="/images/icon.jpg">
+  <p class="site-author-name" itemprop="name">yukai</p>
+  <div class="site-description" itemprop="description">yukai的Bolg</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -419,13 +442,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -456,7 +479,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">wyukai</span>
+  <span class="author" itemprop="copyrightHolder">yukai</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
@@ -17,27 +17,28 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"yukai.tech","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="自适应图片缩放按照以往的经验，目标检测算法在训练和推理阶段都会resize到统一的图像尺寸，YOLOv5在推理阶段采用了自适应的图片缩放trick。  在YOLOv5 官方github下有这样一段解释，采用32整数倍的矩形框推理要比resize到等长宽的正方形进行推理的时间减少很多（416 ,416)-&gt;(256 , 416）。 训练阶段假设原图尺寸为（523， 699） （1） 计算长边缩">
 <meta property="og:type" content="article">
 <meta property="og:title" content="YOLOv5 自适应图片缩放">
-<meta property="og:url" content="http://example.com/2021/12/21/letterbox/index.html">
-<meta property="og:site_name" content="yukai">
+<meta property="og:url" content="http://yukai.tech/2021/12/21/letterbox/index.html">
+<meta property="og:site_name" content="Yukai&#39;s Blog">
 <meta property="og:description" content="自适应图片缩放按照以往的经验，目标检测算法在训练和推理阶段都会resize到统一的图像尺寸，YOLOv5在推理阶段采用了自适应的图片缩放trick。  在YOLOv5 官方github下有这样一段解释，采用32整数倍的矩形框推理要比resize到等长宽的正方形进行推理的时间减少很多（416 ,416)-&gt;(256 , 416）。 训练阶段假设原图尺寸为（523， 699） （1） 计算长边缩">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2021/12/21/images/letterbox/format,png.png">
-<meta property="og:image" content="http://example.com/2021/12/21/images/letterbox/image-20211221174250645.png">
-<meta property="og:image" content="http://example.com/2021/12/21/images/letterbox/new-16400798041612.jpg">
-<meta property="og:image" content="http://example.com/2021/12/21/images/letterbox/new-16400808257133.jpg">
+<meta property="og:image" content="http://yukai.tech/images/letterbox/format,png.png">
+<meta property="og:image" content="http://yukai.tech/images/letterbox/image-20211221174250645.png">
+<meta property="og:image" content="http://yukai.tech/images/letterbox/new-16400798041612.jpg">
+<meta property="og:image" content="http://yukai.tech/images/letterbox/new-16400808257133.jpg">
 <meta property="article:published_time" content="2021-12-21T06:32:38.000Z">
-<meta property="article:modified_time" content="2021-12-28T08:06:14.055Z">
-<meta property="article:author" content="wyukai">
+<meta property="article:modified_time" content="2022-01-25T07:16:08.226Z">
+<meta property="article:author" content="yukai">
+<meta property="article:tag" content="object detection">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2021/12/21/images/letterbox/format,png.png">
+<meta name="twitter:image" content="http://yukai.tech/images/letterbox/format,png.png">
 
-<link rel="canonical" href="http://example.com/2021/12/21/letterbox/">
+<link rel="canonical" href="http://yukai.tech/2021/12/21/letterbox/">
 
 
 <script id="page-configurations">
@@ -50,7 +51,7 @@
   };
 </script>
 
-  <title>YOLOv5 自适应图片缩放 | yukai</title>
+  <title>YOLOv5 自适应图片缩放 | Yukai's Blog</title>
   
 
 
@@ -101,7 +102,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">yukai</h1>
+      <h1 class="site-title">Yukai's Blog</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -170,16 +171,16 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/21/letterbox/">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/12/21/letterbox/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="wyukai">
-      <meta itemprop="description" content="do">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Bolg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="yukai">
+      <meta itemprop="name" content="Yukai's Blog">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -200,8 +201,25 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-28 16:06:14" itemprop="dateModified" datetime="2021-12-28T16:06:14+08:00">2021-12-28</time>
+                <time title="修改时间：2022-01-25 15:16:08" itemprop="dateModified" datetime="2022-01-25T15:16:08+08:00">2022-01-25</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
+                </span>
+            </span>
 
           
 
@@ -215,21 +233,21 @@
 
       
         <h3 id="自适应图片缩放"><a href="#自适应图片缩放" class="headerlink" title="自适应图片缩放"></a>自适应图片缩放</h3><p>按照以往的经验，目标检测算法在训练和推理阶段都会resize到统一的图像尺寸，YOLOv5在推理阶段采用了自适应的图片缩放trick。</p>
-<p><img src="../images/letterbox/format,png.png" alt="img"></p>
+<p><img src="/images/letterbox/format,png.png" alt="img"></p>
 <p>在YOLOv5 官方github下有这样一段解释，采用32整数倍的矩形框推理要比resize到等长宽的正方形进行推理的时间减少很多（416 ,416)-&gt;(256 , 416）。</p>
 <h3 id="训练阶段"><a href="#训练阶段" class="headerlink" title="训练阶段"></a>训练阶段</h3><p>假设原图尺寸为（523， 699）</p>
 <p>（1） 计算长边缩放比例 r = 416 / 699 = 0.5951</p>
 <p>（2）将原图等比例缩放 (523，699) —&gt;&gt;  (311, 416)</p>
-<p><img src="../images/letterbox/image-20211221174250645.png" alt="image-20211221174250645"></p>
+<p><img src="/images/letterbox/image-20211221174250645.png" alt="image-20211221174250645"></p>
 <p>（3） 填充为（416，416），H侧上下需要填充的大小 pad = (416 - 311) / 2 = 52.5</p>
-<p><img src="../images/letterbox/new-16400798041612.jpg" alt="new"></p>
+<p><img src="/images/letterbox/new-16400798041612.jpg" alt="new"></p>
 <h3 id="推理阶段"><a href="#推理阶段" class="headerlink" title="推理阶段"></a>推理阶段</h3><p>（1） 计算长边缩放比例 r = 416 / 699 = 0.5951</p>
 <p>（2）将原图等比例缩放 (523，699) —&gt;&gt;  (311, 416)</p>
 <p>（3）原始输入图像缩放后的分辨率（设定为32的倍数）： np.ceil(0.5951 x 523 / 32) x 32,   np.ceil(1 x 699 / 32) x 32 =  (320,416)</p>
 <p>（4）计算需要的padding,   宽 padding = (416 - 416) / 2 = 0,     高padding  =  (320 -  311) / 2 = 4.5  (top  4 ,   bottom 5) </p>
 <p>（5）填充像素值  （144，144，144）灰色像素</p>
 <p>所以推理阶段的分辨率为（320，416）， 在保证图像不失真的情况下，可以显著减少计算量，加快推理速度。</p>
-<p><img src="../images/letterbox/new-16400808257133.jpg" alt="new"></p>
+<p><img src="/images/letterbox/new-16400808257133.jpg" alt="new"></p>
 <h3 id="code"><a href="#code" class="headerlink" title="code"></a>code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2 <span class="keyword">as</span> cv</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">letterbox</span>(<span class="params">im, new_shape, color=(<span class="params"><span class="number">140</span>,<span class="number">140</span>,<span class="number">140</span></span>), stride=<span class="number">32</span>, auto=<span class="literal">True</span></span>):</span></span><br><span class="line">    shape = im.shape[:<span class="number">2</span>] <span class="comment"># current shape [height, width]</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># calculate scale ratio r</span></span><br><span class="line">    r = <span class="built_in">min</span>(new_shape[<span class="number">0</span>] / shape[<span class="number">0</span>], new_shape[<span class="number">1</span>] / shape[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># compute padding   new_unpad : [w, h]</span></span><br><span class="line">    new_unpad = <span class="built_in">int</span>(<span class="built_in">round</span>(shape[<span class="number">1</span>] * r)), <span class="built_in">int</span>(<span class="built_in">round</span>(shape[<span class="number">0</span>] * r))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;new_unpad::&#x27;</span>,new_unpad)</span><br><span class="line">    dw = new_shape[<span class="number">1</span>] - new_unpad[<span class="number">0</span>]</span><br><span class="line">    dh = new_shape[<span class="number">0</span>] - new_unpad[<span class="number">1</span>]</span><br><span class="line">   </span><br><span class="line">    <span class="comment"># minimum rectangle</span></span><br><span class="line">    <span class="keyword">if</span> auto:</span><br><span class="line">        dw = np.mod(dw, stride)</span><br><span class="line">        dh = np.mod(dh, stride)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># dw dh for every side</span></span><br><span class="line">    dw /= <span class="number">2</span></span><br><span class="line">    dh /= <span class="number">2</span></span><br><span class="line">    </span><br><span class="line">   </span><br><span class="line">    <span class="keyword">if</span> shape[::-<span class="number">1</span>] != new_unpad: </span><br><span class="line">        im = cv.resize(im, new_unpad, interpolation=cv.INTER_LINEAR)</span><br><span class="line">    <span class="comment"># padding   if dw &lt; 1： dw = 0</span></span><br><span class="line">    top, bottom = <span class="built_in">int</span>(<span class="built_in">round</span>(dh - <span class="number">0.1</span>)), <span class="built_in">int</span>(<span class="built_in">round</span>(dh + <span class="number">0.1</span>))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;top&#x27;</span>,top, bottom)</span><br><span class="line">    left, right = <span class="built_in">int</span>(<span class="built_in">round</span>(dw - <span class="number">0.1</span>)), <span class="built_in">int</span>(<span class="built_in">round</span>(dw + <span class="number">0</span>,<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    im = cv.copyMakeBorder(im, top,bottom,left,right, cv.BORDER_CONSTANT, value=color)</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(im.shape)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> im, r, (dw, dh)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    img_path = <span class="string">&quot;D:\\person\\py_code\\list\\R-C.png&quot;</span></span><br><span class="line">    img = cv.imread(img_path)</span><br><span class="line"></span><br><span class="line">    im, r, _ = letterbox(img, (<span class="number">416</span>,<span class="number">416</span>))</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(r)</span><br><span class="line">    cv.imwrite(<span class="string">&#x27;D:\\person\\py_code\\list\\new.jpg&#x27;</span>, im)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
     </div>
@@ -239,6 +257,9 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/object-detection/" rel="tag"># object detection</a>
+          </div>
 
         
 
@@ -317,8 +338,10 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">wyukai</p>
-  <div class="site-description" itemprop="description">do</div>
+    <img class="site-author-image" itemprop="image" alt="yukai"
+      src="/images/icon.jpg">
+  <p class="site-author-name" itemprop="name">yukai</p>
+  <div class="site-description" itemprop="description">yukai的Bolg</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -332,13 +355,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -369,7 +392,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">wyukai</span>
+  <span class="author" itemprop="copyrightHolder">yukai</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>

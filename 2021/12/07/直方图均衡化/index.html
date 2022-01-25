@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
@@ -17,27 +17,28 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"yukai.tech","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="阅读原文 直方图均衡化，可以对在不同的光线条件下拍摄不同的图片进行均衡化处理，使得这些图片具有大致相同的光照条件。因此，我们可以用在训练模型之前，对图像进行对预处理。 直方图均衡1. 直方图与对比度首先，我们看下面的图像：  左列为原图，我们在观看的时候，感受很差。为什么很差呢？因为前景(关键区域)与背景太相似，无法很好的得到前景的信息。这就是表明，这些图像的对比度小，视觉体验很差。 其中，对比度">
 <meta property="og:type" content="article">
 <meta property="og:title" content="直方图均衡化">
-<meta property="og:url" content="http://example.com/2021/12/07/%E7%9B%B4%E6%96%B9%E5%9B%BE%E5%9D%87%E8%A1%A1%E5%8C%96/index.html">
-<meta property="og:site_name" content="yukai">
+<meta property="og:url" content="http://yukai.tech/2021/12/07/%E7%9B%B4%E6%96%B9%E5%9B%BE%E5%9D%87%E8%A1%A1%E5%8C%96/index.html">
+<meta property="og:site_name" content="Yukai&#39;s Blog">
 <meta property="og:description" content="阅读原文 直方图均衡化，可以对在不同的光线条件下拍摄不同的图片进行均衡化处理，使得这些图片具有大致相同的光照条件。因此，我们可以用在训练模型之前，对图像进行对预处理。 直方图均衡1. 直方图与对比度首先，我们看下面的图像：  左列为原图，我们在观看的时候，感受很差。为什么很差呢？因为前景(关键区域)与背景太相似，无法很好的得到前景的信息。这就是表明，这些图像的对比度小，视觉体验很差。 其中，对比度">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://files.mdnice.com/user/6935/fa671e7e-51c5-4886-bae4-0f203dc5968c.png">
-<meta property="og:image" content="https://files.mdnice.com/user/6935/d49b14ab-a6c6-4588-a9c5-8fe2d14f7d22.png">
-<meta property="og:image" content="https://files.mdnice.com/user/6935/292f5124-29b1-405f-ba06-19b25dbff6d2.jpg">
-<meta property="og:image" content="https://files.mdnice.com/user/6935/f9864061-b117-4891-b67e-aae1eb2bed01.png">
+<meta property="og:image" content="http://yukai.tech/images/直方图均衡化/fa671e7e-51c5-4886-bae4-0f203dc5968c.png">
+<meta property="og:image" content="http://yukai.tech/images/直方图均衡化/d49b14ab-a6c6-4588-a9c5-8fe2d14f7d22.png">
+<meta property="og:image" content="http://yukai.tech/images/直方图均衡化/292f5124-29b1-405f-ba06-19b25dbff6d2.jpg">
+<meta property="og:image" content="http://yukai.tech/images/直方图均衡化/f9864061-b117-4891-b67e-aae1eb2bed01.png">
 <meta property="article:published_time" content="2021-12-07T10:37:16.000Z">
-<meta property="article:modified_time" content="2021-12-07T10:39:39.327Z">
-<meta property="article:author" content="wyukai">
+<meta property="article:modified_time" content="2022-01-25T07:25:28.891Z">
+<meta property="article:author" content="yukai">
+<meta property="article:tag" content="opencv">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://files.mdnice.com/user/6935/fa671e7e-51c5-4886-bae4-0f203dc5968c.png">
+<meta name="twitter:image" content="http://yukai.tech/images/直方图均衡化/fa671e7e-51c5-4886-bae4-0f203dc5968c.png">
 
-<link rel="canonical" href="http://example.com/2021/12/07/%E7%9B%B4%E6%96%B9%E5%9B%BE%E5%9D%87%E8%A1%A1%E5%8C%96/">
+<link rel="canonical" href="http://yukai.tech/2021/12/07/%E7%9B%B4%E6%96%B9%E5%9B%BE%E5%9D%87%E8%A1%A1%E5%8C%96/">
 
 
 <script id="page-configurations">
@@ -50,7 +51,7 @@
   };
 </script>
 
-  <title>直方图均衡化 | yukai</title>
+  <title>直方图均衡化 | Yukai's Blog</title>
   
 
 
@@ -101,7 +102,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">yukai</h1>
+      <h1 class="site-title">Yukai's Blog</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -170,16 +171,16 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/07/%E7%9B%B4%E6%96%B9%E5%9B%BE%E5%9D%87%E8%A1%A1%E5%8C%96/">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/12/07/%E7%9B%B4%E6%96%B9%E5%9B%BE%E5%9D%87%E8%A1%A1%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="wyukai">
-      <meta itemprop="description" content="do">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Bolg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="yukai">
+      <meta itemprop="name" content="Yukai's Blog">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -192,9 +193,40 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-12-07 18:37:16 / 修改时间：18:39:39" itemprop="dateCreated datePublished" datetime="2021-12-07T18:37:16+08:00">2021-12-07</time>
+              <time title="创建时间：2021-12-07 18:37:16" itemprop="dateCreated datePublished" datetime="2021-12-07T18:37:16+08:00">2021-12-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-25 15:25:28" itemprop="dateModified" datetime="2022-01-25T15:25:28+08:00">2022-01-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/Video-Recognition/" itemprop="url" rel="index"><span itemprop="name">Video Recognition</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/Video-Recognition/opencv/" itemprop="url" rel="index"><span itemprop="name">opencv</span></a>
+                </span>
             </span>
 
           
@@ -211,7 +243,7 @@
         <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzkzNDIxMzE1NQ==&amp;mid=2247486316&amp;idx=1&amp;sn=b55e2b38dc58856e36377a6a37401eb7&amp;chksm=c241e820f53661364efbd707794a7fa4b3b83cac148d73f926e9cf35995079b0d24fdb83d42a&amp;scene=178&amp;cur_album_id=1860258784426672132#rd">阅读原文</a></p>
 <p>直方图均衡化，可以对在不同的光线条件下拍摄不同的图片进行均衡化处理，使得这些图片具有大致相同的光照条件。因此，我们可以用在训练模型之前，对图像进行对预处理。</p>
 <h2 id="直方图均衡"><a href="#直方图均衡" class="headerlink" title="直方图均衡"></a>直方图均衡</h2><h3 id="1-直方图与对比度"><a href="#1-直方图与对比度" class="headerlink" title="1. 直方图与对比度"></a>1. 直方图与对比度</h3><p>首先，我们看下面的图像：</p>
-<p><img src="https://files.mdnice.com/user/6935/fa671e7e-51c5-4886-bae4-0f203dc5968c.png" alt=""></p>
+<p><img src="/images/直方图均衡化/fa671e7e-51c5-4886-bae4-0f203dc5968c.png" alt></p>
 <p>左列为原图，我们在观看的时候，感受很差。为什么很差呢？因为前景(关键区域)与背景太相似，无法很好的得到前景的信息。这就是表明，<strong>这些图像的对比度小，视觉体验很差</strong>。</p>
 <p>其中，<strong>对比度是由两个相邻区域的亮度差异产生的</strong>。</p>
 <p>对比度是使一个物体与其他物体区别开来的视觉特性上的差异。在视觉感知中，对比度是由物体与其他物体的颜色和亮度差异决定的，而我们的视觉系统对对比度比对绝对亮度更敏感。那么，如何量化一个图像中的对比度呢？我们先了解下直方图。</p>
@@ -222,7 +254,7 @@
 <script type="math/tex; mode=display">
 h\left(r_{k}\right)=n_{k}</script><p>其中，$n_{k}$是图像中灰度级为$r_{k}$的像素个数。 $r_{k}$是第$k$个灰度级，$k=0,1,2…L-1$。由于$r_{k}$的增量是$1$,直方图可以表示为$p(k)=n_{k}$。即，图像中不同灰度级像素出现的次数。</p>
 <p><strong>概括来说，直方图就是横坐标表示成像素值，纵坐标表示各个像素值的个数的图。</strong></p>
-<p><img src="https://files.mdnice.com/user/6935/d49b14ab-a6c6-4588-a9c5-8fe2d14f7d22.png" alt="直方图举例"></p>
+<p><img src="/images/直方图均衡化/d49b14ab-a6c6-4588-a9c5-8fe2d14f7d22.png" alt="直方图举例"></p>
 <h3 id="3-直方图均衡化的引入"><a href="#3-直方图均衡化的引入" class="headerlink" title="3.直方图均衡化的引入"></a>3.直方图均衡化的引入</h3><p>若一幅图像的像素倾向于占据整个可能的灰度级并且分布均匀，则该图像有较高的对比度并且图像展示效果会相对好，于是便引出图像直方图均衡化，对图像会有很强的增强效果。</p>
 <h4 id="3-1-直方图归一化"><a href="#3-1-直方图归一化" class="headerlink" title="3.1 直方图归一化"></a>3.1 直方图归一化</h4><p>先了解<strong>直方图归一化</strong>的概念，公式为：<br>$p(r_{k})=n_{k}/n$</p>
 <ul>
@@ -248,9 +280,9 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="comment"># 读取图像并转换为灰度图</span></span><br><span class="line">    img = cv2.imread(<span class="string">r&#x27;./imgs/boy.png&#x27;</span>)</span><br><span class="line">    <span class="comment"># 图像的灰度级范围是0~255</span></span><br><span class="line">    <span class="comment"># grayHist = cv2.calcHist([img], [0], None, [256], [0, 256])</span></span><br><span class="line">    (b, g, r) = cv2.split(img)</span><br><span class="line">    bH = cv2.equalizeHist(b)</span><br><span class="line">    gH = cv2.equalizeHist(g)</span><br><span class="line">    rH = cv2.equalizeHist(r)</span><br><span class="line">    <span class="comment"># 合并每一个通道</span></span><br><span class="line">    result = cv2.merge((bH, gH, rH))</span><br><span class="line">    res = np.hstack((img, result))</span><br><span class="line">    cv2.imshow(<span class="string">&quot;dst&quot;</span>, res)</span><br><span class="line">    cv2.waitKey(<span class="number">0</span>)</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
 <p>不能使用库函数，需要写出详细的直方图均衡化的过程：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hist_equalization</span>(<span class="params">intput_signal</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    直方图均衡（适用于灰度图）</span></span><br><span class="line"><span class="string">    :param intput_signal:   输入图像</span></span><br><span class="line"><span class="string">    :return:    直方图均衡化后的输出图像</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">    output_signal = np.copy(intput_signal)   <span class="comment"># 输出图像，初始化为输入</span></span><br><span class="line"></span><br><span class="line">    intput_signal_cp = np.copy(intput_signal) <span class="comment"># 输入图像的副本</span></span><br><span class="line"></span><br><span class="line">    m, n = intput_signal_cp.shape <span class="comment"># 输入图像的尺寸（行、列）</span></span><br><span class="line"></span><br><span class="line">    pixel_total_num = m * n  <span class="comment"># 输入图像的像素点总数</span></span><br><span class="line"></span><br><span class="line">    p_r = []   <span class="comment"># 输入图像的概率密度</span></span><br><span class="line">    p_s = []   <span class="comment"># 输出图像的概率密度</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 求输入图像的概率密度函数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>):</span><br><span class="line">        p_r.append(np.<span class="built_in">sum</span>(intput_signal_cp == i) / pixel_total_num)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 求输出图像的概率密度函数</span></span><br><span class="line">    single_pixel_class_probobility_t = <span class="number">0</span>  <span class="comment"># 临时存储某一灰度级的概率</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>):</span><br><span class="line">        single_pixel_class_probobility_t = single_pixel_class_probobility_t + p_r[i]</span><br><span class="line">        p_s.append(single_pixel_class_probobility_t)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 求解变换后的输出图像</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>):</span><br><span class="line">        output_signal[np.where(intput_signal_cp == i)] = <span class="number">255</span> * p_s[i]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> output_signal</span><br></pre></td></tr></table></figure>
-<p><img src="https://files.mdnice.com/user/6935/292f5124-29b1-405f-ba06-19b25dbff6d2.jpg" alt="直方图均衡化举例"></p>
+<p><img src="/images/直方图均衡化/292f5124-29b1-405f-ba06-19b25dbff6d2.jpg" alt="直方图均衡化举例"></p>
 <p>其中关于像素的统计量如下：</p>
-<p><img src="https://files.mdnice.com/user/6935/f9864061-b117-4891-b67e-aae1eb2bed01.png" alt="直方图统计对比"></p>
+<p><img src="/images/直方图均衡化/f9864061-b117-4891-b67e-aae1eb2bed01.png" alt="直方图统计对比"></p>
 <h3 id="4-小结"><a href="#4-小结" class="headerlink" title="4. 小结"></a>4. 小结</h3><p>目前，基本的图像直方图均衡已经说完了，但是如果我们仔细看上图，会发现均衡化处理后对比度大大增强了，但是这个<strong>boy</strong>好像有点太亮了，这是因为这个直方图均衡化操作是对全局进行均衡化，直方图覆盖的范围太大，反而会丢失<strong>boy</strong>的一些信息。</p>
 <p>因此，明天我们会继续沿着直方图均衡引入<strong>自适应直方图均衡化(AHE)</strong> 以及 <strong>限制对比度自适应直方图均衡化(CLAHE)</strong> 等直方图均衡化算法。</p>
 <h3 id="5-参考"><a href="#5-参考" class="headerlink" title="5. 参考"></a>5. 参考</h3><ol>
@@ -266,6 +298,9 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/opencv/" rel="tag"># opencv</a>
+          </div>
 
         
 
@@ -344,8 +379,10 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">wyukai</p>
-  <div class="site-description" itemprop="description">do</div>
+    <img class="site-author-image" itemprop="image" alt="yukai"
+      src="/images/icon.jpg">
+  <p class="site-author-name" itemprop="name">yukai</p>
+  <div class="site-description" itemprop="description">yukai的Bolg</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -359,13 +396,13 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -396,7 +433,7 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">wyukai</span>
+  <span class="author" itemprop="copyrightHolder">yukai</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
@@ -451,6 +488,59 @@ s_{k}=\sum_{j=0}^{k}\frac{n_{j}}{n}, k=0, 1, 2,,,L-1</script><p><strong>注：</
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

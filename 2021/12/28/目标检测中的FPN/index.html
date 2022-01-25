@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
@@ -17,36 +17,36 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"yukai.tech","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="z 摘录自小纸屑 https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;148738276 1. 简介FPN结构，特征金字塔网络，主要用作不同尺度的特征融合，从而提高目标检测算法的精度。  常见的物体检测算法，其实可以分解为三个递进的阶段：  Backbone特征提取阶段 Backbone生成的特征，一般按stage划分，分别记作C1、C2、C3、C4、C5、C6、C7等，其中的数字与stag">
 <meta property="og:type" content="article">
 <meta property="og:title" content="目标检测中的FPN">
-<meta property="og:url" content="http://example.com/2021/12/28/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/index.html">
-<meta property="og:site_name" content="yukai">
+<meta property="og:url" content="http://yukai.tech/2021/12/28/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/index.html">
+<meta property="og:site_name" content="Yukai&#39;s Blog">
 <meta property="og:description" content="z 摘录自小纸屑 https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;148738276 1. 简介FPN结构，特征金字塔网络，主要用作不同尺度的特征融合，从而提高目标检测算法的精度。  常见的物体检测算法，其实可以分解为三个递进的阶段：  Backbone特征提取阶段 Backbone生成的特征，一般按stage划分，分别记作C1、C2、C3、C4、C5、C6、C7等，其中的数字与stag">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2021/12/28/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172104469.png">
-<meta property="og:image" content="http://example.com/2021/12/28/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172506926.png">
-<meta property="og:image" content="http://example.com/2021/12/28/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172706353.png">
-<meta property="og:image" content="http://example.com/2021/12/28/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172812278.png">
-<meta property="og:image" content="http://example.com/2021/12/28/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172915560.png">
-<meta property="og:image" content="http://example.com/2021/12/28/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173101063.png">
-<meta property="og:image" content="http://example.com/2021/12/28/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173150634.png">
-<meta property="og:image" content="http://example.com/2021/12/28/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173207992.png">
-<meta property="og:image" content="http://example.com/2021/12/28/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173236688.png">
-<meta property="og:image" content="http://example.com/2021/12/28/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173943134.png">
-<meta property="og:image" content="http://example.com/2021/12/28/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173603992.png">
-<meta property="og:image" content="http://example.com/2021/12/28/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173616868.png">
+<meta property="og:image" content="http://yukai.tech/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172104469.png">
+<meta property="og:image" content="http://yukai.tech/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172506926.png">
+<meta property="og:image" content="http://yukai.tech/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172706353.png">
+<meta property="og:image" content="http://yukai.tech/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172812278.png">
+<meta property="og:image" content="http://yukai.tech/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172915560.png">
+<meta property="og:image" content="http://yukai.tech/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173101063.png">
+<meta property="og:image" content="http://yukai.tech/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173150634.png">
+<meta property="og:image" content="http://yukai.tech/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173207992.png">
+<meta property="og:image" content="http://yukai.tech/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173236688.png">
+<meta property="og:image" content="http://yukai.tech/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173943134.png">
+<meta property="og:image" content="http://yukai.tech/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173603992.png">
+<meta property="og:image" content="http://yukai.tech/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173616868.png">
 <meta property="article:published_time" content="2021-12-28T09:17:24.000Z">
-<meta property="article:modified_time" content="2021-12-28T10:07:42.071Z">
-<meta property="article:author" content="wyukai">
+<meta property="article:modified_time" content="2022-01-25T07:27:47.474Z">
+<meta property="article:author" content="yukai">
 <meta property="article:tag" content="object detection">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2021/12/28/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172104469.png">
+<meta name="twitter:image" content="http://yukai.tech/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172104469.png">
 
-<link rel="canonical" href="http://example.com/2021/12/28/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/">
+<link rel="canonical" href="http://yukai.tech/2021/12/28/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/">
 
 
 <script id="page-configurations">
@@ -59,7 +59,7 @@
   };
 </script>
 
-  <title>目标检测中的FPN | yukai</title>
+  <title>目标检测中的FPN | Yukai's Blog</title>
   
 
 
@@ -110,7 +110,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">yukai</h1>
+      <h1 class="site-title">Yukai's Blog</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -179,16 +179,16 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/28/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/12/28/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="wyukai">
-      <meta itemprop="description" content="do">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Bolg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="yukai">
+      <meta itemprop="name" content="Yukai's Blog">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -201,10 +201,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-12-28 17:17:24 / 修改时间：18:07:42" itemprop="dateCreated datePublished" datetime="2021-12-28T17:17:24+08:00">2021-12-28</time>
+              <time title="创建时间：2021-12-28 17:17:24" itemprop="dateCreated datePublished" datetime="2021-12-28T17:17:24+08:00">2021-12-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-25 15:27:47" itemprop="dateModified" datetime="2022-01-25T15:27:47+08:00">2022-01-25</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -219,11 +225,15 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/ssl/" itemprop="url" rel="index"><span itemprop="name">ssl</span></a>
+                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/ssl/image-classification/" itemprop="url" rel="index"><span itemprop="name">image classification</span></a>
+                  <a href="/categories/deep-learning/object-detection/OCR/Video-Recognition/" itemprop="url" rel="index"><span itemprop="name">Video Recognition</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/Video-Recognition/opencv/" itemprop="url" rel="index"><span itemprop="name">opencv</span></a>
                 </span>
             </span>
 
@@ -240,7 +250,7 @@
       
         <p>z 摘录自小纸屑 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/148738276">https://zhuanlan.zhihu.com/p/148738276</a></p>
 <h3 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h3><p>FPN结构，特征金字塔网络，主要用作不同尺度的特征融合，从而提高目标检测算法的精度。</p>
-<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172104469.png" alt="image-20211228172104469"></p>
+<p><img src="/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172104469.png" alt="image-20211228172104469"></p>
 <p>常见的物体检测算法，其实可以分解为三个递进的阶段：</p>
 <ol>
 <li><p>Backbone特征提取阶段</p>
@@ -248,23 +258,23 @@
 </li>
 <li><p>Neck特征融合阶段</p>
 <p>FPN一般将上一步生成的不同分辨率特征作为输入，输出经过融合后的特征。输出的特征一般以P作为编号标记。如FPN的输入是，C2、C3、C4、C5、C6，经过融合后，输出为P2、P3、P4、P5、P6。这个过程可以用数学公式表达：</p>
-<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172506926.png" alt="image-20211228172506926"></p>
+<p><img src="/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172506926.png" alt="image-20211228172506926"></p>
 </li>
 <li><p>Head检测阶段</p>
 <p>FPN输出融合后的特征后，就可以输入到检测头做具体的物体检测。</p>
 </li>
 </ol>
 <h3 id="2-FPN及其变种结构"><a href="#2-FPN及其变种结构" class="headerlink" title="2. FPN及其变种结构"></a>2. FPN及其变种结构</h3><p>物体检测性能提升，一般主要通过数据增强、改进Backbone、改进FPN、改进检测头、改进loss、改进后处理等6个常用手段。其中FPN自从被提出来，先后迭代了不少版本。大致迭代路径如下图：</p>
-<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172706353.png" alt="image-20211228172706353"></p>
+<p><img src="/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172706353.png" alt="image-20211228172706353"></p>
 <ol>
 <li>无融合  </li>
 </ol>
 <p>无融合，又利用多尺度特征的典型代表SSD，它直接利用不同stage的特征图分别负责不同scale大小物体的检测。</p>
-<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172812278.png" alt="image-20211228172812278"></p>
+<p><img src="/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172812278.png" alt="image-20211228172812278"></p>
 <ol>
 <li><p>自上而下单向融合</p>
 <p>自上而下单向融合的FPN，事实上仍然是当前物体检测模型的主流融合模式。如我们常见的<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1506.01497">Faster RCNN</a>、<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1703.06870">Mask RCNN</a>、<a href="https://link.zhihu.com/?target=https%3A//pjreddie.com/media/files/papers/YOLOv3.pdf">Yolov3</a>、<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1708.02002">RetinaNet</a>、<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1712.00726">Cascade RCNN</a>等，具体各个FPN的内部细节如下图。</p>
-<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172915560.png" alt="image-20211228172915560"></p>
+<p><img src="/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172915560.png" alt="image-20211228172915560"></p>
 </li>
 </ol>
 <p><strong>a）Faster/Master/Cascade RCNN中的FPN</strong></p>
@@ -278,30 +288,30 @@
 <li>简单双向融合</li>
 </ol>
 <p>FPN自从提出来以后，均是只有从上向下的融合，<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1803.01534">PANet</a>是第一个提出从下向上二次融合的模型，并且PANet就是在Faster/Master/Cascade RCNN中的FPN的基础上，简单增了从下而上的融合路径。看下图。</p>
-<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173101063.png" alt="image-20211228173101063"></p>
+<p><img src="/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173101063.png" alt="image-20211228173101063"></p>
 <ol>
 <li>复杂的双向融合</li>
 </ol>
 <p>PANet的提出证明了双向融合的有效性，而PANet的双向融合较为简单，因此不少文章在FPN的方向上更进一步，尝试了更复杂的双向融合，如<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1911.09516">ASFF</a>、<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1904.07392">NAS-FPN</a>和<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1911.09070">BiFPN</a>。</p>
 <p><strong>ASFF</strong><br>ASFF（论文：Learning Spatial Fusion for Single-Shot Object Detection）作者在YOLOV3的FPN的基础上，研究了每一个stage再次融合三个stage特征的效果。如下图。其中不同stage特征的融合，采用了注意力机制，这样就可以控制其他stage对本stage特征的贡献度。</p>
-<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173150634.png" alt="image-20211228173150634"></p>
+<p><img src="/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173150634.png" alt="image-20211228173150634"></p>
 <p><strong>NAS-FPN和BiFPN</strong><br>NAS-FPN和BiFPN，都是google出品，思路也一脉相承，都是在FPN中寻找一个有效的block，然后重复叠加，这样就可以弹性的控制FPN的大小。</p>
-<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173207992.png" alt="image-20211228173207992"></p>
+<p><img src="/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173207992.png" alt="image-20211228173207992"></p>
 <p>其中BiFPN的具体细节如下图。</p>
 <p>改进点1，删除入度为1的节点，如果一个节点只有一个输入边且没有特征融合，那么它将对旨在融合不同特征的特征网络贡献较小。</p>
 <p>改进点2，添加跳跃连接。如果原始输入和输出节点处于同一level，则在原始输入和输出节点之间添加一条额外的边，以便在不增加成本的情况下融合更多特征。</p>
 <p>改进点3，将BiFPN视作一个基本单元，重复堆叠。不像PANet那样只有一个top-down和bottom-up路径，BiFPN将一对路径视为一个特征层，然后重复多次以得到更多高层特征融合。</p>
-<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173236688.png" alt="image-20211228173236688"></p>
-<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173943134.png" alt="image-20211228173943134"></p>
+<p><img src="/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173236688.png" alt="image-20211228173236688"></p>
+<p><img src="/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173943134.png" alt="image-20211228173943134"></p>
 <ol>
 <li><p><strong>Recursive-FPN</strong></p>
 <p>Paper: <a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2006.02334">DetectoRS: Detecting Objects with Recursive Feature Pyramid and Switchable Atrous Convolution</a></p>
 <p>递归FPN理解起来很容易，就是将传统FPN的融合后的输出，再输入给Backbone，进行二次循环，如下图。</p>
 </li>
 </ol>
-<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173603992.png" alt="image-20211228173603992"></p>
+<p><img src="/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173603992.png" alt="image-20211228173603992"></p>
 <p>下图给出了FPN与Recursive-FPN的区别，并且把一个2层的递归FPN展开了，非常简单明了，不做过多介绍。</p>
-<p><img src="../images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173616868.png" alt="image-20211228173616868"></p>
+<p><img src="/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228173616868.png" alt="image-20211228173616868"></p>
 <h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ol>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/148738276">https://zhuanlan.zhihu.com/p/148738276</a></li>
 </ol>
@@ -394,8 +404,10 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">wyukai</p>
-  <div class="site-description" itemprop="description">do</div>
+    <img class="site-author-image" itemprop="image" alt="yukai"
+      src="/images/icon.jpg">
+  <p class="site-author-name" itemprop="name">yukai</p>
+  <div class="site-description" itemprop="description">yukai的Bolg</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -409,13 +421,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -446,7 +458,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">wyukai</span>
+  <span class="author" itemprop="copyrightHolder">yukai</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
