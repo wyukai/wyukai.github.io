@@ -164,6 +164,594 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/01/11/OCR-%E5%B7%A5%E4%B8%9A%E5%AD%97%E7%AC%A6%E6%A3%80%E6%B5%8B%E5%AE%9E%E8%B7%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Bolg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/11/OCR-%E5%B7%A5%E4%B8%9A%E5%AD%97%E7%AC%A6%E6%A3%80%E6%B5%8B%E5%AE%9E%E8%B7%B5/" class="post-title-link" itemprop="url">OCR-工业字符检测实践</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-11 11:24:21" itemprop="dateCreated datePublished" datetime="2022-01-11T11:24:21+08:00">2022-01-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-25 17:12:18" itemprop="dateModified" datetime="2022-01-25T17:12:18+08:00">2022-01-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1-PaddleOCR"><a href="#1-PaddleOCR" class="headerlink" title="1. PaddleOCR"></a>1. PaddleOCR</h3><ul>
+<li>使用PPOCRLabel标注，完成自定义训练数据集的准备；</li>
+<li>训练文本检测模型；</li>
+<li>训练文本识别模型；</li>
+<li>训练模型转换为inference模型；</li>
+<li>基于python引擎的PP-OCR模型推理预测，串联检测+识别。</li>
+</ul>
+<h3 id="2-PPOCRLabel"><a href="#2-PPOCRLabel" class="headerlink" title="2. PPOCRLabel"></a>2. PPOCRLabel</h3><p>PPOCRLabel是一款适用于OCR领域的半自动化图形标注工具，内置PP-OCR模型对数据自动标注和重新识别。使用Python3和PyQT5编写，支持矩形框标注和四点标注模式，导出格式可直接用于PaddleOCR检测和识别模型的训练。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.4/PPOCRLabel/README_ch.md">https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.4/PPOCRLabel/README_ch.md</a></li>
+</ul>
+<p>使用步骤：</p>
+<ul>
+<li>cd ./PPOCRLabel  </li>
+<li>python .\PPOCRLabel.py —lang ch</li>
+<li>打开待标注文件夹，加载标注图像</li>
+<li>勾选 文件/自动导出标记结果</li>
+<li>标注</li>
+<li>导出识别结果（切小图）</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/11/OCR-%E5%B7%A5%E4%B8%9A%E5%AD%97%E7%AC%A6%E6%A3%80%E6%B5%8B%E5%AE%9E%E8%B7%B5/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/01/07/Bounding-Box-Regression-Loss/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Bolg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/07/Bounding-Box-Regression-Loss/" class="post-title-link" itemprop="url">Bounding Box Regression Loss</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-07 14:36:31" itemprop="dateCreated datePublished" datetime="2022-01-07T14:36:31+08:00">2022-01-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-25 15:22:00" itemprop="dateModified" datetime="2022-01-25T15:22:00+08:00">2022-01-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1"><a href="#1" class="headerlink" title="### 1."></a>### 1.</h3><p>边界框回归的三大几何因素：重叠面积、中心点距离、纵横比</p>
+<ul>
+<li>IOU Loss：考虑了重叠面积，归一化坐标尺度</li>
+<li>GIOU Loss：考虑了重叠面积，基于IOU解决边界框不相交时loss等于0的问题</li>
+<li>DIOU Loss：考虑了重叠面积和中心点距离，基于IOU解决GIOU收敛慢的问题</li>
+<li>CIOU Loss：考虑了重叠面积、中心点距离、纵横比，基于DIOU提升回归精确度</li>
+<li>EIOU Loss：考虑了重叠面积，中心点距离、长宽边长真实差，基于CIOU解决了纵横比的模糊定义，并添加Focal Loss解决BBox回归中的样本不平衡问题</li>
+</ul>
+<p><img src="/images/Bounding-Box-Regression-Loss/image-20220107144907598.png" alt="image-20220107144907598" style="zoom:80%;"></p>
+<h3 id="5-Reference"><a href="#5-Reference" class="headerlink" title="5. Reference"></a>5. Reference</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/270663039">https://zhuanlan.zhihu.com/p/270663039</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/amusi1994/article/details/112966895">https://blog.csdn.net/amusi1994/article/details/112966895</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/375745293">https://zhuanlan.zhihu.com/p/375745293</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/01/06/RoI-Pooling-%E4%B8%8E-RoI-Align/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Bolg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/06/RoI-Pooling-%E4%B8%8E-RoI-Align/" class="post-title-link" itemprop="url">RoI Pooling, RoI Align, PS-RoI Pooling</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-06 10:21:38" itemprop="dateCreated datePublished" datetime="2022-01-06T10:21:38+08:00">2022-01-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-01 16:54:52" itemprop="dateModified" datetime="2022-03-01T16:54:52+08:00">2022-03-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1-RoI"><a href="#1-RoI" class="headerlink" title="1. RoI"></a>1. RoI</h3><p>RoI(Region of Interest), 从原图中通过某些区域选择方法得到的候选区域。</p>
+<p>量化（quantization）是指将输入连续值（或者大量可能的离散值）采样为有限多个离散值的过程。或者理解为，将输入数据集（如实数）约束到离散集（如整数）的过程。</p>
+<p>RoI Pooling 和 RoI Align 均是将任意大小的特征图（输入），映射为固定尺寸的特征（输出）。</p>
+<h3 id="2-RoI-Pooling"><a href="#2-RoI-Pooling" class="headerlink" title="2. RoI Pooling"></a>2. RoI Pooling</h3><p><img src="/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106102835274.png" alt="image-20220106102835274" style="zoom:50%;"></p>
+<p>RoI Pooling的作用本质上是为了将不同尺寸的RoI特征转换为相同的特征图输出，保证特征图展开（flatten）后具有相同的大小尺寸，能够与下层的全连接层连接，分别执行线性分类(linear classifier)和边框回归(bounding box regressor)</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/06/RoI-Pooling-%E4%B8%8E-RoI-Align/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/01/04/%E5%9B%BE%E5%83%8F%E7%9B%B8%E4%BC%BC%E5%BA%A6%E8%AE%A1%E7%AE%97%E6%96%B9%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Bolg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/04/%E5%9B%BE%E5%83%8F%E7%9B%B8%E4%BC%BC%E5%BA%A6%E8%AE%A1%E7%AE%97%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">图像相似度计算方式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-04 10:32:37" itemprop="dateCreated datePublished" datetime="2022-01-04T10:32:37+08:00">2022-01-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-25 15:26:56" itemprop="dateModified" datetime="2022-01-25T15:26:56+08:00">2022-01-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/Video-Recognition/" itemprop="url" rel="index"><span itemprop="name">Video Recognition</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/Video-Recognition/opencv/" itemprop="url" rel="index"><span itemprop="name">opencv</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/12/28/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Bolg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/28/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/" class="post-title-link" itemprop="url">目标检测中的FPN</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-28 17:17:24" itemprop="dateCreated datePublished" datetime="2021-12-28T17:17:24+08:00">2021-12-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-25 17:11:06" itemprop="dateModified" datetime="2022-01-25T17:11:06+08:00">2022-01-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/Video-Recognition/" itemprop="url" rel="index"><span itemprop="name">Video Recognition</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/Video-Recognition/opencv/" itemprop="url" rel="index"><span itemprop="name">opencv</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>z 摘录自小纸屑 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/148738276">https://zhuanlan.zhihu.com/p/148738276</a></p>
+<h3 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h3><p>FPN结构，特征金字塔网络，主要用作不同尺度的特征融合，从而提高目标检测算法的精度。</p>
+<p><img src="/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172104469.png" alt="image-20211228172104469"></p>
+<p>常见的物体检测算法，其实可以分解为三个递进的阶段：</p>
+<ol>
+<li><p>Backbone特征提取阶段</p>
+<p>Backbone生成的特征，一般按stage划分，分别记作C1、C2、C3、C4、C5、C6、C7等，其中的数字与stage的编号相同，代表的是分辨率减半的次数，如C2代表stage2输出的特征图，分辨率为输入图片的1/4，C5代表，stage5输出的特征图，分辨率为输入图片的1/32。</p>
+</li>
+<li><p>Neck特征融合阶段</p>
+<p>FPN一般将上一步生成的不同分辨率特征作为输入，输出经过融合后的特征。输出的特征一般以P作为编号标记。如FPN的输入是，C2、C3、C4、C5、C6，经过融合后，输出为P2、P3、P4、P5、P6。这个过程可以用数学公式表达：</p>
+<p><img src="/images/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/image-20211228172506926.png" alt="image-20211228172506926"></p>
+</li>
+<li><p>Head检测阶段</p>
+<p>FPN输出融合后的特征后，就可以输入到检测头做具体的物体检测。</p>
+</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/28/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84FPN/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/12/28/ASFF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Bolg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/28/ASFF/" class="post-title-link" itemprop="url">ASFF</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-28 10:36:52" itemprop="dateCreated datePublished" datetime="2021-12-28T10:36:52+08:00">2021-12-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-25 17:11:23" itemprop="dateModified" datetime="2022-01-25T17:11:23+08:00">2022-01-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="YOLOV3-ASFF"><a href="#YOLOV3-ASFF" class="headerlink" title="YOLOV3-ASFF"></a>YOLOV3-ASFF</h2><h3 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h3><p>  YOLOV3-ASFF为了解决FPN不同特征尺度之间的不一致问题，提出自适应空间特征融合策略。它通过设置可学习权重因子对不同尺度的特征进行自适应(可学习)融合，通过在空间上过滤冲突信息从而抑制梯度反传时的不一致问题，从而改善了特征的比例不变性，也降低了时间开销。</p>
+<p><img src="/images/ASFF/image-20211228151839649.png" alt="image-20211228151839649"></p>
+<p>除了自适应空间特征融合，YOLOv3-ASFF在YOLOv3基础上博采众长，集合了MixUp数据增强，学习率cosine衰减策略，异步BN，Guided Anchoring，回归loss改为IoU loss等一系列tricks。 其strong yolov3-608 在COCO2017上达到了 38.8AP + 50fps的效果， 超过了原始YOLOv3-608 ： 33.0AP + 53fps。</p>
+<blockquote>
+<p>论文 <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1911.09516v2.pdf">https://arxiv.org/pdf/1911.09516v2.pdf</a></p>
+<p>code: <a target="_blank" rel="noopener" href="https://github.com/GOATmessi7/ASFF">https://github.com/GOATmessi7/ASFF</a></p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/28/ASFF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/12/21/letterbox/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -552,577 +1140,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/10/27/Frameworks/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/icon.jpg">
-      <meta itemprop="name" content="yukai">
-      <meta itemprop="description" content="yukai的Bolg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yukai's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/10/27/Frameworks/" class="post-title-link" itemprop="url">Caffe、TensorFlow及Pytorch通道维度顺序</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-10-27 10:34:05" itemprop="dateCreated datePublished" datetime="2021-10-27T10:34:05+08:00">2021-10-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 15:20:42" itemprop="dateModified" datetime="2022-01-25T15:20:42+08:00">2022-01-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/DL-Framework/" itemprop="url" rel="index"><span itemprop="name">DL Framework</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/DL-Framework/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/DL-Framework/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection.</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ul>
-<li>Caffe：NCHW</li>
-<li>TensorFlow：默认为NHWC（但可以设置为NCHW）, NHWC的访存局部性更好（cache利用率高），NCHW需要等所有通道输入准备好才能得到最终输出结果，需要占用较大的临时空间。</li>
-<li><p>Pytorch：NCHW</p>
-</li>
-<li><p>NCHW为NVIDIA Cudnn默认格式， 使用GPU加速时用NCHW格式速度大部分情况下会更快。</p>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/10/25/AdaFocus/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/icon.jpg">
-      <meta itemprop="name" content="yukai">
-      <meta itemprop="description" content="yukai的Bolg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yukai's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/10/25/AdaFocus/" class="post-title-link" itemprop="url">AdaFocus算法记录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-10-25 14:13:33" itemprop="dateCreated datePublished" datetime="2021-10-25T14:13:33+08:00">2021-10-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 17:10:21" itemprop="dateModified" datetime="2022-01-25T17:10:21+08:00">2022-01-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/Video-Recognition/" itemprop="url" rel="index"><span itemprop="name">Video Recognition</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>转载自：计算机视觉Daily，个人学习记录</p>
-<h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>AdaFocus为被ICCV-2021会议录用为Oral Presentation的一篇文章：Adaptive Focus for Efficient Video Recognition。 其从空间特征角度出发，从降低空间冗余性来实现高效视频识别。</p>
-<p>现有高效视频识别算法往往关注于降低视频的时间冗余性（即将计算集中于视频的部分关键帧），如图1 (b)。本文则发现，降低视频的空间冗余性（即寻找和重点处理视频帧中最关键的图像区域），如图1 (c)，同样是一种效果显著、值得探索的方法；且后者与前者有效互补（即完全可以同时建模时空冗余性，例如关注于关键帧中的关键区域），如图1 (d)。在方法上，本文提出了一个通用于大多数网络的AdaFocus框架，在同等精度的条件下，相较AR-Net (ECCV-2020)将计算开销降低了2.1-3.2倍，将TSM的GPU实测推理速度加快了1.4倍。</p>
-<p><img src="/images/AdaFocus/image-20211025143754892.png" alt="image-20211025143754892"></p>
-<ul>
-<li>论文：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2105.03245.pdf">https://arxiv.org/pdf/2105.03245.pdf</a></li>
-<li>Code：<a target="_blank" rel="noopener" href="https://github.com/blackfeather-wang/AdaFocus">https://github.com/blackfeather-wang/AdaFocus</a></li>
-<li>B站介绍：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1vb4y1a7sD/">https://www.bilibili.com/video/BV1vb4y1a7sD/</a></li>
-<li>作者个人网站：<a target="_blank" rel="noopener" href="https://www.rainforest-wang.cool/">https://www.rainforest-wang.cool/</a></li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/10/25/AdaFocus/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/10/22/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/icon.jpg">
-      <meta itemprop="name" content="yukai">
-      <meta itemprop="description" content="yukai的Bolg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yukai's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/10/22/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">日常记录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-10-22 14:36:24" itemprop="dateCreated datePublished" datetime="2021-10-22T14:36:24+08:00">2021-10-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 17:10:47" itemprop="dateModified" datetime="2022-01-25T17:10:47+08:00">2022-01-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/Video-Recognition/" itemprop="url" rel="index"><span itemprop="name">Video Recognition</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/Video-Recognition/opencv/" itemprop="url" rel="index"><span itemprop="name">opencv</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ul>
-<li>Papers with Codes 是一个总结了机器学习论文及其代码实现的网站，这个网站最好的地方就是对机器学习做了任务分类，检索对应的模型非常方便。<ul>
-<li>地址：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https%3A%2F%2Fpaperswithcode.com">https://paperswithcode.com</a></li>
-</ul>
-</li>
-<li>ROC/AUC、真正率（TPR）、假正率（FPR）  <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/46714763">https://zhuanlan.zhihu.com/p/46714763</a></li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/10/22/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/10/20/FixMatch/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/icon.jpg">
-      <meta itemprop="name" content="yukai">
-      <meta itemprop="description" content="yukai的Bolg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yukai's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/10/20/FixMatch/" class="post-title-link" itemprop="url">FixMatch算法记录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-10-20 18:00:00" itemprop="dateCreated datePublished" datetime="2021-10-20T18:00:00+08:00">2021-10-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 17:11:44" itemprop="dateModified" datetime="2022-01-25T17:11:44+08:00">2022-01-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection.</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>&emsp;&emsp;深度学习在具体的商业落地场景中需要依赖于海量的数据。算法，算力，数据是驱动Deep Learning 运行的三大动力， 而数据又是其中重要影响因素，模型效果80%靠数据，20%靠算法。在工业场景中，面对众多非标准化产品，频繁更换型号的场景，进行数据标准的成本是巨大的，而且客户对某一款产品的算法落地时间有限制， 且如果模型对相似型号的兼容性较差，也会引起客户对AI方案的不信任。</p>
-<hr>
-<p>&emsp;&emsp;在此种背景下，如何利用大量未标注的图像以及部分已标注的图像来提高模型的性能就变得尤为重要。其中，半监督学习（SSL）就是一种值得尝试的方案，Fix-Match, 是谷歌Google Brain 提出的一种半监督学习方法，对于解决数据收集困难，标注成本高的CV问题会有一定的帮助。</p>
-<ul>
-<li>FixMatch： Simplifying Semi-Supervised Learning with Consistency and Confidence</li>
-<li>主要贡献： 利用一致性正则化（ Consistency regularization）和伪标签（pseudo-labeling）技术进行无监督训练。SOTA 精度，其中CIFAR-10有250个标注，准确率为94.93%。甚至仅使用10张带有标注的图在CIFAR-10上达到78％精度。</li>
-<li>论文： <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2001.07685">https://arxiv.org/abs/2001.07685</a></li>
-<li>code： <a target="_blank" rel="noopener" href="https://github.com/google-research/fixmatch">https://github.com/google-research/fixmatch</a></li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/10/20/FixMatch/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/10/20/FlexMatch/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/icon.jpg">
-      <meta itemprop="name" content="yukai">
-      <meta itemprop="description" content="yukai的Bolg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yukai's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/10/20/FlexMatch/" class="post-title-link" itemprop="url">FlexMatch算法记录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-10-20 18:00:00" itemprop="dateCreated datePublished" datetime="2021-10-20T18:00:00+08:00">2021-10-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 17:11:50" itemprop="dateModified" datetime="2022-01-25T17:11:50+08:00">2022-01-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection.</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>转载自 知乎 NeurIPS 2021 | 助力半监督学习：课程伪标签方法FlexMatch和统一开源库TorchSSL 作者 王晋东不在家     </p>
-<h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>FlexMatch为FixMatch的改进版， 第一作者为日本东京工业大学的张博闻和王一栋，其他作者来自东京工业大学和微软亚洲研究院。文章针对半监督提出了 <strong>课程伪标签(Curriculum Pseudo Labeling, CPL)</strong> 的方法，其能被简单地应用到多个半监督方法上，且<strong>不会</strong>引入新的超参数和额外的计算开销。多项实验证明，CPL不仅能提升已有方法的精度，也能大幅提升收敛速度（例如，在一些数据集上比Google的FixMatch快5倍）。特别地，文章中将CPL应用在FixMatch后的新算法命名为<strong>FlexMatch</strong>， 并在多个图像分类数据集上取得了state-of-the-art的效果。除此之外，本文还开源了一个统一的基于Pytorch的<strong>半监督方法库TorchSSL</strong>，公平地实现了诸多流行的半监督方法，方便相关领域进行进一步研究。</p>
-<ul>
-<li><p>论文标题：FlexMatch: Boosting Semi-Supervised Learning with Curriculum Pseudo Labeling</p>
-</li>
-<li><p>论文地址：<a href="https://link.zhihu.com/?target=http%3A//arxiv.org/abs/2110.08263">http://arxiv.org/abs/2110.0826</a></p>
-</li>
-<li><p>代码地址：<a href="https://link.zhihu.com/?target=https%3A//github.com/TorchSSL/TorchSSL">https://github.com/TorchSSL/TorchSSL</a></p>
-<p><img src="/images/FlexMatch/image-20211022163508349.png" alt="image-20211022163508349"></p>
-</li>
-</ul>
-<hr>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/10/20/FlexMatch/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/05/19/YOLO/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/icon.jpg">
-      <meta itemprop="name" content="yukai">
-      <meta itemprop="description" content="yukai的Bolg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yukai's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/19/YOLO/" class="post-title-link" itemprop="url">YOLOv1 网络架构、训练时样本标签及Loss设置、推理时输出分析</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-19 19:24:18" itemprop="dateCreated datePublished" datetime="2021-05-19T19:24:18+08:00">2021-05-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 15:17:37" itemprop="dateModified" datetime="2022-01-25T15:17:37+08:00">2022-01-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="1-YOLOv1-网络架构"><a href="#1-YOLOv1-网络架构" class="headerlink" title="1.  YOLOv1 网络架构"></a>1.  YOLOv1 网络架构</h3><h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ol>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43602882/article/details/105910176">https://blog.csdn.net/qq_43602882/article/details/105910176</a></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1190,20 +1211,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
