@@ -34,7 +34,7 @@
 <meta property="og:image" content="http://yukai.tech/images/Cascade-RCNN/image-20220420145430467.png">
 <meta property="og:image" content="http://yukai.tech/images/Cascade-RCNN/image-20220420162058375.png">
 <meta property="article:published_time" content="2022-03-01T09:50:19.000Z">
-<meta property="article:modified_time" content="2022-04-20T08:58:26.410Z">
+<meta property="article:modified_time" content="2022-04-21T09:22:22.911Z">
 <meta property="article:author" content="yukai">
 <meta property="article:tag" content="object detection">
 <meta name="twitter:card" content="summary">
@@ -205,7 +205,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-20 16:58:26" itemprop="dateModified" datetime="2022-04-20T16:58:26+08:00">2022-04-20</time>
+                <time title="修改时间：2022-04-21 17:22:22" itemprop="dateModified" datetime="2022-04-21T17:22:22+08:00">2022-04-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -248,6 +248,7 @@
 <p>上图标识RPN输出的proposals在各个IoU范围内的数量分布，可以看到随着IoU阈值的提高，相对应的proposals数量逐渐减少。</p>
 <p><img src="/images/Cascade-RCNN/image-20220420161546529.png" alt="image-20220420161546529"></p>
 <p>上图（c），横轴 Input IoU 表示 RPN 输出的 proposal 与 gt bbox 的 IoU，纵轴 Output IoU 是经过 RCNN 的 bbox 分支回归输出后与 gt bbox 的 IoU，不同线条代表不同阈值训练出来的 detector。以 u=0.5 为例，当对 RPN 输出的 proposal 使用阈值 0.5 来切分正负样本，对于那些 bbox 质量较差(也算正样本，0.5 &lt; Input IOU &lt; 0.55), 经过 R-CNN 回归后效果提升明显，IoU 可以直接回归到 0.75 (和正样本分布有关系，在该区间内的正样本比较多)，且随着 proposal 质量增加，RCNN 回归后的 bbox 质量也会增加，但是 Input IoU 越大的 proposal，回归后提升越来越不明显，虽然精度没有下降。再看 u=0.7，对于低质量 proposal，其提升较少，这主要因为低质量的 proposal 被滤掉，没有得到训练，但是对于高质量 的bbox，提升较大。</p>
+<span id="more"></span>
 <p>可以发现，Input IoU 在 0.55~0.6 范围内 proposal 阈值设置为 0.5 时 detector 性能最好，在 0.6~0.75 阈值为 0.6 的 detector 性能最佳，而到了 0.75 之后就是阈值为 0.7 的 detector 性能最好了。<strong>只有输入 proposal 自身的 IoU 分布和 detector 训练用的阈值 IoU 较为接近的时候，detector 性能才最好，或者说阈值 IoU 设置应该和 R-CNN 训练的输入样本 IoU 分布接近的时候，性能最好，如果两个阈值相距比较远就是 mismatch 问题</strong>。</p>
 <p>上图（d），在 IoU=0.5~0.6 的时候，检测性能下降比较少，但是一旦 IoU=0.7，检测性能就非常差了。<strong>这说明不能一味的提高 IoU 来达到输出高质量 bbox 的目的(对应匹配正样本数目不够，会出现过拟合)。</strong></p>
 <p><img src="/images/Cascade-RCNN/image-20220420161908060.png" alt="image-20220420161908060"></p>

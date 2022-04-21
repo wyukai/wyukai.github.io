@@ -189,7 +189,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-04-21 15:37:01 / 修改时间：17:18:59" itemprop="dateCreated datePublished" datetime="2022-04-21T15:37:01+08:00">2022-04-21</time>
+              <time title="创建时间：2022-04-21 15:37:01 / 修改时间：17:21:47" itemprop="dateCreated datePublished" datetime="2022-04-21T15:37:01+08:00">2022-04-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -226,32 +226,14 @@
 <p>单阶段在Head的特征图上会产生密集的目标候选区域，要远超RPN产生的2000个proposals。而这些proposals只有很少一部分包含目标物体，从而造成了较为严重的正负样本不均衡的问题，少量正样本提供的loss在整体loss中占比较小，影响了模型对于正样本的学习效果。</p>
 <h3 id="2-网络结构"><a href="#2-网络结构" class="headerlink" title="2. 网络结构"></a>2. 网络结构</h3><p><img src="/images/RetinaNet/image-20220421160303368.png" alt="image-20220421160303368"></p>
 <p>RetinaNet网络结构包含 BackBone、 FPN的Neck, 以及最后的包含两个自网络的Head部分。</p>
-<p><strong>RetinaNet的FPN结构</strong>，从C3-C5生成最终的特征图P3-P7。</p>
-<p><img src="/images/RetinaNet/1650529018(1" alt="1650529018(1)">-16505327359111.jpg)</p>
-<p>在P3-P7的每个层级的特征图上设置anchors， 其中每一层级的scales为三种， 同时设置了三种ratios。</p>
-<p><img src="/images/RetinaNet/image-20220421171313068.png" alt="image-20220421171313068"></p>
-<p><strong>Predict Head部分</strong>直接设置两个自网络负责anchor的类别预测以及bbox回归。</p>
-<p><img src="/images/RetinaNet/image-20220421162825931.png" alt="image-20220421162825931"></p>
-<p>最后的KA中K是检测目标的类别数目，注意这里的 <strong>k 不包含背景类别</strong>（PASCAL VOC  K =  20)，这里的A是预测特征层在每一个位置生成的anchor数目(A = 9)。</p>
-<h3 id="3-Focal-Loss"><a href="#3-Focal-Loss" class="headerlink" title="3. Focal Loss"></a>3. Focal Loss</h3><p>对于一个<strong>普通的二分类的交叉熵损失</strong>可以定义为：</p>
-<p><img src="/images/RetinaNet/image-20220421163746695.png" alt="image-20220421163746695"></p>
-<p><img src="/images/RetinaNet/image-20220421163820466.png" alt="image-20220421163820466"></p>
-<p>那么CE可以简写为：</p>
-<p><img src="/images/RetinaNet/image-20220421163850682.png" alt="image-20220421163850682"></p>
-<p>特别地， 对于正负样本添加权重因子，则可以表示为：</p>
-<p><img src="/images/RetinaNet/image-20220421163951498.png" alt="image-20220421163951498"></p>
-<p>而FocalLoss除了考虑到正负样本的均衡处理， 还对难易样本的Loss施加了权重平衡因子。</p>
-<p><img src="/images/RetinaNet/image-20220421164133409.png" alt="image-20220421164133409"></p>
-<p><img src="/images/RetinaNet/image-20220421164915402.png" alt="image-20220421164915402"></p>
-<p>当pt趋近于1时，容易样本的loss权重标的很低， 而困难样本pt趋近于0，仍然保持一个较大的权重。</p>
-<h3 id="4-References"><a href="#4-References" class="headerlink" title="4. References"></a>4. References</h3><ul>
-<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1956828">https://cloud.tencent.com/developer/article/1956828</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/baidu_36913330/article/details/119762293">https://blog.csdn.net/baidu_36913330/article/details/119762293</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41981679/article/details/123823507">https://blog.csdn.net/weixin_41981679/article/details/123823507</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/67768433">https://zhuanlan.zhihu.com/p/67768433</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/346198300">https://zhuanlan.zhihu.com/p/346198300</a></li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/21/RetinaNet/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -301,7 +283,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-20 17:27:19" itemprop="dateModified" datetime="2022-04-20T17:27:19+08:00">2022-04-20</time>
+                <time title="修改时间：2022-04-21 17:21:39" itemprop="dateModified" datetime="2022-04-21T17:21:39+08:00">2022-04-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -363,42 +345,18 @@
 </ul>
 <p>PSPNet效果好的主要原因：</p>
 <ul>
-<li>多尺度特征融合</li>
-<li><p>基于结构进行预测</p>
-<p> PSPNet通过利用不同大小的池化来增大感受野从而融合上下文全局信息。</p>
+<li><p>多尺度特征融合</p>
 </li>
-</ul>
-<p><img src="/images/PSPNet-%E9%87%91%E5%AD%97%E5%A1%94%E5%9C%BA%E6%99%AF%E8%A7%A3%E6%9E%90%E6%A8%A1%E5%9E%8B/image-20220414151044454.png" alt="image-20220414151044454" style="zoom: 67%;"></p>
-<h3 id="二、Pyramid-Pooling-Module"><a href="#二、Pyramid-Pooling-Module" class="headerlink" title="二、Pyramid Pooling Module"></a>二、Pyramid Pooling Module</h3><ul>
-<li>为了进一步减少不同子区域间上下文信息的丢失，PSPNet 提出了一个有层次的全局先验结构(金字塔池化模块)，包含不同尺度、不同子区域间的信息</li>
-<li>可以在深层神经网络的最终层特征图上构造全局场景先验信息</li>
-</ul>
-<p>PSP 模块:</p>
-<ul>
-<li>① 将输入为 NCHW 特征图变成4个 HW 不同的特征图(1x1、2x2、3x3、6x6)</li>
-<li>② 通过 1x1 的卷积给4个不同的特征图进行降维</li>
-<li>③ 将4个不同的特征图通过上采样变为输入特征图大小</li>
-<li>④ 将输入特征图和4个经过上采样后的特征图进行拼接</li>
-</ul>
-<p><img src="/images/PSPNet-%E9%87%91%E5%AD%97%E5%A1%94%E5%9C%BA%E6%99%AF%E8%A7%A3%E6%9E%90%E6%A8%A1%E5%9E%8B/image-20220414151404974.png" alt="image-20220414151404974" style="zoom:67%;"></p>
-<p>PSP 模块的具体操作:</p>
-<ul>
-<li>① 自适应池化 : 将输入的特征图变成任意大小的特征图</li>
-<li>② 1x1卷积 : 改变特征图的通道大小</li>
-<li>③ Upsample : 将输入特征图的 HW 变大</li>
-<li>④ Concat : 将多个特征图, 通过某一维度拼接起来</li>
-</ul>
-<p><img src="/images/PSPNet-%E9%87%91%E5%AD%97%E5%A1%94%E5%9C%BA%E6%99%AF%E8%A7%A3%E6%9E%90%E6%A8%A1%E5%9E%8B/image-20220414151502670.png" alt="image-20220414151502670" style="zoom: 67%;"></p>
-<h3 id="三、BackBone"><a href="#三、BackBone" class="headerlink" title="三、BackBone"></a>三、BackBone</h3><p>Dilated ResNet:</p>
-<ul>
-<li>在 ResNet 的第4、5层(全连接层的前两层)采用 Dilation 为 2、4 的卷积</li>
-<li>在 PSPNet 中我们只采用 Dilated ResNet 全连接层前的部分</li>
-</ul>
-<p><img src="/images/PSPNet-%E9%87%91%E5%AD%97%E5%A1%94%E5%9C%BA%E6%99%AF%E8%A7%A3%E6%9E%90%E6%A8%A1%E5%9E%8B/image-20220414152841780.png" alt="image-20220414152841780" style="zoom:67%;"></p>
-<p><img src="/images/PSPNet-%E9%87%91%E5%AD%97%E5%A1%94%E5%9C%BA%E6%99%AF%E8%A7%A3%E6%9E%90%E6%A8%A1%E5%9E%8B/image-20220414152947788.png" alt="image-20220414152947788" style="zoom:67%;"></p>
-<h3 id="四、-实验结果"><a href="#四、-实验结果" class="headerlink" title="四、 实验结果"></a>四、 实验结果</h3><p><img src="/images/PSPNet-%E9%87%91%E5%AD%97%E5%A1%94%E5%9C%BA%E6%99%AF%E8%A7%A3%E6%9E%90%E6%A8%A1%E5%9E%8B/image-20220414153602272.png" alt="image-20220414153602272"></p>
-<p><img src="/images/PSPNet-%E9%87%91%E5%AD%97%E5%A1%94%E5%9C%BA%E6%99%AF%E8%A7%A3%E6%9E%90%E6%A8%A1%E5%9E%8B/image-20220414153614712.png" alt="image-20220414153614712"></p>
-
+<li><p>基于结构进行预测</p>
+<p> PSPNet通过利用不同大小的池化来增大感受野从而融合上下文全局信息。</p></li></ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/14/PSPNet-%E9%87%91%E5%AD%97%E5%A1%94%E5%9C%BA%E6%99%AF%E8%A7%A3%E6%9E%90%E6%A8%A1%E5%9E%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -448,7 +406,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-20 16:56:04" itemprop="dateModified" datetime="2022-04-20T16:56:04+08:00">2022-04-20</time>
+                <time title="修改时间：2022-04-21 17:23:31" itemprop="dateModified" datetime="2022-04-21T17:23:31+08:00">2022-04-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -479,13 +437,14 @@
 <p>总体上有这三条路线可以将其他框架的模型转换为TRT Engine。</p>
 <p><img src="/images/TensorRT-%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/image-20220407191744609.png" alt="image-20220407191744609"></p>
 <p>也有一些通过C++直接调用TensorRT API来直接定义相关网络模型，例如tesorrtx， 这样操作可以精确的控制每个layer的细节和权重，对不支持的算子可以灵活自定义。Yolov5也官方引用了这个repo，所以这个repo还是很厉害的，构建了众多通用的网络模型。</p>
-<p><img src="/images/TensorRT-%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/image-20220407192032866.png" alt="image-20220407192032866"></p>
-<p>也有通过python对每个算子写Converter, 反射Module.forward捕获输入输出和网络图结构，torch2trt主要是将pytorch的算子做converter，为每个算子的forward反射到自定义函数中，当实现新算子时，需要自己实现对应的converter。 </p>
-<p><img src="/images/TensorRT-%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/image-20220407192818228.png" alt="image-20220407192818228" style="zoom: 50%;"></p>
-<p>repo3包含了repo1和repo2的优点，集成了众多工业级的算法，例如YoLoV5, YoLoX，RetinaFace，DeepSORT。</p>
-<p><img src="/images/TensorRT-%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/image-20220407193437487.png" alt="image-20220407193437487"></p>
-<p><img src="/images/TensorRT-%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/image-20220407193454662.png" alt="image-20220407193454662"></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/06/TensorRT-%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -650,7 +609,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-20 16:58:26" itemprop="dateModified" datetime="2022-04-20T16:58:26+08:00">2022-04-20</time>
+                <time title="修改时间：2022-04-21 17:22:22" itemprop="dateModified" datetime="2022-04-21T17:22:22+08:00">2022-04-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -693,32 +652,14 @@
 <p>上图标识RPN输出的proposals在各个IoU范围内的数量分布，可以看到随着IoU阈值的提高，相对应的proposals数量逐渐减少。</p>
 <p><img src="/images/Cascade-RCNN/image-20220420161546529.png" alt="image-20220420161546529"></p>
 <p>上图（c），横轴 Input IoU 表示 RPN 输出的 proposal 与 gt bbox 的 IoU，纵轴 Output IoU 是经过 RCNN 的 bbox 分支回归输出后与 gt bbox 的 IoU，不同线条代表不同阈值训练出来的 detector。以 u=0.5 为例，当对 RPN 输出的 proposal 使用阈值 0.5 来切分正负样本，对于那些 bbox 质量较差(也算正样本，0.5 &lt; Input IOU &lt; 0.55), 经过 R-CNN 回归后效果提升明显，IoU 可以直接回归到 0.75 (和正样本分布有关系，在该区间内的正样本比较多)，且随着 proposal 质量增加，RCNN 回归后的 bbox 质量也会增加，但是 Input IoU 越大的 proposal，回归后提升越来越不明显，虽然精度没有下降。再看 u=0.7，对于低质量 proposal，其提升较少，这主要因为低质量的 proposal 被滤掉，没有得到训练，但是对于高质量 的bbox，提升较大。</p>
-<p>可以发现，Input IoU 在 0.55~0.6 范围内 proposal 阈值设置为 0.5 时 detector 性能最好，在 0.6~0.75 阈值为 0.6 的 detector 性能最佳，而到了 0.75 之后就是阈值为 0.7 的 detector 性能最好了。<strong>只有输入 proposal 自身的 IoU 分布和 detector 训练用的阈值 IoU 较为接近的时候，detector 性能才最好，或者说阈值 IoU 设置应该和 R-CNN 训练的输入样本 IoU 分布接近的时候，性能最好，如果两个阈值相距比较远就是 mismatch 问题</strong>。</p>
-<p>上图（d），在 IoU=0.5~0.6 的时候，检测性能下降比较少，但是一旦 IoU=0.7，检测性能就非常差了。<strong>这说明不能一味的提高 IoU 来达到输出高质量 bbox 的目的(对应匹配正样本数目不够，会出现过拟合)。</strong></p>
-<p><img src="/images/Cascade-RCNN/image-20220420161908060.png" alt="image-20220420161908060"></p>
-<p>上图 (b)，其在当前设定的 IoU 阈值处分类 loss 会存在一个峰值。假设 IoU 阈值为 0.5，那么 proposal 与 gt bbox 值的 IoU 在大于 0.5 时候是正样本，低于 0.5 是背景样本，决策边界其实就在 0.5 附近了，那自然在分隔带上的 loss 最大。假设一个二分类问题，大于 0 是正样本，小于 0 是负样本，分类目的就是尽可能把 0 附近的正负样本区分开(对于正样本，预测 0 要变成预测 1，对于负样本，预测 0 要变成预测 -1，那自然 loss 最大)，此时靠近 0 附近的样本 loss 肯定最大，梯度也是最大的。</p>
-<h3 id="2-Cascade-R-CNN-网络结构"><a href="#2-Cascade-R-CNN-网络结构" class="headerlink" title="2. Cascade R-CNN 网络结构"></a>2. Cascade R-CNN 网络结构</h3><p>既然单一阈值会带来mismatch的问题，那么级联多个detector，形成一个multi-stage的detector结构，然后每一个stage都有一个不同的IoU阈值，从而达到提升检测效果的目的。</p>
-<p><img src="/images/Cascade-RCNN/image-20220420144619431.png" alt="image-20220420144619431"></p>
-<ul>
-<li>图(a) 是标准的 Faster R-CNN 结构，属于二级 bbox 回归</li>
-<li>图(b) 是前向时候不断迭代 bbox 回归，训练时候还是和 Faster R-CNN 一样</li>
-<li>图(c) 是对分类概率进行多次分类，使用了不同的阈值来进行分类，然后融合他们的结果进行分类推理，并没有同时进行 bbox 回归</li>
-<li>图(d)则为Cascade-RCNN的网络架构，该结构可以保证训练和测试流程完全一样，一致性更强</li>
-</ul>
-<p>Iterative BBox方法的三个detector的H共享，且每个分支的IoU阈值都设置为0.5，单一阈值的无法对所有proposal取得不错的回归效果。另外，各分支的detector也会相应的改变proposals的分布，沿用一个阈值的话，后边的detector的训练样本就会包含较多的离群点（outliers）,使用共享的H也无法适应不同detector的输入变化。而Cascade-RCNN每个detector设置不同的阈值，可以跟好的消除离群点，适应新的proposal分布。</p>
-<p><img src="/images/Cascade-RCNN/image-20220420145430467.png" alt="image-20220420145430467"></p>
-<p>第一行横纵轴分别是回归目标中 bbox 的 x 方向和 y 方向偏移量；第二行横纵轴分别是回归目标中 bbox 的宽、高偏差量。可以看到，从 1st stage 到 2nd stage，proposal 的分布其实已经发生很大变化了，因为很多噪声样本经过 bbox 回归后实际上也提高了 IoU，2nd 和 3rd 中的那些红色点已经属于 outliers，如果不提高阈值来去掉它们，就会引入大量噪声干扰，对结果很不利。从这里也可以看出，<strong>阈值重新选取本质上是一个 resample 过程，它保证了样本质量。</strong></p>
-<p>但是如果不断提高IoU阈值，会不会导致后续正样本越来越少，从而也有过拟合的风险？ 作者也做了大量实验，如下图所示，可以看出，样本不仅没有减少，而且稍稍有增加。说明本文方法不会减少正样本数量，是有效的。并且可以发现各个阶段那个 IoU 的 bbox 分布最多。所以级联多个 R-CNN 模块，并且不断提高 IoU 阈值，在每个阶段不断进行正负样本重采样策略，不仅不会出现过拟合，而且可以实现极大的性能提升。</p>
-<p><img src="/images/Cascade-RCNN/image-20220420162058375.png" alt="image-20220420162058375"></p>
-<h3 id="3-训练流程及推理流程"><a href="#3-训练流程及推理流程" class="headerlink" title="3. 训练流程及推理流程"></a>3. 训练流程及推理流程</h3><p>Cascade-RCNN在代码层面实现是在 Faster R-CNN 后面再级联 n 个 R-CNN，每个 R-CNN 的输入都是前一个 R-CNN 的检测输出。在训练时，相比 Faster R-CNN, 其对每个 stage 都单独设置了各自的 <code>bbox_assigner</code> 和 <code>bbox_sampler</code>，同时多了一个 <code>refine_bboxes</code> 过程。</p>
-<p>Cascade R-CNN 测试流程需要注意的是：最终的分类分值不是最后一个 stage 输出，而是 n 个 stage 的平均值，但是 bbox 预测值是最后一个 stage 输出。</p>
-<h3 id="4-References"><a href="#4-References" class="headerlink" title="4. References"></a>4. References</h3><ul>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/360952172">https://zhuanlan.zhihu.com/p/360952172</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/42553957">https://zhuanlan.zhihu.com/p/42553957</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/161530664">https://zhuanlan.zhihu.com/p/161530664</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/42553957">https://zhuanlan.zhihu.com/p/42553957</a></li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/03/01/Cascade-RCNN/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
