@@ -164,6 +164,112 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/04/21/RetinaNet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Bolg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/21/RetinaNet/" class="post-title-link" itemprop="url">RetinaNet</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-21 15:37:01 / 修改时间：17:13:38" itemprop="dateCreated datePublished" datetime="2022-04-21T15:37:01+08:00">2022-04-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1-RetinaNet-简介"><a href="#1-RetinaNet-简介" class="headerlink" title="1. RetinaNet 简介"></a>1. RetinaNet 简介</h3><p>paper: <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_ICCV_2017/papers/Lin_Focal_Loss_for_ICCV_2017_paper.pdf">https://openaccess.thecvf.com/content_ICCV_2017/papers/Lin_Focal_Loss_for_ICCV_2017_paper.pdf</a></p>
+<p>code: <a target="_blank" rel="noopener" href="https://github.com/facebookresearch/Detectron">https://github.com/facebookresearch/Detectron</a></p>
+<p>RetinaNet 检测算法出自Facebook AI Research的论文 Focal Loss for Dense Object Detection， 作者包含了RCNN作者Ross Girshick、何恺明和Piotr。</p>
+<p>主要提出了Focal Loss解决单阶段检测算法中的类别不均衡问题，（正负样本不均衡，难易样本不均衡），使得RetinaNet这个单阶段检测网络达到甚至超越了部分两阶段的目标检测网络。</p>
+<p><img src="/images/RetinaNet/image-20220421153931298.png" alt="image-20220421153931298"></p>
+<p><img src="/images/RetinaNet/image-20220421165137132.png" alt="image-20220421165137132"></p>
+<p>单阶段检测网络相比两阶段网络精度较差的原因很大层面是由于类别的不均衡。</p>
+<p>单阶段在Head的特征图上会产生密集的目标候选区域，要远超RPN产生的2000个proposals。而这些proposals只有很少一部分包含目标物体，从而造成了较为严重的正负样本不均衡的问题，少量正样本提供的loss在整体loss中占比较小，影响了模型对于正样本的学习效果。</p>
+<h3 id="2-网络结构"><a href="#2-网络结构" class="headerlink" title="2. 网络结构"></a>2. 网络结构</h3><p><img src="/images/RetinaNet/image-20220421160303368.png" alt="image-20220421160303368"></p>
+<p>RetinaNet网络结构包含 BackBone、 FPN的Neck, 以及最后的包含两个自网络的Head部分。</p>
+<p><strong>RetinaNet的FPN结构</strong>，从C3-C5生成最终的特征图P3-P7。</p>
+<p><img src="/images/RetinaNet/1650529018(1" alt="1650529018(1)">.jpg)</p>
+<p>在P3-P7的每个层级的特征图上设置anchors， 其中每一层级的scales为三种， 同时设置了三种ratios。</p>
+<p><img src="/images/RetinaNet/image-20220421171313068.png" alt="image-20220421171313068"></p>
+<p><strong>Predict Head部分</strong>直接设置两个自网络负责anchor的类别预测以及bbox回归。</p>
+<p><img src="/images/RetinaNet/image-20220421162825931.png" alt="image-20220421162825931"></p>
+<p>最后的KA中K是检测目标的类别数目，注意这里的 <strong>k 不包含背景类别</strong>（PASCAL VOC  K =  20)，这里的A是预测特征层在每一个位置生成的anchor数目(A = 9)。</p>
+<h3 id="3-Focal-Loss"><a href="#3-Focal-Loss" class="headerlink" title="3. Focal Loss"></a>3. Focal Loss</h3><p>对于一个<strong>普通的二分类的交叉熵损失</strong>可以定义为：</p>
+<p><img src="/images/RetinaNet/image-20220421163746695.png" alt="image-20220421163746695"></p>
+<p><img src="/images/RetinaNet/image-20220421163820466.png" alt="image-20220421163820466"></p>
+<p>那么CE可以简写为：</p>
+<p><img src="/images/RetinaNet/image-20220421163850682.png" alt="image-20220421163850682"></p>
+<p>特别地， 对于正负样本添加权重因子，则可以表示为：</p>
+<p><img src="/images/RetinaNet/image-20220421163951498.png" alt="image-20220421163951498"></p>
+<p>而FocalLoss除了考虑到正负样本的均衡处理， 还对难易样本的Loss施加了权重平衡因子。</p>
+<p><img src="/images/RetinaNet/image-20220421164133409.png" alt="image-20220421164133409"></p>
+<p><img src="/images/RetinaNet/image-20220421164915402.png" alt="image-20220421164915402"></p>
+<p>当pt趋近于1时，容易样本的loss权重标的很低， 而困难样本pt趋近于0，仍然保持一个较大的权重。</p>
+<h3 id="4-References"><a href="#4-References" class="headerlink" title="4. References"></a>4. References</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1956828">https://cloud.tencent.com/developer/article/1956828</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/baidu_36913330/article/details/119762293">https://blog.csdn.net/baidu_36913330/article/details/119762293</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41981679/article/details/123823507">https://blog.csdn.net/weixin_41981679/article/details/123823507</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/67768433">https://zhuanlan.zhihu.com/p/67768433</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/346198300">https://zhuanlan.zhihu.com/p/346198300</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/04/14/PSPNet-%E9%87%91%E5%AD%97%E5%A1%94%E5%9C%BA%E6%99%AF%E8%A7%A3%E6%9E%90%E6%A8%A1%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -997,87 +1103,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/01/12/OCR%E6%95%B0%E6%8D%AE%E5%90%88%E6%88%90%E4%B9%8Btext-renderer/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/icon.jpg">
-      <meta itemprop="name" content="yukai">
-      <meta itemprop="description" content="yukai的Bolg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yukai's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/12/OCR%E6%95%B0%E6%8D%AE%E5%90%88%E6%88%90%E4%B9%8Btext-renderer/" class="post-title-link" itemprop="url">OCR数据合成之text_renderer</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-01-12 16:41:38" itemprop="dateCreated datePublished" datetime="2022-01-12T16:41:38+08:00">2022-01-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 15:16:25" itemprop="dateModified" datetime="2022-01-25T15:16:25+08:00">2022-01-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1149,7 +1174,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

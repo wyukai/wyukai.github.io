@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yukai.tech","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1. RetinaNet 简介paper: https:&#x2F;&#x2F;openaccess.thecvf.com&#x2F;content_ICCV_2017&#x2F;papers&#x2F;Lin_Focal_Loss_for_ICCV_2017_paper.pdf code: https:&#x2F;&#x2F;github.com&#x2F;facebookresearch&#x2F;Detectron RetinaNet 检测算法出自Facebook AI Rese">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RetinaNet">
+<meta property="og:url" content="http://yukai.tech/2022/04/21/RetinaNet/index.html">
+<meta property="og:site_name" content="Yukai&#39;s Blog">
+<meta property="og:description" content="1. RetinaNet 简介paper: https:&#x2F;&#x2F;openaccess.thecvf.com&#x2F;content_ICCV_2017&#x2F;papers&#x2F;Lin_Focal_Loss_for_ICCV_2017_paper.pdf code: https:&#x2F;&#x2F;github.com&#x2F;facebookresearch&#x2F;Detectron RetinaNet 检测算法出自Facebook AI Rese">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yukai.tech/images/RetinaNet/image-20220421153931298.png">
+<meta property="og:image" content="http://yukai.tech/images/RetinaNet/image-20220421165137132.png">
+<meta property="og:image" content="http://yukai.tech/images/RetinaNet/image-20220421160303368.png">
+<meta property="og:image" content="http://yukai.tech/images/RetinaNet/1650529018(1">
+<meta property="og:image" content="http://yukai.tech/images/RetinaNet/image-20220421171313068.png">
+<meta property="og:image" content="http://yukai.tech/images/RetinaNet/image-20220421162825931.png">
+<meta property="og:image" content="http://yukai.tech/images/RetinaNet/image-20220421163746695.png">
+<meta property="og:image" content="http://yukai.tech/images/RetinaNet/image-20220421163820466.png">
+<meta property="og:image" content="http://yukai.tech/images/RetinaNet/image-20220421163850682.png">
+<meta property="og:image" content="http://yukai.tech/images/RetinaNet/image-20220421163951498.png">
+<meta property="og:image" content="http://yukai.tech/images/RetinaNet/image-20220421164133409.png">
+<meta property="og:image" content="http://yukai.tech/images/RetinaNet/image-20220421164915402.png">
+<meta property="article:published_time" content="2022-04-21T07:37:01.000Z">
+<meta property="article:modified_time" content="2022-04-21T09:13:38.902Z">
+<meta property="article:author" content="yukai">
+<meta property="article:tag" content="object detection">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yukai.tech/images/RetinaNet/image-20220421153931298.png">
+
+<link rel="canonical" href="http://yukai.tech/2022/04/21/RetinaNet/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>RetinaNet | Yukai's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Yukai's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/04/21/RetinaNet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Bolg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RetinaNet
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-21 15:37:01 / 修改时间：17:13:38" itemprop="dateCreated datePublished" datetime="2022-04-21T15:37:01+08:00">2022-04-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="1-RetinaNet-简介"><a href="#1-RetinaNet-简介" class="headerlink" title="1. RetinaNet 简介"></a>1. RetinaNet 简介</h3><p>paper: <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_ICCV_2017/papers/Lin_Focal_Loss_for_ICCV_2017_paper.pdf">https://openaccess.thecvf.com/content_ICCV_2017/papers/Lin_Focal_Loss_for_ICCV_2017_paper.pdf</a></p>
+<p>code: <a target="_blank" rel="noopener" href="https://github.com/facebookresearch/Detectron">https://github.com/facebookresearch/Detectron</a></p>
+<p>RetinaNet 检测算法出自Facebook AI Research的论文 Focal Loss for Dense Object Detection， 作者包含了RCNN作者Ross Girshick、何恺明和Piotr。</p>
+<p>主要提出了Focal Loss解决单阶段检测算法中的类别不均衡问题，（正负样本不均衡，难易样本不均衡），使得RetinaNet这个单阶段检测网络达到甚至超越了部分两阶段的目标检测网络。</p>
+<p><img src="/images/RetinaNet/image-20220421153931298.png" alt="image-20220421153931298"></p>
+<p><img src="/images/RetinaNet/image-20220421165137132.png" alt="image-20220421165137132"></p>
+<p>单阶段检测网络相比两阶段网络精度较差的原因很大层面是由于类别的不均衡。</p>
+<p>单阶段在Head的特征图上会产生密集的目标候选区域，要远超RPN产生的2000个proposals。而这些proposals只有很少一部分包含目标物体，从而造成了较为严重的正负样本不均衡的问题，少量正样本提供的loss在整体loss中占比较小，影响了模型对于正样本的学习效果。</p>
+<h3 id="2-网络结构"><a href="#2-网络结构" class="headerlink" title="2. 网络结构"></a>2. 网络结构</h3><p><img src="/images/RetinaNet/image-20220421160303368.png" alt="image-20220421160303368"></p>
+<p>RetinaNet网络结构包含 BackBone、 FPN的Neck, 以及最后的包含两个自网络的Head部分。</p>
+<p><strong>RetinaNet的FPN结构</strong>，从C3-C5生成最终的特征图P3-P7。</p>
+<p><img src="/images/RetinaNet/1650529018(1" alt="1650529018(1)">.jpg)</p>
+<p>在P3-P7的每个层级的特征图上设置anchors， 其中每一层级的scales为三种， 同时设置了三种ratios。</p>
+<p><img src="/images/RetinaNet/image-20220421171313068.png" alt="image-20220421171313068"></p>
+<p><strong>Predict Head部分</strong>直接设置两个自网络负责anchor的类别预测以及bbox回归。</p>
+<p><img src="/images/RetinaNet/image-20220421162825931.png" alt="image-20220421162825931"></p>
+<p>最后的KA中K是检测目标的类别数目，注意这里的 <strong>k 不包含背景类别</strong>（PASCAL VOC  K =  20)，这里的A是预测特征层在每一个位置生成的anchor数目(A = 9)。</p>
+<h3 id="3-Focal-Loss"><a href="#3-Focal-Loss" class="headerlink" title="3. Focal Loss"></a>3. Focal Loss</h3><p>对于一个<strong>普通的二分类的交叉熵损失</strong>可以定义为：</p>
+<p><img src="/images/RetinaNet/image-20220421163746695.png" alt="image-20220421163746695"></p>
+<p><img src="/images/RetinaNet/image-20220421163820466.png" alt="image-20220421163820466"></p>
+<p>那么CE可以简写为：</p>
+<p><img src="/images/RetinaNet/image-20220421163850682.png" alt="image-20220421163850682"></p>
+<p>特别地， 对于正负样本添加权重因子，则可以表示为：</p>
+<p><img src="/images/RetinaNet/image-20220421163951498.png" alt="image-20220421163951498"></p>
+<p>而FocalLoss除了考虑到正负样本的均衡处理， 还对难易样本的Loss施加了权重平衡因子。</p>
+<p><img src="/images/RetinaNet/image-20220421164133409.png" alt="image-20220421164133409"></p>
+<p><img src="/images/RetinaNet/image-20220421164915402.png" alt="image-20220421164915402"></p>
+<p>当pt趋近于1时，容易样本的loss权重标的很低， 而困难样本pt趋近于0，仍然保持一个较大的权重。</p>
+<h3 id="4-References"><a href="#4-References" class="headerlink" title="4. References"></a>4. References</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1956828">https://cloud.tencent.com/developer/article/1956828</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/baidu_36913330/article/details/119762293">https://blog.csdn.net/baidu_36913330/article/details/119762293</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41981679/article/details/123823507">https://blog.csdn.net/weixin_41981679/article/details/123823507</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/67768433">https://zhuanlan.zhihu.com/p/67768433</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/346198300">https://zhuanlan.zhihu.com/p/346198300</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/object-detection/" rel="tag"># object detection</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/14/PSPNet-%E9%87%91%E5%AD%97%E5%A1%94%E5%9C%BA%E6%99%AF%E8%A7%A3%E6%9E%90%E6%A8%A1%E5%9E%8B/" rel="prev" title="PSPNet-金字塔场景解析模型">
+      <i class="fa fa-chevron-left"></i> PSPNet-金字塔场景解析模型
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RetinaNet-%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">1. RetinaNet 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">2. 网络结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Focal-Loss"><span class="nav-number">3.</span> <span class="nav-text">3. Focal Loss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-References"><span class="nav-number">4.</span> <span class="nav-text">4. References</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="yukai"
+      src="/images/icon.jpg">
+  <p class="site-author-name" itemprop="name">yukai</p>
+  <div class="site-description" itemprop="description">yukai的Bolg</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wyukai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wyukai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yukai</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
