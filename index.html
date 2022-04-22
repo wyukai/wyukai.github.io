@@ -709,7 +709,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-22 15:14:17" itemprop="dateModified" datetime="2022-04-22T15:14:17+08:00">2022-04-22</time>
+                <time title="修改时间：2022-04-22 15:21:37" itemprop="dateModified" datetime="2022-04-22T15:21:37+08:00">2022-04-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -759,65 +759,14 @@
 <li>提出 balanced feature pyramid 解决 feature lavel 的 imbalance</li>
 <li>提出 balanced L1 loss 解决 objective level 的 imbalance</li>
 </ul>
-<h3 id="2-总体框架"><a href="#2-总体框架" class="headerlink" title="2. 总体框架"></a>2. 总体框架</h3><p><img src="/images/Libra-RCNN/image-20220422110542582.png" alt="image-20220422110542582"></p>
-<p>整个框架是非常典型的两阶段检测网络， 类似于Faster-RCNN，在RPN后采用了IoU Balanced的proposal采样策略。在共享特征图后增加了Balanced Pyramid的特征提取模块，在BoxHead中采用了提出的Balanced L1损失函数。</p>
-<h3 id="3-IoU-balanced-sampling"><a href="#3-IoU-balanced-sampling" class="headerlink" title="3. IoU balanced sampling"></a>3. IoU balanced sampling</h3><p><img src="/images/Libra-RCNN/image-20220422111047044.png" alt="image-20220422111047044"></p>
-<p><img src="/images/Libra-RCNN/image-20220422140515113.png" alt="image-20220422140515113"></p>
-<p>上图是三种采样策略在不同IoU下proposal分布，可以看到Hard Negative和 IoU-Balanced Sampling策略都可以较好的减少采样的样本在不同IoU下的imbalance。</p>
-<p>随机采样到的样本超过70%都是在IoU在0到0.05之间的，这是因为觉得部分的proposal只包含背景区域，所以从统计学的角度考虑，随机采样很容易造成这种情况。OHEM可以有效的解决这个问题，但此方法容易受到 noisy label data的影响，且带来了额外的计算。</p>
-<p>IoU balanced sampling 的做法如下，比较好理解</p>
-<p>从 M 个负样本中，抽取 N 个负样本</p>
-<ol>
-<li><p>对 IoU 值进行分箱操作，分成 k 个箱，实验中默认 k 为 3</p>
-</li>
-<li><p>从每个箱中随机抽取 N/k 个负样本</p>
-</li>
-</ol>
-<h3 id="4-Balanced-Feature-Pyramid"><a href="#4-Balanced-Feature-Pyramid" class="headerlink" title="4. Balanced Feature Pyramid"></a>4. Balanced Feature Pyramid</h3><p><img src="/images/Libra-RCNN/image-20220422113149827.png" alt="image-20220422113149827"></p>
-<p>BFP模块包含四个步骤，rescale、integrate、refine、strength。</p>
-<ol>
-<li><p>rescale and integrate，对FPN后的各层级特征图执行插值(interpolation)或者池化(max pooling)操作，统一为C4层级的特征图尺寸，然后对特征图进行加权取平均操作.</p>
-<p><img src="/images/Libra-RCNN/image-20220422134717321.png" alt="image-20220422134717321"></p>
-</li>
-<li><p>refine, 可以采用conv或者 non-local mldule(如下图)操作，论文中采用了 Gaussian non-local attention module， 可以enhance the integrated features。</p>
-<p><img src="/images/Libra-RCNN/image-20220422140847930.png" alt="image-20220422140847930"></p>
-</li>
-<li><p>strength, 将refine后的features进行插值得到P2，P3并与FPN后的C2、C3执行逐特征add操作，使用max pooling 得到P5，并于C5执行add, P4则直接与C4 add。</p>
-</li>
-</ol>
-<h3 id="5-Balanced-L1-Loss"><a href="#5-Balanced-L1-Loss" class="headerlink" title="5. Balanced L1 Loss"></a>5. Balanced L1 Loss</h3><p>引用作者的解释:</p>
-<p><strong>目标检测本质上还是一个多任务task，既要识别相应的类别，也要精准定位，那么他们两个在训练过程总的balance就比较tricky，但一味的提高regression的loss其实会让outlier的影响变大(类似于OHEM中的noise label)。于是我们通过特定的enhance比较重要部分的梯度来让这个过程更加smooth，在几个方面寻找一个相对balance的case。</strong></p>
-<p>这个地方，，说实话我没太看懂，能想出这种方法，数学功底不一般呀。</p>
-<p>回顾一下Fast-RCNN的多任务损失函数，其由两部分组成，分类损失和BBox的回归损失，<script type="math/tex">\lambda</script>则用来平衡两个任务的损失。</p>
-<p><img src="/images/Libra-RCNN/image-20220422141317241.png" alt="image-20220422141317241"></p>
-<p>当样本损失大于等于1.0时的样本定义为outliers, 反之则为inliers， 若想直接通过调整权重增加回归损失的权重，会导致网络对outliers更加敏感，因为边界回归是无边界的。</p>
-<p>再回顾一下Smooth L1 Loss:</p>
-<p><img src="/images/Libra-RCNN/image-20220422143513466.png" alt="image-20220422143513466"></p>
-<p>求导后：</p>
-<p><img src="/images/Libra-RCNN/image-20220422143527609.png" alt="image-20220422143527609"></p>
-<p>为了限制outliers的影响，将其损失值控制在1.0之内，并适当增大inliers的梯度值，Balanced Loss设计为</p>
-<p><img src="/images/Libra-RCNN/image-20220422145349579.png" alt="image-20220422145349579"></p>
-<p>满足链式求导：</p>
-<p><img src="/images/Libra-RCNN/image-20220422145414180.png" alt="image-20220422145414180"></p>
-<p>作者从需求出发，想要得到一个梯度当样本在 |x| &lt; 1 附近产生稍微大点的梯度，作者设计了下面这个函数:</p>
-<p><img src="/images/Libra-RCNN/image-20220422145737026.png" alt="image-20220422145737026"></p>
-<p>反推出损失函数Lb为：</p>
-<p><img src="/images/Libra-RCNN/image-20220422150114730.png" alt="image-20220422150114730"></p>
-<p>其中，</p>
-<p><img src="/images/Libra-RCNN/image-20220422150422883.png" alt="image-20220422150422883"></p>
-<p><img src="/images/Libra-RCNN/image-20220422145924558.png" alt="image-20220422145924558"></p>
-<p>γ能够限制 outliers 的梯度大小。小的α能够提高 inliers 的梯度，并且对 outliers 的梯度没有影响，如上图所示。当回归损失值小于 1 时，balanced L1 Loss 中，小的α能够获得 (inliers 或者说是 easy samples) 更大的梯度；当损失值大于等于 1 时，（outliers 或者说是 hard sampling）梯度值保持不变。这种做法能够平衡 inliners 和 outliers，以达到更好平衡训练的目的。</p>
-<p>实验中，默认为 α=0.5， γ=1.5。</p>
-<h2 id="6-实验效果"><a href="#6-实验效果" class="headerlink" title="6. 实验效果"></a>6. 实验效果</h2><p><img src="/images/Libra-RCNN/image-20220422150826301.png" alt="image-20220422150826301"></p>
-<p><img src="/images/Libra-RCNN/image-20220422150808516.png" alt="image-20220422150808516"></p>
-<h3 id="7-References"><a href="#7-References" class="headerlink" title="7. References"></a>7. References</h3><ul>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/62534549">https://zhuanlan.zhihu.com/p/62534549</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/319458937/answer/647082241">https://www.zhihu.com/question/319458937/answer/647082241</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/64541760">https://zhuanlan.zhihu.com/p/64541760</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/77430585">https://zhuanlan.zhihu.com/p/77430585</a></li>
-<li><a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_cvpr_2018/papers/Wang_Non-Local_Neural_Networks_CVPR_2018_paper.pdf">https://openaccess.thecvf.com/content_cvpr_2018/papers/Wang_Non-Local_Neural_Networks_CVPR_2018_paper.pdf</a></li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/03/01/Libra-RCNN/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
