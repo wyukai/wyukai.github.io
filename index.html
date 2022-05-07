@@ -164,6 +164,98 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/05/07/Res2Net/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/07/Res2Net/" class="post-title-link" itemprop="url">Res2Net</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-07 13:58:02 / 修改时间：14:36:36" itemprop="dateCreated datePublished" datetime="2022-05-07T13:58:02+08:00">2022-05-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/cnn-backbone/" itemprop="url" rel="index"><span itemprop="name">cnn backbone</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/cnn-backbone/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1-Res2Net简析"><a href="#1-Res2Net简析" class="headerlink" title="1. Res2Net简析"></a>1. Res2Net简析</h3><p>paper: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1904.01169.pdf">https://arxiv.org/pdf/1904.01169.pdf</a></p>
+<p><img src="/images/Res2Net/image-20220507135929679.png" alt="image-20220507135929679"></p>
+<p>Res2Net提出的契机， 其认为网络提取多尺度特征的能力是非常重要的，与其他网络不同的是，Res2Net没有在layer-wise这个层面改进，而是在更细粒度的层面改进了网络模型，其改进了Residual Block内部，以期能够提升该模块提取多尺度特征的能力。</p>
+<ul>
+<li>objects may appear with different sizes in a single image, e.g., the sofa and cup are of different sizes.</li>
+<li>the essential contextual information of an object may occupy a much larger area than the object itself.</li>
+<li>perceiving information from different scales is essential for understanding parts as well as objects for tasks such as fine-grained classification and semantic segmentation.</li>
+</ul>
+<p><img src="/images/Res2Net/image-20220507140613917.png" alt="image-20220507140613917"></p>
+<p>上图（b）即为Res2Net提出的Block， 经过1x1卷积之后，特征图分成4（s）部分。x1不做处理，直接传到y1，等价于skip-connection；x2经过3x3卷积之后分为两条线路，一条继续向前传播给y2，另一条传到x3，这样第三条线路就获得了第二条线路的信息；第三条线路、第四条线路，以此类推。每条线路的通道数为n/s。这样拆分组合的方式使得经过该block之后的特征感受野更加丰富，包含了多种尺度的特征，使得整的网络能够有效提取全局特征和局部特征。Res2Net提出了尺度（s）这个超参数，论文实验论证了增加该参数相比其他维度（通道，深度，宽度）更加有效。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/07/Res2Net/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/05/05/PolyLoss/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -934,100 +1026,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/01/24/OD-DenseBox%E9%9A%8F%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/icon.jpg">
-      <meta itemprop="name" content="yukai">
-      <meta itemprop="description" content="yukai的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yukai's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/24/OD-DenseBox%E9%9A%8F%E8%AE%B0/" class="post-title-link" itemprop="url">OD-DenseBox随记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-01-24 17:56:57" itemprop="dateCreated datePublished" datetime="2022-01-24T17:56:57+08:00">2022-01-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-15 09:48:16" itemprop="dateModified" datetime="2022-04-15T09:48:16+08:00">2022-04-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="1-DenseBox"><a href="#1-DenseBox" class="headerlink" title="1. DenseBox"></a>1. DenseBox</h3><p>paper: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1509.04874.pdf">https://arxiv.org/pdf/1509.04874.pdf</a></p>
-<p>code: <a target="_blank" rel="noopener" href="https://github.com/CaptainEven/DenseBox">https://github.com/CaptainEven/DenseBox</a></p>
-<p>最近在看文本检测算法EAST，其核心思想与DenseBox很是相似，结合了Unet结构。DenseBox是比较早期的Anchor-Free目标检测算法，方法本身有很多值得借鉴的地方，很多思想也比较超前， 比如端到端的训练和识别，多尺度特征融合，结合关键点增强检测效果等。</p>
-<p><img src="/images/OD-DenseBox%E9%9A%8F%E8%AE%B0/image-20220124190818693.png" alt="image-20220124190818693"></p>
-<p><img src="/images/OD-DenseBox%E9%9A%8F%E8%AE%B0/image-20220124191404862.png" alt="image-20220124191404862" style="zoom:80%;"></p>
-<p>整体架构如Figure1所示，测试时，输入图片大小为(mxnx3)，输出为（m/4 x n/4 *5），第一维s为分类置信度，后四维为像素位置至目标边界的距离，转化为bbox后进行后处理NMS得到最终的检测结果。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/24/OD-DenseBox%E9%9A%8F%E8%AE%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1099,20 +1097,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
