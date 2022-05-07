@@ -164,6 +164,186 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/05/07/SKNet%E5%9B%9E%E9%A1%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/07/SKNet%E5%9B%9E%E9%A1%BE/" class="post-title-link" itemprop="url">SKNet回顾</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-07 16:14:49 / 修改时间：18:32:39" itemprop="dateCreated datePublished" datetime="2022-05-07T16:14:49+08:00">2022-05-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/cnn-backbone/" itemprop="url" rel="index"><span itemprop="name">cnn backbone</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/cnn-backbone/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1-SKNet"><a href="#1-SKNet" class="headerlink" title="1. SKNet"></a>1. SKNet</h3><p>paper: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1903.06586.pdf">https://arxiv.org/pdf/1903.06586.pdf</a></p>
+<p><img src="/images/SKNet%E5%9B%9E%E9%A1%BE/image-20220507180013773.png" alt="image-20220507180013773"></p>
+<p>“We propose a <strong>dynamic selection mechanism</strong> in CNNs that allows each neuron to adaptively adjust its <strong>receptive field size</strong> based on multiple scales of input information.”</p>
+<p><img src="/images/SKNet%E5%9B%9E%E9%A1%BE/image-20220507180640394.png" alt="image-20220507180640394"></p>
+<p>“从ResNet到ResNeXt，&gt; 1 kernel的计算量从原来52.9%的占比下降到了6.6%，几乎下降了一个数量级，但却让ResNeXt的分类性能提升了” —知乎@李翔</p>
+<p>SKNet考虑到这一现象，思考了几个点：</p>
+<ol>
+<li>在ResNext结构上少牺牲一些计算量，是否能进一步提升网络性能？</li>
+<li>对应于CNN网络，一般来说对于特定任务特定模型，卷积核大小是确定的，那么是否可以构建一种模型，使网络可以根据输入信息的多个尺度自适应的调节接受域大小呢？</li>
+</ol>
+<p>基于此，结合了分组卷积和SENet提出了Selective Kernel。</p>
+<p><img src="/images/SKNet%E5%9B%9E%E9%A1%BE/image-20220507181317370.png" alt="image-20220507181317370"></p>
+<ul>
+<li>Split：指的是对Input进行两路卷积，一路进行3x3卷积，一路进行5x5卷积。</li>
+<li>Fuse: 融合(add)两路卷积后特征图进行类似与SE的操作，不同的是最后使用的softmax，因为需要按照通道维度进行soft attention, a + b = 1</li>
+<li>Select：两个分支的特征图各乘以其通道权重，然后add到一起输出该模块的特征图，该特征图即为融合了不同感受野的特征图。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/05/07/SENet%E5%9B%9E%E9%A1%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/07/SENet%E5%9B%9E%E9%A1%BE/" class="post-title-link" itemprop="url">SENet回顾</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-07 15:28:59 / 修改时间：16:14:25" itemprop="dateCreated datePublished" datetime="2022-05-07T15:28:59+08:00">2022-05-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/cnn-backbone/" itemprop="url" rel="index"><span itemprop="name">cnn backbone</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/cnn-backbone/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1-SENet"><a href="#1-SENet" class="headerlink" title="1. SENet"></a>1. SENet</h3><p>CNN网络架构的发展，使得卷积运算从多个维度去进行特征融合， 从深度depth，宽度等维度去聚合不同感受野的特征，所以基本上在SENet提出前， 通用网络架构都是默认聚合所有channel的信息，  即使MobileNet中的Group Conv 和 Depthwise Separable Conv对channel进行了分组等操作，也只是出于对网络加速的诉求。SENet关注了channel之间的关系，以期使模型能够自动学习出不同channel的重要性。</p>
+<p><img src="/images/SENet%E5%9B%9E%E9%A1%BE/image-20220507161358415.png" alt="image-20220507161358415"></p>
+<h3 id="2-Squeeze-and-Excitation模块"><a href="#2-Squeeze-and-Excitation模块" class="headerlink" title="2. Squeeze and Excitation模块"></a>2. Squeeze and Excitation模块</h3><p><img src="/images/SENet%E5%9B%9E%E9%A1%BE/image-20220507155723423.png" alt="image-20220507155723423"></p>
+<p>squeeze: global average pooling </p>
+<p>excitation: FC(降维) + FC(升维) + sigmoid(激活0~1)</p>
+<p>模块的作用就是学习到每个通道的权重系数。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/07/SENet%E5%9B%9E%E9%A1%BE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/05/07/Res2Net/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -178,7 +358,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/05/07/Res2Net/" class="post-title-link" itemprop="url">Res2Net</a>
+            <a href="/2022/05/07/Res2Net/" class="post-title-link" itemprop="url">Res2Net回顾</a>
         </h2>
 
         <div class="post-meta">
@@ -189,7 +369,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-05-07 13:58:02 / 修改时间：14:36:36" itemprop="dateCreated datePublished" datetime="2022-05-07T13:58:02+08:00">2022-05-07</time>
+              <time title="创建时间：2022-05-07 13:58:02 / 修改时间：15:29:31" itemprop="dateCreated datePublished" datetime="2022-05-07T13:58:02+08:00">2022-05-07</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -819,217 +999,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/03/01/Cascade-RCNN/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/icon.jpg">
-      <meta itemprop="name" content="yukai">
-      <meta itemprop="description" content="yukai的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yukai's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/01/Cascade-RCNN/" class="post-title-link" itemprop="url">Cascade RCNN</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-01 17:50:19" itemprop="dateCreated datePublished" datetime="2022-03-01T17:50:19+08:00">2022-03-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-21 17:22:22" itemprop="dateModified" datetime="2022-04-21T17:22:22+08:00">2022-04-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="1-Cascade-R-CNN-提出的背景"><a href="#1-Cascade-R-CNN-提出的背景" class="headerlink" title="1. Cascade R-CNN 提出的背景"></a>1. Cascade R-CNN 提出的背景</h3><p>paper: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1712.00726.pdf">https://arxiv.org/pdf/1712.00726.pdf</a></p>
-<p>算法针对的背景问题如下：</p>
-<p>在RCNN框架的目标检测中，通过目标框和检测框之间的IoU(Intersection over union)来划分正负样本，会面临几个问题。</p>
-<ul>
-<li>使用较低的IoU阈值，会有众多背景框参与训练，影响目标框的检测效果，带来干扰的噪声。</li>
-<li>mismatch问题，由于IoU阈值的筛选，training阶段的proposals质量更高，而inference阶段未经过筛选，所以proposals质量则相对较差，</li>
-<li>使用较高的IoU阈值，高质量检测框数量减少，网络训练时容易过拟合，</li>
-</ul>
-<p><img src="/images/Cascade-RCNN/image-20220420142959151.png" alt="image-20220420142959151"></p>
-<p>上图标识RPN输出的proposals在各个IoU范围内的数量分布，可以看到随着IoU阈值的提高，相对应的proposals数量逐渐减少。</p>
-<p><img src="/images/Cascade-RCNN/image-20220420161546529.png" alt="image-20220420161546529"></p>
-<p>上图（c），横轴 Input IoU 表示 RPN 输出的 proposal 与 gt bbox 的 IoU，纵轴 Output IoU 是经过 RCNN 的 bbox 分支回归输出后与 gt bbox 的 IoU，不同线条代表不同阈值训练出来的 detector。以 u=0.5 为例，当对 RPN 输出的 proposal 使用阈值 0.5 来切分正负样本，对于那些 bbox 质量较差(也算正样本，0.5 &lt; Input IOU &lt; 0.55), 经过 R-CNN 回归后效果提升明显，IoU 可以直接回归到 0.75 (和正样本分布有关系，在该区间内的正样本比较多)，且随着 proposal 质量增加，RCNN 回归后的 bbox 质量也会增加，但是 Input IoU 越大的 proposal，回归后提升越来越不明显，虽然精度没有下降。再看 u=0.7，对于低质量 proposal，其提升较少，这主要因为低质量的 proposal 被滤掉，没有得到训练，但是对于高质量 的bbox，提升较大。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/01/Cascade-RCNN/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/03/01/Libra-RCNN/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/icon.jpg">
-      <meta itemprop="name" content="yukai">
-      <meta itemprop="description" content="yukai的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yukai's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/01/Libra-RCNN/" class="post-title-link" itemprop="url">Libra RCNN</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-01 16:51:00" itemprop="dateCreated datePublished" datetime="2022-03-01T16:51:00+08:00">2022-03-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-22 15:21:37" itemprop="dateModified" datetime="2022-04-22T15:21:37+08:00">2022-04-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="1-Libra-RCNN"><a href="#1-Libra-RCNN" class="headerlink" title="1. Libra RCNN"></a>1. Libra RCNN</h3><p>paper: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1904.02701.pdf">https://arxiv.org/pdf/1904.02701.pdf</a></p>
-<p>“无痛涨点，实现简单，良心paper” 大概是对这篇论文最好的诠释了，作者来自浙大、港中文、商汤。</p>
-<p><img src="/images/Libra-RCNN/image-20220422102604065.png" alt="image-20220422102604065"></p>
-<p>论文指出了通用检测方法中的三个层次的不平衡问题：</p>
-<ul>
-<li>sample level</li>
-<li>feature level</li>
-<li>objective level</li>
-</ul>
-<p>这里引用作者知乎的一个解释：</p>
-<p><strong>这篇paper其实是对现有的detector training做了一个overall visit，现有大部分detector其实都遵从select region，extract feature，然后在multi-task loss的引导下逐渐收敛。那么，detector到底能不能train好，其实就跟这三部分关系很大。</strong></p>
-<ol>
-<li>选择的region够不够有代表性，能给training process提供更多的信息</li>
-<li>抽取的feature能不能被后续的detector更好的利用</li>
-<li>设计的objective function能不能引导整体训练更好的收敛</li>
-</ol>
-<p><img src="/images/Libra-RCNN/image-20220422105723541.png" alt="image-20220422105723541"></p>
-<p>文章针对性的提出了解决这三种imblance问题的方法：</p>
-<ul>
-<li>提出 IoU-balanced sampling 解决 sample level 的 imbalance</li>
-<li>提出 balanced feature pyramid 解决 feature lavel 的 imbalance</li>
-<li>提出 balanced L1 loss 解决 objective level 的 imbalance</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/01/Libra-RCNN/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1097,7 +1070,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">32</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
