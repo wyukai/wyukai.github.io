@@ -189,7 +189,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-05-07 16:14:49 / 修改时间：18:32:39" itemprop="dateCreated datePublished" datetime="2022-05-07T16:14:49+08:00">2022-05-07</time>
+              <time title="创建时间：2022-05-07 16:14:49 / 修改时间：22:41:32" itemprop="dateCreated datePublished" datetime="2022-05-07T16:14:49+08:00">2022-05-07</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -224,7 +224,7 @@
 <p><img src="/images/SKNet%E5%9B%9E%E9%A1%BE/image-20220507180013773.png" alt="image-20220507180013773"></p>
 <p>“We propose a <strong>dynamic selection mechanism</strong> in CNNs that allows each neuron to adaptively adjust its <strong>receptive field size</strong> based on multiple scales of input information.”</p>
 <p><img src="/images/SKNet%E5%9B%9E%E9%A1%BE/image-20220507180640394.png" alt="image-20220507180640394"></p>
-<p>“从ResNet到ResNeXt，&gt; 1 kernel的计算量从原来52.9%的占比下降到了6.6%，几乎下降了一个数量级，但却让ResNeXt的分类性能提升了” —知乎@李翔</p>
+<p>“从ResNet到ResNeXt，&gt; 1 kernel的计算量从原来52.9%的占比下降到了6.6%，几乎下降了一个数量级，但却让ResNeXt的分类性能提升了” —作者@李翔</p>
 <p>SKNet考虑到这一现象，思考了几个点：</p>
 <ol>
 <li>在ResNext结构上少牺牲一些计算量，是否能进一步提升网络性能？</li>
@@ -232,12 +232,14 @@
 </ol>
 <p>基于此，结合了分组卷积和SENet提出了Selective Kernel。</p>
 <p><img src="/images/SKNet%E5%9B%9E%E9%A1%BE/image-20220507181317370.png" alt="image-20220507181317370"></p>
-<ul>
-<li>Split：指的是对Input进行两路卷积，一路进行3x3卷积，一路进行5x5卷积。</li>
-<li>Fuse: 融合(add)两路卷积后特征图进行类似与SE的操作，不同的是最后使用的softmax，因为需要按照通道维度进行soft attention, a + b = 1</li>
-<li>Select：两个分支的特征图各乘以其通道权重，然后add到一起输出该模块的特征图，该特征图即为融合了不同感受野的特征图。</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/07/SKNet%E5%9B%9E%E9%A1%BE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
