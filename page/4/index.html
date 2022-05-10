@@ -164,6 +164,192 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/12/07/GANomaly/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/07/GANomaly/" class="post-title-link" itemprop="url">GANomaly</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-07 16:45:28" itemprop="dateCreated datePublished" datetime="2021-12-07T16:45:28+08:00">2021-12-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-25 17:11:57" itemprop="dateModified" datetime="2022-01-25T17:11:57+08:00">2022-01-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/anormaly-detection/" itemprop="url" rel="index"><span itemprop="name">anormaly detection</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/anormaly-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="GANomaly"><a href="#GANomaly" class="headerlink" title="GANomaly"></a>GANomaly</h2><h3 id="一，简介"><a href="#一，简介" class="headerlink" title="一，简介"></a>一，简介</h3><p> 异常检测旨在只使用正常样本建模从而能够区分OK样本与NG样本，所面对的场景的数据分布极不平衡， 通常OK样本非常多，而NG样本非常少。</p>
+<p>自编码器是异常检测算法中比较经典的模型，它利用大量OK训练一个自编码网络，然后通过原图与重构图像之间的重构误差来检测NG样本，但该方法非常容易受噪声影响，其对NG样本也能够重建，导致所谓的重构误差“崩塌”。</p>
+<p><img src="/images/GANomaly/image-20211207165552708.png" alt="image-20211207165552708"></p>
+<p>GANomaly 采用编码器-解码器-编码器的模型结构， 同时对“原图-》重建图” 及“原图的高维特征编码-&gt;重建图的高维特征编码”进行重构误差约束。另外引入生成对抗网络的对抗训练思想， Encoder-Decoder-Encoder结构当作生成网络G-Net， 又定义了一个判别网络D-Net。</p>
+<p>推理接断，用于推断异常的不是原图和重建图的差异，而是第一部分编码器产生的隐空间特征（原图的编码）和第二部分编码器产生的隐空间特征（重建图的编码）的差异。这种方法更关注图片实质内容的差异，对图片中的微小变化不敏感，因而能解决自编码器中易受噪声影响的问题，<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=鲁棒性&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;article&quot;%2C&quot;sourceId&quot;%3A47832951}">鲁棒性</a>更好。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/07/GANomaly/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/10/27/Frameworks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/27/Frameworks/" class="post-title-link" itemprop="url">Caffe、TensorFlow及Pytorch通道维度顺序</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-10-27 10:34:05" itemprop="dateCreated datePublished" datetime="2021-10-27T10:34:05+08:00">2021-10-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-25 15:20:42" itemprop="dateModified" datetime="2022-01-25T15:20:42+08:00">2022-01-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DL-Framework/" itemprop="url" rel="index"><span itemprop="name">DL Framework</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DL-Framework/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DL-Framework/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection.</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li>Caffe：NCHW</li>
+<li>TensorFlow：默认为NHWC（但可以设置为NCHW）, NHWC的访存局部性更好（cache利用率高），NCHW需要等所有通道输入准备好才能得到最终输出结果，需要占用较大的临时空间。</li>
+<li><p>Pytorch：NCHW</p>
+</li>
+<li><p>NCHW为NVIDIA Cudnn默认格式， 使用GPU加速时用NCHW格式速度大部分情况下会更快。</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/10/25/AdaFocus/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -709,7 +895,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
