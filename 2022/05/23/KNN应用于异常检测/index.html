@@ -20,28 +20,21 @@
     var CONFIG = {"hostname":"yukai.tech","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="GANomaly一，简介 异常检测旨在只使用正常样本建模从而能够区分OK样本与NG样本，所面对的场景的数据分布极不平衡， 通常OK样本非常多，而NG样本非常少。 自编码器是异常检测算法中比较经典的模型，它利用大量OK训练一个自编码网络，然后通过原图与重构图像之间的重构误差来检测NG样本，但该方法非常容易受噪声影响，其对NG样本也能够重建，导致所谓的重构误差“崩塌”。  GANomaly 采用编码器">
+  <meta name="description" content="1. KNNKNN最近邻分类器可以被称为一种消极学习模型（lazy learner），其并未将模型训练及测试分为两个显著的阶段，而是在需要对样本进行分类测试时在对训练样本建模，而像决策树、Logistic Regression、SVM等基于规则的分类器则可以被认为是积极学习模型（eager learner)。  算法的通俗解释 对于给定训练集，以及测试样本，在训练集中找到与该样本最近邻的K个样本点">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GANomaly">
-<meta property="og:url" content="http://yukai.tech/2021/12/07/GANomaly/index.html">
+<meta property="og:title" content="KNN应用于异常检测">
+<meta property="og:url" content="http://yukai.tech/2022/05/23/KNN%E5%BA%94%E7%94%A8%E4%BA%8E%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/index.html">
 <meta property="og:site_name" content="Yukai&#39;s Blog">
-<meta property="og:description" content="GANomaly一，简介 异常检测旨在只使用正常样本建模从而能够区分OK样本与NG样本，所面对的场景的数据分布极不平衡， 通常OK样本非常多，而NG样本非常少。 自编码器是异常检测算法中比较经典的模型，它利用大量OK训练一个自编码网络，然后通过原图与重构图像之间的重构误差来检测NG样本，但该方法非常容易受噪声影响，其对NG样本也能够重建，导致所谓的重构误差“崩塌”。  GANomaly 采用编码器">
+<meta property="og:description" content="1. KNNKNN最近邻分类器可以被称为一种消极学习模型（lazy learner），其并未将模型训练及测试分为两个显著的阶段，而是在需要对样本进行分类测试时在对训练样本建模，而像决策树、Logistic Regression、SVM等基于规则的分类器则可以被认为是积极学习模型（eager learner)。  算法的通俗解释 对于给定训练集，以及测试样本，在训练集中找到与该样本最近邻的K个样本点">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yukai.tech/images/GANomaly/image-20211207165552708.png">
-<meta property="og:image" content="http://yukai.tech/images/GANomaly/image-20211207172343665.png">
-<meta property="og:image" content="http://yukai.tech/images/GANomaly/image-20211207173018540.png">
-<meta property="og:image" content="http://yukai.tech/images/GANomaly/image-20211207173058603.png">
-<meta property="og:image" content="http://yukai.tech/images/GANomaly/image-20211207173143827.png">
-<meta property="og:image" content="http://yukai.tech/images/GANomaly/image-20211207173603644.png">
-<meta property="og:image" content="http://yukai.tech/images/GANomaly/image-20211207173744620.png">
-<meta property="article:published_time" content="2021-12-07T08:45:28.000Z">
-<meta property="article:modified_time" content="2022-05-23T07:01:50.667Z">
+<meta property="og:image" content="http://yukai.tech/images/KNN%E5%BA%94%E7%94%A8%E4%BA%8E%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/image-20220523150834715.png">
+<meta property="article:published_time" content="2022-05-23T06:42:32.000Z">
+<meta property="article:modified_time" content="2022-05-23T07:34:41.875Z">
 <meta property="article:author" content="yukai">
-<meta property="article:tag" content="anormaly detection">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yukai.tech/images/GANomaly/image-20211207165552708.png">
+<meta name="twitter:image" content="http://yukai.tech/images/KNN%E5%BA%94%E7%94%A8%E4%BA%8E%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/image-20220523150834715.png">
 
-<link rel="canonical" href="http://yukai.tech/2021/12/07/GANomaly/">
+<link rel="canonical" href="http://yukai.tech/2022/05/23/KNN%E5%BA%94%E7%94%A8%E4%BA%8E%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/">
 
 
 <script id="page-configurations">
@@ -54,7 +47,7 @@
   };
 </script>
 
-  <title>GANomaly | Yukai's Blog</title>
+  <title>KNN应用于异常检测 | Yukai's Blog</title>
   
 
 
@@ -176,7 +169,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/12/07/GANomaly/">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/05/23/KNN%E5%BA%94%E7%94%A8%E4%BA%8E%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/icon.jpg">
@@ -189,7 +182,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          GANomaly
+          KNN应用于异常检测
         </h1>
 
         <div class="post-meta">
@@ -198,16 +191,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-12-07 16:45:28" itemprop="dateCreated datePublished" datetime="2021-12-07T16:45:28+08:00">2021-12-07</time>
+              <time title="创建时间：2022-05-23 14:42:32 / 修改时间：15:34:41" itemprop="dateCreated datePublished" datetime="2022-05-23T14:42:32+08:00">2022-05-23</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-23 15:01:50" itemprop="dateModified" datetime="2022-05-23T15:01:50+08:00">2022-05-23</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -244,29 +231,41 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="GANomaly"><a href="#GANomaly" class="headerlink" title="GANomaly"></a>GANomaly</h2><h3 id="一，简介"><a href="#一，简介" class="headerlink" title="一，简介"></a>一，简介</h3><p> 异常检测旨在只使用正常样本建模从而能够区分OK样本与NG样本，所面对的场景的数据分布极不平衡， 通常OK样本非常多，而NG样本非常少。</p>
-<p>自编码器是异常检测算法中比较经典的模型，它利用大量OK训练一个自编码网络，然后通过原图与重构图像之间的重构误差来检测NG样本，但该方法非常容易受噪声影响，其对NG样本也能够重建，导致所谓的重构误差“崩塌”。</p>
-<p><img src="/images/GANomaly/image-20211207165552708.png" alt="image-20211207165552708"></p>
-<p>GANomaly 采用编码器-解码器-编码器的模型结构， 同时对“原图-》重建图” 及“原图的高维特征编码-&gt;重建图的高维特征编码”进行重构误差约束。另外引入生成对抗网络的对抗训练思想， Encoder-Decoder-Encoder结构当作生成网络G-Net， 又定义了一个判别网络D-Net。</p>
-<p>推理接断，用于推断异常的不是原图和重建图的差异，而是第一部分编码器产生的隐空间特征（原图的编码）和第二部分编码器产生的隐空间特征（重建图的编码）的差异。这种方法更关注图片实质内容的差异，对图片中的微小变化不敏感，因而能解决自编码器中易受噪声影响的问题，<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=鲁棒性&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;article&quot;%2C&quot;sourceId&quot;%3A47832951}">鲁棒性</a>更好。</p>
-<span id="more"></span>
-<h3 id="二，-网络结构"><a href="#二，-网络结构" class="headerlink" title="二， 网络结构"></a>二， 网络结构</h3><p><img src="/images/GANomaly/image-20211207172343665.png" alt="image-20211207172343665"></p>
-<p>（1） G-Net， Encoder 1- Decoder - Encoder 2 ,   自编码器结构参考了DCGAN， Encoder 1E将一张3通道的图片映射为一个n维的向量，Decoder则为Encoder的逆过程。Encoder2将重建出的图像在编码为一个n维的向量。</p>
-<p>（2）D_Net， 判别网络用于区分原图和重建图，即要将原图判别为真，将重建图判别为假。它的结构和第一个子网络的解码网络是一样的。D-Net的引入，是为了引入对抗训练思想，旨在学到更好的G-Net。</p>
-<h3 id="三，损失函数"><a href="#三，损失函数" class="headerlink" title="三，损失函数"></a>三，损失函数</h3><p>本文包含三个子网络，每个子网络对应一个损失函数。</p>
-<p><strong>第一个子网络</strong>的损失是自编码器的重建损失，这里借鉴了<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1611.07004">pix2pix</a>文章中生成网络的损失，采用的是L1损失，而不是L2损失。因为采用L2损失生成的图像通常比采用L1生成的图像要模糊。</p>
-<p><img src="/images/GANomaly/image-20211207173018540.png" alt="image-20211207173018540"></p>
-<p><strong>第二个子网络</strong>的损失是编码网络的损失，这里需要比对的是原图和重建图在高一层抽象空间中的差异，即两个bottleneck(上文中的bottleneck1和bottleneck2)间的差异，采用的是L2损失。</p>
-<p><img src="/images/GANomaly/image-20211207173058603.png" alt="image-20211207173058603"></p>
-<p><strong>第三个子网络</strong>的损失是常规的GAN中判别网络的损失，这里采用的是二分类的交叉熵损失，论文中采用的L2。</p>
-<p><img src="/images/GANomaly/image-20211207173143827.png" alt="image-20211207173143827"></p>
-<h3 id="四，-训练及推理"><a href="#四，-训练及推理" class="headerlink" title="四， 训练及推理"></a>四， 训练及推理</h3><p>本文采用的训练策略和常规的GAN一样的，即交替地优化D-Net和G-Net。</p>
-<p>（1） <strong>优化D-Net</strong>时，采用的损失为上述第三个子网络的损失， 输入为 concat(input_real, input_fake)。input_fake由G-Net生成，在训练D-Net时，G-Net参数固定。</p>
-<p><img src="/images/GANomaly/image-20211207173603644.png" alt="image-20211207173603644"></p>
-<p>（2） <strong>优化G-Net</strong>时，采用的损失比较复杂：</p>
-<p><img src="/images/GANomaly/image-20211207173744620.png" alt="image-20211207173744620"></p>
-<p>主体为重建损失Lrec，编码损失Lenc为重建损失的一个约束，对抗损失Ladv则用来和D-Net博弈。需要注意的一点是，这里的对抗损失的输入对象和优化D-Net时的输入对象是不一样的，这里的 input_d为input_fake，这和常规GAN的训练是一致的。</p>
-<h3 id="五，推理"><a href="#五，推理" class="headerlink" title="五，推理"></a>五，推理</h3><p>前面提到，本文采用的推断方式和一般的基于自编码器的异常检测方法是不一样的。这里推断以来的不是重建损失Lrec，而是编码损失Lenc。具体而言，网络训练收敛以后，我们可以计算得到所有OK样本中的Lenc值，选取其中最大的作为判别阈值。推断时，给定一张图片，我们可以利用学好的网络，计算其 Lenc值，如果它小于判别阈值则判断为OK样本(正常样本)，大于则判断为NG样本(异常样本)。 </p>
+        <h3 id="1-KNN"><a href="#1-KNN" class="headerlink" title="1. KNN"></a>1. KNN</h3><p>KNN最近邻分类器可以被称为一种消极学习模型（lazy learner），其并未将模型训练及测试分为两个显著的阶段，而是在需要对样本进行分类测试时在对训练样本建模，而像决策树、Logistic Regression、SVM等基于规则的分类器则可以被认为是积极学习模型（eager learner)。</p>
+<p><img src="/images/KNN%E5%BA%94%E7%94%A8%E4%BA%8E%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/image-20220523150834715.png" alt="image-20220523150834715" style="zoom:50%;"></p>
+<p><strong>算法的通俗解释</strong></p>
+<p>对于给定训练集，以及测试样本，在训练集中找到与该样本最近邻的K个样本点，这K个样本点的多数属于某一类， 则该测试样本就可以被划分为此类别中。</p>
+<p>举个例子， 上图包含两类样本，蓝色方形为一类， 红色三角形为一类， 中间绿色圆形样本为待分类的数据。</p>
+<ul>
+<li>若 k = 3， 绿色圆点的最近的3个邻居是2个红色三角形和1个蓝色正方形，2 &gt; 1，所以绿色测试样本属于红色三角形这一类。</li>
+<li>若 k = 5， 绿色圆点的最近的5个邻居是2个红色三角形和3个蓝色正方形，3 &gt; 2，所以绿色测试样本属于蓝色正方形这一类。</li>
+</ul>
+<p><strong>时间空间复杂度</strong></p>
+<p>KNN 分类器不需要使用训练集进行额外的训练，训练时间复杂度为0，但在测试时KNN 分类的计算复杂度和训练集中的数目成正比，也就是说，如果训练集中样本总数为 n，那么 KNN 的分类时间复杂度为至少为O(n)。</p>
+<p>KNN算法需要大量的空间存储训练样本，适用于小样本集。</p>
+<p><strong>K值选择影响</strong></p>
+<ul>
+<li><p>K太小，最近邻分类器容易受到训练数据的噪声而产生的过拟合的影响；</p>
+</li>
+<li><p>K太大，最近分类器可能会误会分类测试样例，因为最近邻列表中可能包含远离其近邻的数据点。</p>
+</li>
+</ul>
+<p><strong>python code</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> operator</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">KNN</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">createDataset</span>(<span class="params">self</span>):</span></span><br><span class="line">        group = array([[<span class="number">1.0</span>,<span class="number">1.1</span>],[<span class="number">1.0</span>,<span class="number">1.0</span>],[<span class="number">0</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">0.1</span>]])</span><br><span class="line">        labels = [<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;B&#x27;</span>]</span><br><span class="line">        <span class="keyword">return</span> group,labels</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">KnnClassify</span>(<span class="params">self,testX,trainX,labels,K</span>):</span></span><br><span class="line">        [N,M]=trainX.shape</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#calculate the distance between testX and other training samples</span></span><br><span class="line">        difference = tile(testX,(N,<span class="number">1</span>)) - trainX <span class="comment"># tile for array and repeat for matrix in Python, == repmat in Matlab</span></span><br><span class="line">        difference = difference ** <span class="number">2</span> <span class="comment"># take pow(difference,2)</span></span><br><span class="line">        distance = difference.<span class="built_in">sum</span>(<span class="number">1</span>) <span class="comment"># take the sum of difference from all dimensions</span></span><br><span class="line">        distance = distance ** <span class="number">0.5</span></span><br><span class="line">        sortdiffidx = distance.argsort()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># find the k nearest neighbours</span></span><br><span class="line">        vote = &#123;&#125; <span class="comment">#create the dictionary</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(K):</span><br><span class="line">            ith_label = labels[sortdiffidx[i]];</span><br><span class="line">            vote[ith_label] = vote.get(ith_label,<span class="number">0</span>)+<span class="number">1</span> <span class="comment">#get(ith_label,0) : if dictionary &#x27;vote&#x27; exist key &#x27;ith_label&#x27;, return vote[ith_label]; else return 0</span></span><br><span class="line">        sortedvote = <span class="built_in">sorted</span>(vote.iteritems(),key = <span class="keyword">lambda</span> x:x[<span class="number">1</span>], reverse = <span class="literal">True</span>)</span><br><span class="line">        <span class="comment"># &#x27;key = lambda x: x[1]&#x27; can be substituted by operator.itemgetter(1)</span></span><br><span class="line">        <span class="keyword">return</span> sortedvote[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">k = KNN() <span class="comment">#create KNN object</span></span><br><span class="line">group,labels = k.createDataset()</span><br><span class="line">cls = k.KnnClassify([<span class="number">0</span>,<span class="number">0</span>],group,labels,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span> cls</span><br></pre></td></tr></table></figure>
+<h3 id="2-KNN应用于异常检测"><a href="#2-KNN应用于异常检测" class="headerlink" title="2. KNN应用于异常检测"></a>2. KNN应用于异常检测</h3><p>KNN怎么进行无监督检测呢，其实也是很简单的，异常点是指远离大部分正常点的样本点，再直白点说，<strong>异常点一定是跟大部分的样本点都隔得很远</strong>。基于这个思想，我们只需要<strong>依次计算每个样本点与它最近的K个样本的平均距离</strong>，再利用计算的距离与阈值进行比较，如果大于阈值，则认为是异常点</p>
+<p>通俗的算法描述：</p>
+<p><strong>KNN异常检测过程：</strong>对未知类别的数据集中的每个点依次执行以下操作</p>
+<ul>
+<li>计算当前点 与 数据集中每个点的距离</li>
+<li>按照距离递增次序排序</li>
+<li>选取与当前点距离最小的k个点</li>
+<li>计算当前点与K个邻居的距离，并取均值、或者中值、最大值三个中的一个作为异常值</li>
+<li>根据预设阈值确定哪些为异常样本。</li>
+</ul>
+<h3 id="3-Reference"><a href="#3-Reference" class="headerlink" title="3. Reference"></a>3. Reference</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/fengdu78/article/details/124418387">https://blog.csdn.net/fengdu78/article/details/124418387</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.csuldw.com/2015/05/21/2015-05-21-KNN/">https://www.csuldw.com/2015/05/21/2015-05-21-KNN/</a></li>
+</ul>
 
     </div>
 
@@ -275,9 +274,6 @@
     
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/anormaly-detection/" rel="tag"># anormaly detection</a>
-          </div>
 
         
 
@@ -285,13 +281,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/10/27/Frameworks/" rel="prev" title="Caffe、TensorFlow及Pytorch通道维度顺序">
-      <i class="fa fa-chevron-left"></i> Caffe、TensorFlow及Pytorch通道维度顺序
+    <a href="/2022/05/17/NMS/" rel="prev" title="NMS">
+      <i class="fa fa-chevron-left"></i> NMS
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/12/07/%E7%9B%B4%E6%96%B9%E5%9B%BE%E5%9D%87%E8%A1%A1%E5%8C%96/" rel="next" title="直方图均衡化">
-      直方图均衡化 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -350,7 +343,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#GANomaly"><span class="nav-number">1.</span> <span class="nav-text">GANomaly</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%EF%BC%8C%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">一，简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%EF%BC%8C-%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text">二， 网络结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%EF%BC%8C%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-number">1.3.</span> <span class="nav-text">三，损失函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%EF%BC%8C-%E8%AE%AD%E7%BB%83%E5%8F%8A%E6%8E%A8%E7%90%86"><span class="nav-number">1.4.</span> <span class="nav-text">四， 训练及推理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%EF%BC%8C%E6%8E%A8%E7%90%86"><span class="nav-number">1.5.</span> <span class="nav-text">五，推理</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-KNN"><span class="nav-number">1.</span> <span class="nav-text">1. KNN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-KNN%E5%BA%94%E7%94%A8%E4%BA%8E%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B"><span class="nav-number">2.</span> <span class="nav-text">2. KNN应用于异常检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Reference"><span class="nav-number">3.</span> <span class="nav-text">3. Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
