@@ -164,6 +164,103 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/01/19/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/19/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/" class="post-title-link" itemprop="url">OCR-CTPN算法随记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-19 14:24:07" itemprop="dateCreated datePublished" datetime="2022-01-19T14:24:07+08:00">2022-01-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-25 17:12:23" itemprop="dateModified" datetime="2022-01-25T17:12:23+08:00">2022-01-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="CTPN文本检测算法"><a href="#CTPN文本检测算法" class="headerlink" title="CTPN文本检测算法"></a>CTPN文本检测算法</h3><p>不同于自然界的其他单独物体，例如行人，物品等，文本信息蕴含更多的序列信息，文本可以由”单个字符、字符的一部分、多个字符”组织成一个sequence，文本目标不像行人 或者物体这种普通目标具有独立，封闭的范围。所以在目标检测算法中融入循环神经网络（RNN, LSTM），利用上下文信息进行文本检测是一个不错的方法。</p>
+<p>文本检测相较于一般的目标检测，主要有以下几种区别：</p>
+<ul>
+<li>文本信息边界不易确定， 例如单词内的空格与单词间的空格会导致文本的边界范围不清晰。</li>
+<li>文本信息蕴含序列特征，上下文的序列信息有助于文本检测。</li>
+<li>文本行的长度变化范围较大，相比如普通物体的尺度信息，普通检测算法难以生成质量好的Region Proposal(或者称为 Text Proposal)。</li>
+</ul>
+<p><img src="/images/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/image-20220119144903230.png" alt="image-20220119144903230"></p>
+<p>上图展示了用Faster-RCNN网络和CTPN的检测效果，可以看到通用的目标检测算法的检测框会偏移较多，且对文本信息的边界定义比较模糊，而CTPN算法要准确的多。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/19/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/01/12/OCR%E6%95%B0%E6%8D%AE%E5%90%88%E6%88%90%E4%B9%8Btext-renderer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1023,107 +1120,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/12/07/%E7%9B%B4%E6%96%B9%E5%9B%BE%E5%9D%87%E8%A1%A1%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/icon.jpg">
-      <meta itemprop="name" content="yukai">
-      <meta itemprop="description" content="yukai的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yukai's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/07/%E7%9B%B4%E6%96%B9%E5%9B%BE%E5%9D%87%E8%A1%A1%E5%8C%96/" class="post-title-link" itemprop="url">直方图均衡化</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-07 18:37:16" itemprop="dateCreated datePublished" datetime="2021-12-07T18:37:16+08:00">2021-12-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 17:10:30" itemprop="dateModified" datetime="2022-01-25T17:10:30+08:00">2022-01-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/Video-Recognition/" itemprop="url" rel="index"><span itemprop="name">Video Recognition</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/Video-Recognition/opencv/" itemprop="url" rel="index"><span itemprop="name">opencv</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzkzNDIxMzE1NQ==&amp;mid=2247486316&amp;idx=1&amp;sn=b55e2b38dc58856e36377a6a37401eb7&amp;chksm=c241e820f53661364efbd707794a7fa4b3b83cac148d73f926e9cf35995079b0d24fdb83d42a&amp;scene=178&amp;cur_album_id=1860258784426672132#rd">阅读原文</a></p>
-<p>直方图均衡化，可以对在不同的光线条件下拍摄不同的图片进行均衡化处理，使得这些图片具有大致相同的光照条件。因此，我们可以用在训练模型之前，对图像进行对预处理。</p>
-<h2 id="直方图均衡"><a href="#直方图均衡" class="headerlink" title="直方图均衡"></a>直方图均衡</h2><h3 id="1-直方图与对比度"><a href="#1-直方图与对比度" class="headerlink" title="1. 直方图与对比度"></a>1. 直方图与对比度</h3><p>首先，我们看下面的图像：</p>
-<p><img src="/images/直方图均衡化/fa671e7e-51c5-4886-bae4-0f203dc5968c.png" alt></p>
-<p>左列为原图，我们在观看的时候，感受很差。为什么很差呢？因为前景(关键区域)与背景太相似，无法很好的得到前景的信息。这就是表明，<strong>这些图像的对比度小，视觉体验很差</strong>。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/07/%E7%9B%B4%E6%96%B9%E5%9B%BE%E5%9D%87%E8%A1%A1%E5%8C%96/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1195,7 +1191,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

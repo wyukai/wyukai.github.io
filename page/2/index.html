@@ -164,6 +164,83 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/05/17/NMS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/17/NMS/" class="post-title-link" itemprop="url">NMS</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-17 16:45:38" itemprop="dateCreated datePublished" datetime="2022-05-17T16:45:38+08:00">2022-05-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-27 15:36:07" itemprop="dateModified" datetime="2022-07-27T15:36:07+08:00">2022-07-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/05/10/WBF%E5%8A%A0%E6%9D%83%E6%A1%86%E8%9E%8D%E5%90%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -869,88 +946,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/04/25/encryptpy%E5%8A%A0%E5%AF%86python%E6%BA%90%E7%A0%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/icon.jpg">
-      <meta itemprop="name" content="yukai">
-      <meta itemprop="description" content="yukai的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yukai's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/25/encryptpy%E5%8A%A0%E5%AF%86python%E6%BA%90%E7%A0%81/" class="post-title-link" itemprop="url">encryptpy加密python源码</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-04-25 16:10:39 / 修改时间：16:30:17" itemprop="dateCreated datePublished" datetime="2022-04-25T16:10:39+08:00">2022-04-25</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="1-python代码的加密方式"><a href="#1-python代码的加密方式" class="headerlink" title="1. python代码的加密方式"></a>1. python代码的加密方式</h3><h4 id="（1）pyc"><a href="#（1）pyc" class="headerlink" title="（1）pyc"></a>（1）pyc</h4><p>python解释器执行的过程中会首先生成.pyc文件，然后再解释执行.pyc文件中的内容。</p>
-<p>./pyc是一个二进制的文件，不具备可读性，可以使用compileall库将py文件编译为pyc二进制文件。</p>
-<p>现在反编译工具可以较为轻松的将pyc文件破解，安全性较差。</p>
-<h4 id="（2）代码混淆"><a href="#（2）代码混淆" class="headerlink" title="（2）代码混淆"></a>（2）代码混淆</h4><p>代码混淆是一种常见的加密方式，其原理是让代码的可读性变差，例如删除注释，添加无意义代码，变量、函数、类进行重命名等。</p>
-<p>常用的代码混淆的库是pyobfuscate。</p>
-<h4 id="（3）打包为exe"><a href="#（3）打包为exe" class="headerlink" title="（3）打包为exe"></a>（3）打包为exe</h4><p>使用py2exe可以将python脚本打包为可以在windows上运行的文件。</p>
-<h4 id="（4）cpython加密"><a href="#（4）cpython加密" class="headerlink" title="（4）cpython加密"></a>（4）cpython加密</h4><p>一般情况下，cpython可以用来提升python的性能，其实也可以作为加密的一种方式。</p>
-<p>cpython可以将py文件编译为.c文件，再将.c文件编译为.so(linux)或者pyd(windows)文件。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/25/encryptpy%E5%8A%A0%E5%AF%86python%E6%BA%90%E7%A0%81/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1022,7 +1017,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
