@@ -164,6 +164,315 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/03/01/Libra-RCNN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/01/Libra-RCNN/" class="post-title-link" itemprop="url">Libra RCNN</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-01 16:51:00" itemprop="dateCreated datePublished" datetime="2022-03-01T16:51:00+08:00">2022-03-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-22 15:21:37" itemprop="dateModified" datetime="2022-04-22T15:21:37+08:00">2022-04-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1-Libra-RCNN"><a href="#1-Libra-RCNN" class="headerlink" title="1. Libra RCNN"></a>1. Libra RCNN</h3><p>paper: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1904.02701.pdf">https://arxiv.org/pdf/1904.02701.pdf</a></p>
+<p>“无痛涨点，实现简单，良心paper” 大概是对这篇论文最好的诠释了，作者来自浙大、港中文、商汤。</p>
+<p><img src="/images/Libra-RCNN/image-20220422102604065.png" alt="image-20220422102604065"></p>
+<p>论文指出了通用检测方法中的三个层次的不平衡问题：</p>
+<ul>
+<li>sample level</li>
+<li>feature level</li>
+<li>objective level</li>
+</ul>
+<p>这里引用作者知乎的一个解释：</p>
+<p><strong>这篇paper其实是对现有的detector training做了一个overall visit，现有大部分detector其实都遵从select region，extract feature，然后在multi-task loss的引导下逐渐收敛。那么，detector到底能不能train好，其实就跟这三部分关系很大。</strong></p>
+<ol>
+<li>选择的region够不够有代表性，能给training process提供更多的信息</li>
+<li>抽取的feature能不能被后续的detector更好的利用</li>
+<li>设计的objective function能不能引导整体训练更好的收敛</li>
+</ol>
+<p><img src="/images/Libra-RCNN/image-20220422105723541.png" alt="image-20220422105723541"></p>
+<p>文章针对性的提出了解决这三种imblance问题的方法：</p>
+<ul>
+<li>提出 IoU-balanced sampling 解决 sample level 的 imbalance</li>
+<li>提出 balanced feature pyramid 解决 feature lavel 的 imbalance</li>
+<li>提出 balanced L1 loss 解决 objective level 的 imbalance</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/03/01/Libra-RCNN/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/01/24/OD-DenseBox%E9%9A%8F%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/24/OD-DenseBox%E9%9A%8F%E8%AE%B0/" class="post-title-link" itemprop="url">OD-DenseBox随记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-24 17:56:57" itemprop="dateCreated datePublished" datetime="2022-01-24T17:56:57+08:00">2022-01-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-15 09:48:16" itemprop="dateModified" datetime="2022-04-15T09:48:16+08:00">2022-04-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1-DenseBox"><a href="#1-DenseBox" class="headerlink" title="1. DenseBox"></a>1. DenseBox</h3><p>paper: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1509.04874.pdf">https://arxiv.org/pdf/1509.04874.pdf</a></p>
+<p>code: <a target="_blank" rel="noopener" href="https://github.com/CaptainEven/DenseBox">https://github.com/CaptainEven/DenseBox</a></p>
+<p>最近在看文本检测算法EAST，其核心思想与DenseBox很是相似，结合了Unet结构。DenseBox是比较早期的Anchor-Free目标检测算法，方法本身有很多值得借鉴的地方，很多思想也比较超前， 比如端到端的训练和识别，多尺度特征融合，结合关键点增强检测效果等。</p>
+<p><img src="/images/OD-DenseBox%E9%9A%8F%E8%AE%B0/image-20220124190818693.png" alt="image-20220124190818693"></p>
+<p><img src="/images/OD-DenseBox%E9%9A%8F%E8%AE%B0/image-20220124191404862.png" alt="image-20220124191404862" style="zoom:80%;"></p>
+<p>整体架构如Figure1所示，测试时，输入图片大小为(mxnx3)，输出为（m/4 x n/4 *5），第一维s为分类置信度，后四维为像素位置至目标边界的距离，转化为bbox后进行后处理NMS得到最终的检测结果。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/24/OD-DenseBox%E9%9A%8F%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/01/20/OCR-EAST%E9%9A%8F%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/20/OCR-EAST%E9%9A%8F%E8%AE%B0/" class="post-title-link" itemprop="url">OCR-EAST算法随记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-20 15:53:52" itemprop="dateCreated datePublished" datetime="2022-01-20T15:53:52+08:00">2022-01-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-25 17:12:29" itemprop="dateModified" datetime="2022-01-25T17:12:29+08:00">2022-01-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1-EAST"><a href="#1-EAST" class="headerlink" title="1. EAST"></a>1. EAST</h3><p>EAST: An Efficient and Accurate Scene Text Detector</p>
+<p>paper :  <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1704.03155.pdf">https://arxiv.org/pdf/1704.03155.pdf</a></p>
+<p>code:</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/argman/EAST">https://github.com/argman/EAST</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/huoyijie/AdvancedEAST">https://github.com/huoyijie/AdvancedEAST</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/songdejia/EAST">https://github.com/songdejia/EAST</a></p>
+</li>
+</ul>
+<p>​       </p>
+<p>EAST算法整体框架如下图（e）所示，  第一个阶段是一个全卷积网络，结合了Unet的跨层特征聚合操作，直接输出文本框的预测，第二个阶段是对生成的文本预测框（旋转矩形或者矩形）通过NMS输出最终结果。</p>
+<p><img src="/images/OCR-EAST%E9%9A%8F%E8%AE%B0/image-20220120160214048.png" alt="image-20220120160214048"></p>
+<p>核心思想：</p>
+<ul>
+<li>提出两阶段的文本检测方法：全卷积网络(FCN)和非极大值抑制(NMS)，消除中间过程冗余，减少检测时间。</li>
+<li>EAST可以检测单词级别，又可以检测文本行级别．检测的形状可以为任意形状的四边形。</li>
+<li>采用了Locality-Aware NMS来对生成的几何进行过滤。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/20/OCR-EAST%E9%9A%8F%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/01/19/OCR-CTPN%E7%AE%97%E6%B3%95%E9%9A%8F%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -831,299 +1140,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/12/28/ASFF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/icon.jpg">
-      <meta itemprop="name" content="yukai">
-      <meta itemprop="description" content="yukai的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yukai's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/28/ASFF/" class="post-title-link" itemprop="url">ASFF</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-28 10:36:52" itemprop="dateCreated datePublished" datetime="2021-12-28T10:36:52+08:00">2021-12-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 17:11:23" itemprop="dateModified" datetime="2022-01-25T17:11:23+08:00">2022-01-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="YOLOV3-ASFF"><a href="#YOLOV3-ASFF" class="headerlink" title="YOLOV3-ASFF"></a>YOLOV3-ASFF</h2><h3 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h3><p>  YOLOV3-ASFF为了解决FPN不同特征尺度之间的不一致问题，提出自适应空间特征融合策略。它通过设置可学习权重因子对不同尺度的特征进行自适应(可学习)融合，通过在空间上过滤冲突信息从而抑制梯度反传时的不一致问题，从而改善了特征的比例不变性，也降低了时间开销。</p>
-<p><img src="/images/ASFF/image-20211228151839649.png" alt="image-20211228151839649"></p>
-<p>除了自适应空间特征融合，YOLOv3-ASFF在YOLOv3基础上博采众长，集合了MixUp数据增强，学习率cosine衰减策略，异步BN，Guided Anchoring，回归loss改为IoU loss等一系列tricks。 其strong yolov3-608 在COCO2017上达到了 38.8AP + 50fps的效果， 超过了原始YOLOv3-608 ： 33.0AP + 53fps。</p>
-<blockquote>
-<p>论文 <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1911.09516v2.pdf">https://arxiv.org/pdf/1911.09516v2.pdf</a></p>
-<p>code: <a target="_blank" rel="noopener" href="https://github.com/GOATmessi7/ASFF">https://github.com/GOATmessi7/ASFF</a></p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/28/ASFF/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/12/21/letterbox/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/icon.jpg">
-      <meta itemprop="name" content="yukai">
-      <meta itemprop="description" content="yukai的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yukai's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/21/letterbox/" class="post-title-link" itemprop="url">YOLOv5 自适应图片缩放</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-21 14:32:38" itemprop="dateCreated datePublished" datetime="2021-12-21T14:32:38+08:00">2021-12-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 17:12:10" itemprop="dateModified" datetime="2022-01-25T17:12:10+08:00">2022-01-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="自适应图片缩放"><a href="#自适应图片缩放" class="headerlink" title="自适应图片缩放"></a>自适应图片缩放</h3><p>按照以往的经验，目标检测算法在训练和推理阶段都会resize到统一的图像尺寸，YOLOv5在推理阶段采用了自适应的图片缩放trick。</p>
-<p><img src="/images/letterbox/format,png.png" alt="img"></p>
-<p>在YOLOv5 官方github下有这样一段解释，采用32整数倍的矩形框推理要比resize到等长宽的正方形进行推理的时间减少很多（416 ,416)-&gt;(256 , 416）。</p>
-<h3 id="训练阶段"><a href="#训练阶段" class="headerlink" title="训练阶段"></a>训练阶段</h3><p>假设原图尺寸为（523， 699）</p>
-<p>（1） 计算长边缩放比例 r = 416 / 699 = 0.5951</p>
-<p>（2）将原图等比例缩放 (523，699) —&gt;&gt;  (311, 416)</p>
-<p><img src="/images/letterbox/image-20211221174250645.png" alt="image-20211221174250645"></p>
-<p>（3） 填充为（416，416），H侧上下需要填充的大小 pad = (416 - 311) / 2 = 52.5</p>
-<p><img src="/images/letterbox/new-16400798041612.jpg" alt="new"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/21/letterbox/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/12/10/C-%E7%BA%BF%E7%A8%8B%E9%94%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/icon.jpg">
-      <meta itemprop="name" content="yukai">
-      <meta itemprop="description" content="yukai的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yukai's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/10/C-%E7%BA%BF%E7%A8%8B%E9%94%81/" class="post-title-link" itemprop="url">C++线程锁</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-10 14:01:56" itemprop="dateCreated datePublished" datetime="2021-12-10T14:01:56+08:00">2021-12-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-25 17:11:39" itemprop="dateModified" datetime="2022-01-25T17:11:39+08:00">2022-01-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="C-11中的几种线程锁"><a href="#C-11中的几种线程锁" class="headerlink" title="C++11中的几种线程锁"></a>C++11中的几种线程锁</h2><p>线程之间的锁有： 互斥锁，条件锁，自旋锁，读写锁，递归锁。一般情况下，锁的功能是与程序性能成反比。</p>
-<ol>
-<li><p>互斥锁（Mutex）</p>
-<p>互斥锁用于控制多个线程对他们之间共享资源互斥访问的一个信号量，为了避免多个线程在某一时刻同时操作一个共享资源。例如线程池中的有多个空闲线程和一个任务队列。任何是一个线程都要使用互斥锁互斥访问任务队列，以避免多个线程同时访问任务队列以发生错乱。在某一时刻，只有一个线程可以获取互斥锁，在释放互斥锁之前其他线程都不能获取该互斥锁。如果其他线程想要获取这个互斥锁，那么这个线程只能以阻塞方式进行等待。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;mutex&gt;</span></span></span><br><span class="line"></span><br><span class="line">std::list&lt;<span class="keyword">int</span>&gt; some_list;</span><br><span class="line">std::mutex some_mutex;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add_to_list</span><span class="params">(<span class="keyword">int</span> new_value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">guard</span><span class="params">(some_mutex)</span></span>;</span><br><span class="line">    some_list.<span class="built_in">push_back</span>(new_value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li></ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/10/C-%E7%BA%BF%E7%A8%8B%E9%94%81/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1191,7 +1211,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
