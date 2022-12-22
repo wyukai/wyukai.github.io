@@ -164,6 +164,102 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/10/20/FlexMatch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/20/FlexMatch/" class="post-title-link" itemprop="url">FlexMatch算法记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-10-20 18:00:00" itemprop="dateCreated datePublished" datetime="2021-10-20T18:00:00+08:00">2021-10-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-25 17:11:50" itemprop="dateModified" datetime="2022-01-25T17:11:50+08:00">2022-01-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection.</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>转载自 知乎 NeurIPS 2021 | 助力半监督学习：课程伪标签方法FlexMatch和统一开源库TorchSSL 作者 王晋东不在家     </p>
+<h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>FlexMatch为FixMatch的改进版， 第一作者为日本东京工业大学的张博闻和王一栋，其他作者来自东京工业大学和微软亚洲研究院。文章针对半监督提出了 <strong>课程伪标签(Curriculum Pseudo Labeling, CPL)</strong> 的方法，其能被简单地应用到多个半监督方法上，且<strong>不会</strong>引入新的超参数和额外的计算开销。多项实验证明，CPL不仅能提升已有方法的精度，也能大幅提升收敛速度（例如，在一些数据集上比Google的FixMatch快5倍）。特别地，文章中将CPL应用在FixMatch后的新算法命名为<strong>FlexMatch</strong>， 并在多个图像分类数据集上取得了state-of-the-art的效果。除此之外，本文还开源了一个统一的基于Pytorch的<strong>半监督方法库TorchSSL</strong>，公平地实现了诸多流行的半监督方法，方便相关领域进行进一步研究。</p>
+<ul>
+<li><p>论文标题：FlexMatch: Boosting Semi-Supervised Learning with Curriculum Pseudo Labeling</p>
+</li>
+<li><p>论文地址：<a href="https://link.zhihu.com/?target=http%3A//arxiv.org/abs/2110.08263">http://arxiv.org/abs/2110.0826</a></p>
+</li>
+<li><p>代码地址：<a href="https://link.zhihu.com/?target=https%3A//github.com/TorchSSL/TorchSSL">https://github.com/TorchSSL/TorchSSL</a></p>
+<p><img src="/images/FlexMatch/image-20211022163508349.png" alt="image-20211022163508349"></p>
+</li>
+</ul>
+<hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/10/20/FlexMatch/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/05/19/YOLO/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -315,7 +411,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
