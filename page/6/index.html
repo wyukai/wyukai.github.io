@@ -164,6 +164,99 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/10/20/FixMatch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/20/FixMatch/" class="post-title-link" itemprop="url">FixMatch算法记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-10-20 18:00:00" itemprop="dateCreated datePublished" datetime="2021-10-20T18:00:00+08:00">2021-10-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-25 17:11:44" itemprop="dateModified" datetime="2022-01-25T17:11:44+08:00">2022-01-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection.</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>&emsp;&emsp;深度学习在具体的商业落地场景中需要依赖于海量的数据。算法，算力，数据是驱动Deep Learning 运行的三大动力， 而数据又是其中重要影响因素，模型效果80%靠数据，20%靠算法。在工业场景中，面对众多非标准化产品，频繁更换型号的场景，进行数据标准的成本是巨大的，而且客户对某一款产品的算法落地时间有限制， 且如果模型对相似型号的兼容性较差，也会引起客户对AI方案的不信任。</p>
+<hr>
+<p>&emsp;&emsp;在此种背景下，如何利用大量未标注的图像以及部分已标注的图像来提高模型的性能就变得尤为重要。其中，半监督学习（SSL）就是一种值得尝试的方案，Fix-Match, 是谷歌Google Brain 提出的一种半监督学习方法，对于解决数据收集困难，标注成本高的CV问题会有一定的帮助。</p>
+<ul>
+<li>FixMatch： Simplifying Semi-Supervised Learning with Consistency and Confidence</li>
+<li>主要贡献： 利用一致性正则化（ Consistency regularization）和伪标签（pseudo-labeling）技术进行无监督训练。SOTA 精度，其中CIFAR-10有250个标注，准确率为94.93%。甚至仅使用10张带有标注的图在CIFAR-10上达到78％精度。</li>
+<li>论文： <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2001.07685">https://arxiv.org/abs/2001.07685</a></li>
+<li>code： <a target="_blank" rel="noopener" href="https://github.com/google-research/fixmatch">https://github.com/google-research/fixmatch</a></li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/10/20/FixMatch/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/10/20/FlexMatch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -411,20 +504,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-count">53</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
