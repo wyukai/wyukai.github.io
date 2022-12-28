@@ -164,6 +164,95 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/01/06/RoI-Pooling-%E4%B8%8E-RoI-Align/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/06/RoI-Pooling-%E4%B8%8E-RoI-Align/" class="post-title-link" itemprop="url">RoI Pooling, RoI Align, PS-RoI Pooling</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-06 10:21:38" itemprop="dateCreated datePublished" datetime="2022-01-06T10:21:38+08:00">2022-01-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-01 16:54:52" itemprop="dateModified" datetime="2022-03-01T16:54:52+08:00">2022-03-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1-RoI"><a href="#1-RoI" class="headerlink" title="1. RoI"></a>1. RoI</h3><p>RoI(Region of Interest), 从原图中通过某些区域选择方法得到的候选区域。</p>
+<p>量化（quantization）是指将输入连续值（或者大量可能的离散值）采样为有限多个离散值的过程。或者理解为，将输入数据集（如实数）约束到离散集（如整数）的过程。</p>
+<p>RoI Pooling 和 RoI Align 均是将任意大小的特征图（输入），映射为固定尺寸的特征（输出）。</p>
+<h3 id="2-RoI-Pooling"><a href="#2-RoI-Pooling" class="headerlink" title="2. RoI Pooling"></a>2. RoI Pooling</h3><p><img src="/images/RoI-Pooling-%E4%B8%8E-RoI-Align/image-20220106102835274.png" alt="image-20220106102835274" style="zoom:50%;"></p>
+<p>RoI Pooling的作用本质上是为了将不同尺寸的RoI特征转换为相同的特征图输出，保证特征图展开（flatten）后具有相同的大小尺寸，能够与下层的全连接层连接，分别执行线性分类(linear classifier)和边框回归(bounding box regressor)</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/06/RoI-Pooling-%E4%B8%8E-RoI-Align/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/01/04/%E5%9B%BE%E5%83%8F%E7%9B%B8%E4%BC%BC%E5%BA%A6%E8%AE%A1%E7%AE%97%E6%96%B9%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1035,109 +1124,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2021/10/22/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/icon.jpg">
-      <meta itemprop="name" content="yukai">
-      <meta itemprop="description" content="yukai的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yukai's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/10/22/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">日常记录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-10-22 14:36:24" itemprop="dateCreated datePublished" datetime="2021-10-22T14:36:24+08:00">2021-10-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-22 16:35:30" itemprop="dateModified" datetime="2022-09-22T16:35:30+08:00">2022-09-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/" itemprop="url" rel="index"><span itemprop="name">object detection</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/" itemprop="url" rel="index"><span itemprop="name">OCR</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/Video-Recognition/" itemprop="url" rel="index"><span itemprop="name">Video Recognition</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deep-learning/object-detection/OCR/Video-Recognition/opencv/" itemprop="url" rel="index"><span itemprop="name">opencv</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ul>
-<li>Papers with Codes 是一个总结了机器学习论文及其代码实现的网站，这个网站最好的地方就是对机器学习做了任务分类，检索对应的模型非常方便。<ul>
-<li>地址：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https%3A%2F%2Fpaperswithcode.com">https://paperswithcode.com</a></li>
-</ul>
-</li>
-<li>ROC/AUC、真正率（TPR）、假正率（FPR）  <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/46714763">https://zhuanlan.zhihu.com/p/46714763</a></li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/10/22/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1209,7 +1195,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

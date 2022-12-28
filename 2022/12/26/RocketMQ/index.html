@@ -20,20 +20,23 @@
     var CONFIG = {"hostname":"yukai.tech","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="最近在处理业务问题及面试一些小伙伴的时候经常会思考算法工程师的核心竞争力到底在什么地方？​       公司的诸多业务问题不是单单一种算法就可以搞定，更多的是要制定一种解决方案， 涉及到业务目标的拆解、 快速对拆解的任务进行算法调研、选型， 然后根据业务逻辑形成算法模型的组合，最后将整个算法的解决方案。算法工程师几乎要参与解决方案的全流程，其所需要具备的能力也是多方面的。​        一， 对">
+  <meta name="description" content="RocketMQRocketMQ 是阿里捐赠给Apache的一款低延迟、高并发、高可用、高可靠的分布式消息中间件， 经历过淘宝多次双十一的考验，RocketMQ既可为分布式应用系统提供异步解耦和削峰填谷的能力，同时也具备互联网应用所需的海量消息堆积、高吞吐、可靠重试等特性。 核心概念 Topic: 消息主题， 一级消息类型， 生产者向其发送消息。 Message: 生产者向Topic发送并最终传送">
 <meta property="og:type" content="article">
-<meta property="og:title" content="算法工程师的核心竞争力随想">
-<meta property="og:url" content="http://yukai.tech/2022/10/25/%E7%AE%97%E6%B3%95%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E6%A0%B8%E5%BF%83%E7%AB%9E%E4%BA%89%E5%8A%9B%E9%9A%8F%E6%83%B3/index.html">
+<meta property="og:title" content="RocketMQ">
+<meta property="og:url" content="http://yukai.tech/2022/12/26/RocketMQ/index.html">
 <meta property="og:site_name" content="Yukai&#39;s Blog">
-<meta property="og:description" content="最近在处理业务问题及面试一些小伙伴的时候经常会思考算法工程师的核心竞争力到底在什么地方？​       公司的诸多业务问题不是单单一种算法就可以搞定，更多的是要制定一种解决方案， 涉及到业务目标的拆解、 快速对拆解的任务进行算法调研、选型， 然后根据业务逻辑形成算法模型的组合，最后将整个算法的解决方案。算法工程师几乎要参与解决方案的全流程，其所需要具备的能力也是多方面的。​        一， 对">
+<meta property="og:description" content="RocketMQRocketMQ 是阿里捐赠给Apache的一款低延迟、高并发、高可用、高可靠的分布式消息中间件， 经历过淘宝多次双十一的考验，RocketMQ既可为分布式应用系统提供异步解耦和削峰填谷的能力，同时也具备互联网应用所需的海量消息堆积、高吞吐、可靠重试等特性。 核心概念 Topic: 消息主题， 一级消息类型， 生产者向其发送消息。 Message: 生产者向Topic发送并最终传送">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-10-25T07:12:45.000Z">
-<meta property="article:modified_time" content="2022-11-02T08:15:09.780Z">
+<meta property="og:image" content="http://yukai.tech/images/RocketMQ/image-20221228150138473.png">
+<meta property="og:image" content="http://yukai.tech/images/RocketMQ/image-20221228150451882.png">
+<meta property="article:published_time" content="2022-12-26T08:20:58.000Z">
+<meta property="article:modified_time" content="2022-12-28T08:05:05.463Z">
 <meta property="article:author" content="yukai">
-<meta property="article:tag" content="life and work">
+<meta property="article:tag" content="software">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yukai.tech/images/RocketMQ/image-20221228150138473.png">
 
-<link rel="canonical" href="http://yukai.tech/2022/10/25/%E7%AE%97%E6%B3%95%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E6%A0%B8%E5%BF%83%E7%AB%9E%E4%BA%89%E5%8A%9B%E9%9A%8F%E6%83%B3/">
+<link rel="canonical" href="http://yukai.tech/2022/12/26/RocketMQ/">
 
 
 <script id="page-configurations">
@@ -46,7 +49,7 @@
   };
 </script>
 
-  <title>算法工程师的核心竞争力随想 | Yukai's Blog</title>
+  <title>RocketMQ | Yukai's Blog</title>
   
 
 
@@ -168,7 +171,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/10/25/%E7%AE%97%E6%B3%95%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E6%A0%B8%E5%BF%83%E7%AB%9E%E4%BA%89%E5%8A%9B%E9%9A%8F%E6%83%B3/">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/12/26/RocketMQ/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/icon.jpg">
@@ -181,7 +184,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          算法工程师的核心竞争力随想
+          RocketMQ
         </h1>
 
         <div class="post-meta">
@@ -191,14 +194,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-10-25 15:12:45" itemprop="dateCreated datePublished" datetime="2022-10-25T15:12:45+08:00">2022-10-25</time>
+              <time title="创建时间：2022-12-26 16:20:58" itemprop="dateCreated datePublished" datetime="2022-12-26T16:20:58+08:00">2022-12-26</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-02 16:15:09" itemprop="dateModified" datetime="2022-11-02T16:15:09+08:00">2022-11-02</time>
+                <time title="修改时间：2022-12-28 16:05:05" itemprop="dateModified" datetime="2022-12-28T16:05:05+08:00">2022-12-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -206,7 +209,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/life-and-work/" itemprop="url" rel="index"><span itemprop="name">life and work</span></a>
+                  <a href="/categories/software/" itemprop="url" rel="index"><span itemprop="name">software</span></a>
                 </span>
             </span>
 
@@ -228,15 +231,71 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h4 id="最近在处理业务问题及面试一些小伙伴的时候经常会思考算法工程师的核心竞争力到底在什么地方？"><a href="#最近在处理业务问题及面试一些小伙伴的时候经常会思考算法工程师的核心竞争力到底在什么地方？" class="headerlink" title="最近在处理业务问题及面试一些小伙伴的时候经常会思考算法工程师的核心竞争力到底在什么地方？"></a>最近在处理业务问题及面试一些小伙伴的时候经常会思考算法工程师的核心竞争力到底在什么地方？</h4><p>​       公司的诸多业务问题不是单单一种算法就可以搞定，更多的是要制定一种解决方案， 涉及到业务目标的拆解、 快速对拆解的任务进行算法调研、选型， 然后根据业务逻辑形成算法模型的组合，最后将整个算法的解决方案。算法工程师几乎要参与解决方案的全流程，其所需要具备的能力也是多方面的。<br>​        一， 对算法模型的掌控能力。<br>​       具体到CV里的各个基础任务， 分类、检测、分割、跟踪、视频分类、视频目标检测、3D检测、OCR以及不同的研究范围，有监督、 自监督、 半监督、小样本、异常检测、主动学习、对比学习等各个方面都要有所涉猎。</p>
-<p>​       日常大部分的工作都是在抽象业务问题为算法问题， 然后根据业务要求从检测指标要求，效率要求及可部署性进行算法选型， 确定算法之后快速搭建backbone然后构造训练数据（往往构造训练数据是最耗时的一部分工作， 例如检测算法需要分析数据、制定标注标准）， 模型迭代训练与部署模型发布， 还要不断针对badcase、歧义数据进行算法细节上的调整。   </p>
-<p>​        二， 工程能力</p>
-<p>​       coding能力是及其重要的， python、C++是必会的编程语言。</p>
-<p>​       模型训练框架一般是python的， darknet除外哈， 想要快速实现一个算法idea、需要对整体的算法结构要较为细致的掌握， 比如改进loss， 自定义数据处理器等等，推荐大家多看看优秀框架的源码、 paddlepaddle、mm系列等等。</p>
-<p>​       模型部署， 除非你的业务需求是纯验证性，或者是web端部署，一般情况下都需要将算法模型转换为推理模型，然后用C++去部署、 比如服务端TensorRT、Onnxruntime等等。</p>
-<p>​      三， 架构及软能力</p>
-<p>​        具体到解决方案的建设能力、 和不同业务线不同部门甚至是和客户的沟通能力、  这个阶段需要在某一行业内不断积累、不断摸索。  </p>
-<p>​       </p>
+        <h3 id="RocketMQ"><a href="#RocketMQ" class="headerlink" title="RocketMQ"></a>RocketMQ</h3><p>RocketMQ 是阿里捐赠给Apache的一款低延迟、高并发、高可用、高可靠的分布式消息中间件， 经历过淘宝多次双十一的考验，RocketMQ既可为分布式应用系统提供异步解耦和削峰填谷的能力，同时也具备互联网应用所需的海量消息堆积、高吞吐、可靠重试等特性。</p>
+<h3 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h3><ul>
+<li>Topic: 消息主题， 一级消息类型， 生产者向其发送消息。</li>
+<li>Message: 生产者向Topic发送并最终传送给消费者的数据消息的载体。</li>
+<li>消息属性：生产者可以为消息定义的属性，包含Message Key和Tag。</li>
+<li><strong>Message Key</strong>：消息的业务标识，由消息生产者（Producer）设置，唯一标识某个业务逻辑。</li>
+<li><strong>Message ID</strong>：消息的全局唯一标识，由消息队列RocketMQ系统自动生成，唯一标识某条消息。</li>
+<li><p><strong>Tag</strong>：消息标签，二级消息类型，用来进一步区分某个Topic下的消息分类</p>
+</li>
+<li><p><strong>Producer</strong>：也称为消息发布者，负责生产并发送消息至Topic。</p>
+</li>
+<li><strong>Consumer</strong>：也称为消息订阅者，负责从Topic接收并消费消息。</li>
+<li><strong>Group</strong>：一类生产者或消费者，这类生产者或消费者通常生产或消费同一类消息，且消息发布或订阅的逻辑一致。</li>
+<li><strong>Group ID</strong>：Group的标识。</li>
+<li><strong>队列</strong>：Topic下会由一到多个队列来存储消息。</li>
+<li><strong>Exactly-Once投递语义</strong>：Exactly-Once投递语义是指发送到消息系统的消息只能被Consumer处理且仅处理一次，即使Producer重试消息发送导致某消息重复投递，该消息在Consumer也只被消费一次。</li>
+<li><strong>集群消费</strong>：一个Group ID所标识的所有Consumer平均分摊消费消息。例如某个Topic有9条消息，一个Group ID有3个Consumer实例，那么在集群消费模式下每个实例平均分摊，只消费其中的3条消息。</li>
+<li><strong>广播消费</strong>：一个Group ID所标识的所有Consumer都会各自消费某条消息一次。例如某个Topic有9条消息，一个Group ID有3个Consumer实例，那么在广播消费模式下每个实例都会各自消费9条消息。</li>
+<li><strong>定时消息</strong>：Producer将消息发送到消息队列RocketMQ服务端，但并不期望这条消息立马投递，而是推迟到在当前时间点之后的某一个时间投递到Consumer进行消费，该消息即定时消息。</li>
+<li><strong>延时消息</strong>：Producer将消息发送到消息队列RocketMQ服务端，但并不期望这条消息立马投递，而是延迟一定时间后才投递到Consumer进行消费，该消息即延时消息。</li>
+<li><p><strong>顺序消息</strong>：RocketMQ提供的一种按照顺序进行发布和消费的消息类型，分为全局顺序消息和分区顺序消息。</p>
+</li>
+<li><p><strong>消息堆积</strong>：Producer已经将消息发送到消息队列RocketMQ的服务端，但由于Consumer消费能力有限，未能在短时间内将所有消息正确消费掉，此时在消息队列RocketMQ的服务端保存着未被消费的消息，该状态即消息堆积。</p>
+</li>
+<li><strong>消息过滤</strong>：Consumer可以根据消息标签（Tag）对消息进行过滤，确保Consumer最终只接收被过滤后的消息类型。消息过滤在消息队列RocketMQ的服务端完成。</li>
+<li><strong>消息轨迹</strong>：在一条消息从Producer发出到Consumer消费处理过程中，由各个相关节点的时间、地点等数据汇聚而成的完整链路信息。通过消息轨迹，您能清晰定位消息从Producer发出，经由消息队列RocketMQ服务端，投递给Consumer的完整链路，方便定位排查问题。</li>
+</ul>
+<h3 id="消息收发模型"><a href="#消息收发模型" class="headerlink" title="消息收发模型"></a>消息收发模型</h3><p>消息队列RocketMQ支持发布和订阅模型，消息生产者应用创建Topic并将消息发送到Topic。消费者应用创建对Topic的订阅以便从其接收消息。通信可以是一对多（扇出）、多对一（扇入）和多对多。具体通信如下图所示。</p>
+<p><img src="/images/RocketMQ/image-20221228150138473.png" alt="image-20221228150138473"></p>
+<ul>
+<li><p><strong>生产者集群</strong>：用来表示发送消息应用，一个生产者集群下包含多个生产者实例，可以是多台机器，也可以是一台机器的多个进程，或者一个进程的多个生产者对象。<br>一个生产者集群可以发送多个Topic消息。发送分布式事务消息时，如果生产者中途意外宕机，消息队列RocketMQ服务端会主动回调生产者集群的任意一台机器来确认事务状态。</p>
+</li>
+<li><p><strong>消费者集群</strong>：用来表示消费消息应用，一个消费者集群下包含多个消费者实例，可以是多台机器，也可以是多个进程，或者是一个进程的多个消费者对象。<br>一个消费者集群下的多个消费者以均摊方式消费消息。如果设置的是广播方式，那么这个消费者集群下的每个实例都消费全量数据。</p>
+<p>一个消费者集群对应一个Group ID，一个Group ID可以订阅多个Topic，如上图中的Group 2所示。Group和Topic的订阅关系可以通过直接在程序中设置即可。</p>
+</li>
+</ul>
+<h3 id="系统部署架构"><a href="#系统部署架构" class="headerlink" title="系统部署架构"></a>系统部署架构</h3><p><img src="/images/RocketMQ/image-20221228150451882.png" alt="image-20221228150451882"></p>
+<p>系统部署架构如上图所示， 图中设计到的几个概念：</p>
+<ul>
+<li><strong>Name Server</strong>：是一个几乎无状态节点，可集群部署，在消息队列RocketMQ版中提供命名服务，更新和发现Broker服务。</li>
+<li><strong>Broker</strong>：消息中转角色，负责存储消息，转发消息。分为Master Broker和Slave Broker，一个Master Broker可以对应多个Slave Broker，但是一个Slave Broker只能对应一个Master Broker。Broker启动后需要完成一次将自己注册至Name Server的操作；随后每隔30s定期向Name Server上报Topic路由信息。</li>
+<li><strong>生产者</strong>：与Name Server集群中的其中一个节点（随机）建立长链接（Keep-alive），定期从Name Server读取Topic路由信息，并向提供Topic服务的Master Broker建立长链接，且定时向Master Broker发送心跳。</li>
+<li><strong>消费者</strong>：与Name Server集群中的其中一个节点（随机）建立长连接，定期从Name Server拉取Topic路由信息，并向提供Topic服务的Master Broker、Slave Broker建立长连接，且定时向Master Broker、Slave Broker发送心跳。Consumer既可以从Master Broker订阅消息，也可以从Slave Broker订阅消息，订阅规则由Broker配置决定。</li>
+</ul>
+<h3 id="RocketMQ的优缺点"><a href="#RocketMQ的优缺点" class="headerlink" title="RocketMQ的优缺点"></a>RocketMQ的优缺点</h3><p>RocketMQ优点：</p>
+<ul>
+<li>单机吞吐量：十万级</li>
+<li>可用性：非常高，分布式架构</li>
+<li>消息可靠性：经过参数优化配置，消息可以做到0丢失</li>
+<li>功能支持：MQ功能较为完善，分布式，扩展性好</li>
+<li>支持10亿级别的消息堆积，不会因为堆积导致性能下降</li>
+<li>天生为金融互联网领域而生，对于可靠性要求很高的场景，尤其是电商里面的订单扣款，以及业务削峰，在大量交易涌入时，后端可能无法及时处理的情况</li>
+<li><strong>RoketMQ</strong>在稳定性上可能更值得信赖，这些业务场景在阿里双11已经经历了多次考验</li>
+</ul>
+<p>RocketMQ缺点：</p>
+<ul>
+<li>支持的客户端语言不多，目前是java及c++，其中c++不成熟</li>
+<li>社区活跃度不是特别活跃那种</li>
+<li>没有在 mq 核心中去实现<strong>JMS</strong>等接口，有些系统要迁移需要修改大量代码</li>
+</ul>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/780968">https://developer.aliyun.com/article/780968</a></li>
+<li><a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/440186.html">https://help.aliyun.com/document_detail/440186.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/94662788">https://zhuanlan.zhihu.com/p/94662788</a></li>
+</ol>
 
     </div>
 
@@ -246,7 +305,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/life-and-work/" rel="tag"># life and work</a>
+              <a href="/tags/software/" rel="tag"># software</a>
           </div>
 
         
@@ -255,13 +314,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/08/03/%E8%A7%86%E9%A2%91%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95-TSN/" rel="prev" title="视频分类算法-TSN">
-      <i class="fa fa-chevron-left"></i> 视频分类算法-TSN
+    <a href="/2022/12/26/%E4%B8%AD%E9%97%B4%E4%BB%B6/" rel="prev" title="中间件">
+      <i class="fa fa-chevron-left"></i> 中间件
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/10/26/CNN%E4%B8%AD%E7%9A%84%E9%99%8D%E9%87%87%E6%A0%B7%E7%AD%96%E7%95%A5/" rel="next" title="CNN中的降采样策略及升采样策略">
-      CNN中的降采样策略及升采样策略 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -320,7 +376,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%80%E8%BF%91%E5%9C%A8%E5%A4%84%E7%90%86%E4%B8%9A%E5%8A%A1%E9%97%AE%E9%A2%98%E5%8F%8A%E9%9D%A2%E8%AF%95%E4%B8%80%E4%BA%9B%E5%B0%8F%E4%BC%99%E4%BC%B4%E7%9A%84%E6%97%B6%E5%80%99%E7%BB%8F%E5%B8%B8%E4%BC%9A%E6%80%9D%E8%80%83%E7%AE%97%E6%B3%95%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E6%A0%B8%E5%BF%83%E7%AB%9E%E4%BA%89%E5%8A%9B%E5%88%B0%E5%BA%95%E5%9C%A8%E4%BB%80%E4%B9%88%E5%9C%B0%E6%96%B9%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">最近在处理业务问题及面试一些小伙伴的时候经常会思考算法工程师的核心竞争力到底在什么地方？</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#RocketMQ"><span class="nav-number">1.</span> <span class="nav-text">RocketMQ</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text">核心概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E6%94%B6%E5%8F%91%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">消息收发模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E9%83%A8%E7%BD%B2%E6%9E%B6%E6%9E%84"><span class="nav-number">4.</span> <span class="nav-text">系统部署架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RocketMQ%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text">RocketMQ的优缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">6.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
