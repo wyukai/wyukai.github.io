@@ -164,6 +164,107 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/12/30/%E8%BD%BB%E9%87%8F%E7%BA%A7%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2%E7%BD%91%E7%BB%9C-BiSeNet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/icon.jpg">
+      <meta itemprop="name" content="yukai">
+      <meta itemprop="description" content="yukai的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yukai's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/12/30/%E8%BD%BB%E9%87%8F%E7%BA%A7%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2%E7%BD%91%E7%BB%9C-BiSeNet/" class="post-title-link" itemprop="url">轻量级语义分割网络--BiSeNet</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-12-30 15:31:51 / 修改时间：17:04:52" itemprop="dateCreated datePublished" datetime="2022-12-30T15:31:51+08:00">2022-12-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/" itemprop="url" rel="index"><span itemprop="name">deep learning</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deep-learning/Semantic-Segmentation/" itemprop="url" rel="index"><span itemprop="name">Semantic Segmentation</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="/images/%E8%BD%BB%E9%87%8F%E7%BA%A7%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2%E7%BD%91%E7%BB%9C-BiSeNet/image-20221230153835324.png" alt="image-20221230153835324"></p>
+<p>BiSeNet出自旷世，于ECCV2018发表，实时语义分割的双向网络。</p>
+<p>paper name : BiSeNet: Bilateral Segmentation Network for Real-time Semantic Segmentation</p>
+<h3 id="1-要解决的问题"><a href="#1-要解决的问题" class="headerlink" title="1.  要解决的问题"></a>1.  要解决的问题</h3><ul>
+<li>解决之前一些轻量级语义分割算法在做算法加速时<strong>损失空间信息</strong>或者<strong>感受野缩小</strong>的问题。</li>
+</ul>
+<h3 id="2-采用的方法"><a href="#2-采用的方法" class="headerlink" title="2. 采用的方法"></a>2. 采用的方法</h3><ul>
+<li><p>提出双向（两条路）网络， 一条<strong>Spatial Path（SP）</strong>， 使用Conv(stride = 2)3次，获得原图1/8尺寸的特征图，保留较为丰富的空间特征信息(较多的channel, 较浅的网络)。另一条<strong>Context Path（CP）</strong>,译为上下文路径， 可以使用任意的轻量级网络，如Xception、ShuffleNet、MobileNet， 文中在 Xception 尾部附加一个全局平均池化层，其中感受野是 backbone 网络的最大值。 </p>
+</li>
+<li><p>两条网络提取的特征通过特征融合模块（Feature Fusion Module）来快速合并。</p>
+</li>
+</ul>
+<h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><ul>
+<li>在 Cityscapes，CamVid 和 COCO-Stuff 数据集上达到了准确率和速度的平衡。</li>
+</ul>
+<p><img src="/images/%E8%BD%BB%E9%87%8F%E7%BA%A7%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2%E7%BD%91%E7%BB%9C-BiSeNet/image-20221230163614657.png" alt="image-20221230163614657"></p>
+<h3 id="设计思想"><a href="#设计思想" class="headerlink" title="设计思想"></a>设计思想</h3><p>  实时语义分割模型的加速主要有以下三种方法：</p>
+<ul>
+<li>通过剪裁或 resize 来限定输入大小，以降低计算复杂度。尽管这种方法简单而有效，空间细节的损失还是让预测打了折扣，尤其是边界部分，导致度量和可视化的精度下降；</li>
+<li>过减少网络通道数量加快处理速度，尤其是在骨干模型的早期阶段，但是这会弱化空间信息。</li>
+<li>为追求极其紧凑的框架而丢弃模型的最后阶段（比如ENet）。该方法的缺点也很明显：由于 ENet 抛弃了最后阶段的下采样，模型的感受野不足以涵盖大物体，导致判别能力较差。</li>
+</ul>
+<p>这几种加速方式会丢失一些Spatial Details 或者是牺牲了Spatial Capacity（感受野）， 从而导致分割精度下降， 而U-shape的方式虽然可以恢复空间信息，但又会过多的降低推理速度。</p>
+<p><strong>实时性语义分割算法中，加速的同时也需要重视空间信息。</strong>论文中提出了一种新的双向分割网络<strong>BiSeNet</strong>。首先，设计了一个带<strong>有小步长的空间路径</strong>来保留空间位置信息生成高分辨率的特征图；同时设计了一个<strong>带有快速下采样率的语义路径</strong>来获取客观的感受野。在这两个模块之上引入一个新的特征融合模块将二者的特征图进行融合，实现速度和精度的平衡。</p>
+<h3 id="BiSeNet"><a href="#BiSeNet" class="headerlink" title="BiSeNet"></a>BiSeNet</h3><p><img src="/images/%E8%BD%BB%E9%87%8F%E7%BA%A7%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2%E7%BD%91%E7%BB%9C-BiSeNet/image-20221230164524667.png" alt="image-20221230164524667"></p>
+<h4 id="1-Spatial-Path"><a href="#1-Spatial-Path" class="headerlink" title="1.  Spatial Path"></a>1.  Spatial Path</h4><p>在语义分割任务中，空间分辨率和感受野很难两全，尤其是在实时语义分割的情况下，现有方法通常是利用小的输入图像或者轻量主干模型实现加速。但是小图像相较于原图像缺失了很多空间信息，而轻量级模型则由于裁剪通道而损害了空间信息。Spatial Path 包含三层，每层包含一个步幅（stride）为 2 的卷积，随后是批归一化和 ReLU。因此，该路网络提取相当于原图像 1/8 的输出特征图, 因为利用了较大尺度的特征图，所以可以编码比较丰富的空间信息。</p>
+<h4 id="2-Context-Path"><a href="#2-Context-Path" class="headerlink" title="2. Context Path"></a>2. Context Path</h4><p>在语义分割任务中，感受野对于性能表现至关重要。为增大感受野，一些方法利用金字塔池化模块，金字塔型空洞池化（ASPP）或者 “large kernel”，但是这些操作比较耗费计算和内存，导致速度慢。出于较大感受野和较高计算效率兼得的考量，本文提出 Context Path，它充分利用轻量级模型与全局平均池化以提供大感受野。 Xception，可以快速下采样特征图以获得大感受野，编码高层语义语境信息,在轻量级模型末端添加一个全局平均池化，通过全局语境信息提供一个最大感受野。</p>
+<h4 id="3-Attention-Refinement-Module"><a href="#3-Attention-Refinement-Module" class="headerlink" title="3. Attention  Refinement Module"></a>3. Attention  Refinement Module</h4><p>注意力优化模块（ARM）：在 Context Path 中，提出一个独特的注意力优化模块，以优化每一阶段的特征。ARM 借助全局平均池化捕获全局语境并计算注意力向量以指导特征学习。这一设计可以优化 Context Path 中每一阶段的输出特征，无需任何上采样操作即可轻易整合全局语境信息，因此，其计算成本几乎可忽略。</p>
+<h4 id="4-Feature-Fusion-Module"><a href="#4-Feature-Fusion-Module" class="headerlink" title="4. Feature Fusion Module"></a>4. Feature Fusion Module</h4><p>特征融合模块， 将两条网络提取的特征进行融合。在特征表示的层面上，两路网络的特征并不相同。因此不能简单地加权这些特征。由 Spatial Path 捕获的空间信息编码了绝大多数的丰富细节信息。而 Context Path 的输出特征主要编码语境信息。换言之，Spatial Path 的输出特征是低层级的，Context Path 的输出特征是高层级的。因此，本文提出一个独特的特征融合模块以融合这些特征。</p>
+<p>在特征的不同层级给定的情况下，本文首先连接 Spatial Path 和 Context Path 的输出特征；接着，通过批归一化平衡特征的尺度。下一步，像 SENet 一样，把相连接的特征池化为一个特征向量，并计算一个权重向量。这一权重向量可以重新加权特征，起到特征选择和结合的作用。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/12/26/RocketMQ/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1117,88 +1218,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yukai.tech/2022/10/25/%E7%AE%97%E6%B3%95%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E6%A0%B8%E5%BF%83%E7%AB%9E%E4%BA%89%E5%8A%9B%E9%9A%8F%E6%83%B3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/icon.jpg">
-      <meta itemprop="name" content="yukai">
-      <meta itemprop="description" content="yukai的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yukai's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/25/%E7%AE%97%E6%B3%95%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E6%A0%B8%E5%BF%83%E7%AB%9E%E4%BA%89%E5%8A%9B%E9%9A%8F%E6%83%B3/" class="post-title-link" itemprop="url">算法工程师的核心竞争力随想</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-10-25 15:12:45" itemprop="dateCreated datePublished" datetime="2022-10-25T15:12:45+08:00">2022-10-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-02 16:15:09" itemprop="dateModified" datetime="2022-11-02T16:15:09+08:00">2022-11-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/life-and-work/" itemprop="url" rel="index"><span itemprop="name">life and work</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="最近在处理业务问题及面试一些小伙伴的时候经常会思考算法工程师的核心竞争力到底在什么地方？"><a href="#最近在处理业务问题及面试一些小伙伴的时候经常会思考算法工程师的核心竞争力到底在什么地方？" class="headerlink" title="最近在处理业务问题及面试一些小伙伴的时候经常会思考算法工程师的核心竞争力到底在什么地方？"></a>最近在处理业务问题及面试一些小伙伴的时候经常会思考算法工程师的核心竞争力到底在什么地方？</h4><p>​       公司的诸多业务问题不是单单一种算法就可以搞定，更多的是要制定一种解决方案， 涉及到业务目标的拆解、 快速对拆解的任务进行算法调研、选型， 然后根据业务逻辑形成算法模型的组合，最后将整个算法的解决方案。算法工程师几乎要参与解决方案的全流程，其所需要具备的能力也是多方面的。<br>​        一， 对算法模型的掌控能力。<br>​       具体到CV里的各个基础任务， 分类、检测、分割、跟踪、视频分类、视频目标检测、3D检测、OCR以及不同的研究范围，有监督、 自监督、 半监督、小样本、异常检测、主动学习、对比学习等各个方面都要有所涉猎。</p>
-<p>​       日常大部分的工作都是在抽象业务问题为算法问题， 然后根据业务要求从检测指标要求，效率要求及可部署性进行算法选型， 确定算法之后快速搭建backbone然后构造训练数据（往往构造训练数据是最耗时的一部分工作， 例如检测算法需要分析数据、制定标注标准）， 模型迭代训练与部署模型发布， 还要不断针对badcase、歧义数据进行算法细节上的调整。   </p>
-<p>​        二， 工程能力</p>
-<p>​       coding能力是及其重要的， python、C++是必会的编程语言。</p>
-<p>​       模型训练框架一般是python的， darknet除外哈， 想要快速实现一个算法idea、需要对整体的算法结构要较为细致的掌握， 比如改进loss， 自定义数据处理器等等，推荐大家多看看优秀框架的源码、 paddlepaddle、mm系列等等。</p>
-<p>​       模型部署， 除非你的业务需求是纯验证性，或者是web端部署，一般情况下都需要将算法模型转换为推理模型，然后用C++去部署、 比如服务端TensorRT、Onnxruntime等等。</p>
-<p>​      三， 架构及软能力</p>
-<p>​        具体到解决方案的建设能力、 和不同业务线不同部门甚至是和客户的沟通能力、  这个阶段需要在某一行业内不断积累、不断摸索。  </p>
-<p>​       </p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1270,20 +1289,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
